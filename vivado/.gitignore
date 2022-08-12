@@ -9,6 +9,13 @@
 #Exclude all
 *
 !*/
+*.runs/
+*.hw/
+*.sim/
+*.tmp/
+*.cache/
+*.Xil/
+*.ip_user_files/
 !.gitignore
 ###########################################################################
 ##	VIVADO
@@ -56,7 +63,6 @@
 #TCL - files
 !*.tcl
 #Journal - files
-!*.jou
 #Reports
 !*.rpt
 !*.txt
