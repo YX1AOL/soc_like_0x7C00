@@ -1,0 +1,142 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.244335",
+   "Default View_TopLeft":"-921,-1244",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 non-TLS
+#  -string -flagsOSRD
+preplace port IIC -pg 1 -lvl 8 -x 2470 -y 700 -defaultsOSRD
+preplace port MII -pg 1 -lvl 8 -x 2470 -y 850 -defaultsOSRD
+preplace port MDIO -pg 1 -lvl 8 -x 2470 -y 870 -defaultsOSRD
+preplace port DDR3 -pg 1 -lvl 8 -x 2470 -y 1150 -defaultsOSRD
+preplace port clk -pg 1 -lvl 0 -x -90 -y 190 -defaultsOSRD
+preplace port resetn -pg 1 -lvl 0 -x -90 -y -230 -defaultsOSRD
+preplace port SPI_CLK -pg 1 -lvl 8 -x 2470 -y -460 -defaultsOSRD
+preplace port SPI_CS -pg 1 -lvl 8 -x 2470 -y -440 -defaultsOSRD
+preplace port SPI_MISO -pg 1 -lvl 8 -x 2470 -y -420 -defaultsOSRD
+preplace port SPI_MOSI -pg 1 -lvl 8 -x 2470 -y -400 -defaultsOSRD
+preplace port lcd_rst -pg 1 -lvl 8 -x 2470 -y 110 -defaultsOSRD
+preplace port lcd_cs -pg 1 -lvl 8 -x 2470 -y 130 -defaultsOSRD
+preplace port lcd_rs -pg 1 -lvl 8 -x 2470 -y 150 -defaultsOSRD
+preplace port lcd_wr -pg 1 -lvl 8 -x 2470 -y 170 -defaultsOSRD
+preplace port lcd_rd -pg 1 -lvl 8 -x 2470 -y 190 -defaultsOSRD
+preplace port lcd_bl_ctr -pg 1 -lvl 8 -x 2470 -y 230 -defaultsOSRD
+preplace port ct_int -pg 1 -lvl 8 -x 2470 -y 250 -defaultsOSRD
+preplace port ct_sda -pg 1 -lvl 8 -x 2470 -y 270 -defaultsOSRD
+preplace port ct_scl -pg 1 -lvl 8 -x 2470 -y 290 -defaultsOSRD
+preplace port ct_rstn -pg 1 -lvl 8 -x 2470 -y 310 -defaultsOSRD
+preplace port UART_TX -pg 1 -lvl 8 -x 2470 -y 540 -defaultsOSRD
+preplace port UART_RX -pg 1 -lvl 0 -x -90 -y 660 -defaultsOSRD
+preplace portBus led -pg 1 -lvl 8 -x 2470 -y -100 -defaultsOSRD
+preplace portBus led_rg0 -pg 1 -lvl 8 -x 2470 -y -80 -defaultsOSRD
+preplace portBus led_rg1 -pg 1 -lvl 8 -x 2470 -y -60 -defaultsOSRD
+preplace portBus num_csn -pg 1 -lvl 8 -x 2470 -y -40 -defaultsOSRD
+preplace portBus num_a_g -pg 1 -lvl 8 -x 2470 -y -20 -defaultsOSRD
+preplace portBus btn_key_col -pg 1 -lvl 8 -x 2470 -y 0 -defaultsOSRD
+preplace portBus btn_step -pg 1 -lvl 0 -x -90 -y -130 -defaultsOSRD
+preplace portBus btn_key_row -pg 1 -lvl 0 -x -90 -y -150 -defaultsOSRD
+preplace portBus switch -pg 1 -lvl 0 -x -90 -y -170 -defaultsOSRD
+preplace portBus lcd_data_io -pg 1 -lvl 8 -x 2470 -y 210 -defaultsOSRD
+preplace portBus MII_tx_er -pg 1 -lvl 8 -x 2470 -y 440 -defaultsOSRD
+preplace inst clk_pll_cpu -pg 1 -lvl 1 -x 80 -y 110 -defaultsOSRD
+preplace inst clk_pll_33 -pg 1 -lvl 1 -x 80 -y 0 -defaultsOSRD
+preplace inst clk_pll_200 -pg 1 -lvl 1 -x 80 -y 270 -defaultsOSRD
+preplace inst clk_pll_100 -pg 1 -lvl 1 -x 80 -y 400 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -x 450 -y -220 -defaultsOSRD
+preplace inst mycpu_0 -pg 1 -lvl 2 -x 450 -y 110 -defaultsOSRD
+preplace inst axi_interconnect_0 -pg 1 -lvl 4 -x 1370 -y 270 -defaultsOSRD
+preplace inst axi_crossbar_0 -pg 1 -lvl 3 -x 980 -y 50 -defaultsOSRD
+preplace inst axi_bram_ctrl_0 -pg 1 -lvl 6 -x 2040 -y -600 -defaultsOSRD
+preplace inst blk_mem_gen_0 -pg 1 -lvl 7 -x 2350 -y -600 -defaultsOSRD
+preplace inst spi_flash_ctrl_0 -pg 1 -lvl 6 -x 2040 -y -430 -defaultsOSRD
+preplace inst const_spi_addr -pg 1 -lvl 5 -x 1630 -y -420 -defaultsOSRD
+preplace inst confreg_0 -pg 1 -lvl 6 -x 2040 -y -140 -defaultsOSRD
+preplace inst gpu_top_0 -pg 1 -lvl 6 -x 2040 -y 210 -defaultsOSRD
+preplace inst axi_uart16550_0 -pg 1 -lvl 6 -x 2040 -y 490 -defaultsOSRD
+preplace inst const_0 -pg 1 -lvl 5 -x 1630 -y -10 -defaultsOSRD
+preplace inst const_1 -pg 1 -lvl 5 -x 1630 -y 100 -defaultsOSRD
+preplace inst axi_ethernetlite_0 -pg 1 -lvl 6 -x 2040 -y 870 -defaultsOSRD
+preplace inst axi_intc_0 -pg 1 -lvl 6 -x 2040 -y 1020 -defaultsOSRD
+preplace inst mig_7series_0 -pg 1 -lvl 6 -x 2040 -y 1190 -defaultsOSRD
+preplace inst axi_iic_0 -pg 1 -lvl 6 -x 2040 -y 720 -defaultsOSRD
+preplace inst reset_not -pg 1 -lvl 3 -x 980 -y -250 -defaultsOSRD
+preplace inst reset_synchronizer_mem -pg 1 -lvl 4 -x 1370 -y 1070 -defaultsOSRD
+preplace inst cpu_int_concat -pg 1 -lvl 2 -x 450 -y 420 -defaultsOSRD
+preplace inst axi_int_concat -pg 1 -lvl 4 -x 1370 -y 900 -defaultsOSRD
+preplace inst cpu_int_const0 -pg 1 -lvl 2 -x 450 -y 580 -defaultsOSRD
+preplace inst axi_int_const0 -pg 1 -lvl 4 -x 1370 -y 730 -defaultsOSRD
+preplace netloc resetn_1 1 0 6 NJ -230 240 -120 N -120 N -120 N -120 1760
+preplace netloc clk_1 1 0 6 -70 650 180 800 N 800 N 800 N 800 1720
+preplace netloc spi_flash_ctrl_0_SPI_CLK 1 6 2 NJ -460 N
+preplace netloc spi_flash_ctrl_0_SPI_CS 1 6 2 N -440 N
+preplace netloc Net 1 6 2 N -420 N
+preplace netloc Net1 1 6 2 N -400 N
+preplace netloc const_spi_addr_dout 1 5 1 N -420
+preplace netloc confreg_0_led 1 6 2 NJ -100 N
+preplace netloc confreg_0_led_rg0 1 6 2 N -80 N
+preplace netloc confreg_0_led_rg1 1 6 2 N -60 N
+preplace netloc confreg_0_num_csn 1 6 2 N -40 N
+preplace netloc confreg_0_num_a_g 1 6 2 N -20 N
+preplace netloc confreg_0_btn_key_col 1 6 2 N 0 N
+preplace netloc btn_step_1 1 0 6 NJ -130 190J -80 NJ -80 NJ -80 NJ -80 1840
+preplace netloc btn_key_row_1 1 0 6 NJ -150 220J -90 NJ -90 NJ -90 NJ -90 N
+preplace netloc switch_1 1 0 6 NJ -170 230J -110 NJ -110 NJ -110 NJ -110 N
+preplace netloc Net2 1 6 2 NJ 210 N
+preplace netloc gpu_top_0_lcd_rst 1 6 2 N 110 N
+preplace netloc gpu_top_0_lcd_cs 1 6 2 N 130 N
+preplace netloc gpu_top_0_lcd_rs 1 6 2 N 150 N
+preplace netloc gpu_top_0_lcd_wr 1 6 2 N 170 N
+preplace netloc gpu_top_0_lcd_rd 1 6 2 N 190 N
+preplace netloc gpu_top_0_lcd_bl_ctr 1 6 2 N 230 N
+preplace netloc Net3 1 6 2 N 250 N
+preplace netloc Net4 1 6 2 N 270 N
+preplace netloc gpu_top_0_ct_scl 1 6 2 N 290 N
+preplace netloc gpu_top_0_ct_rstn 1 6 2 N 310 N
+preplace netloc const_0_dout 1 1 7 260 -60 N -60 1150 -100 N -100 1850J 620 2250 440 N
+preplace netloc const_1_dout 1 5 2 1740J -680 2210
+preplace netloc axi_uart16550_0_sout 1 6 2 N 540 N
+preplace netloc UART_RX_1 1 0 7 NJ 660 210J 650 NJ 650 NJ 650 NJ 650 1810J 640 2240
+preplace netloc clk_pll_100_clk_out1 1 1 5 180 -70 N -70 1170 -70 N -70 1820
+preplace netloc clk_pll_100_locked 1 1 1 210 -180n
+preplace netloc mig_7series_0_init_calib_complete 1 1 6 250 1330 NJ 1330 NJ 1330 NJ 1330 NJ 1330 2230
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 2 4 620 -140 1180J -140 NJ -140 1830J
+preplace netloc proc_sys_reset_0_interconnect_aresetn 1 2 2 620J -190 1160
+preplace netloc M01_ACLK_1 1 1 5 200J -100 NJ -100 1140 -490 N -490 1850
+preplace netloc mig_7series_0_ui_clk 1 3 4 1190 1290 NJ 1290 NJ 1290 2210
+preplace netloc proc_sys_reset_0_mb_reset 1 2 1 620 -260n
+preplace netloc M03_ARESETN_1 1 3 3 1200 1140 1540J 1140 1710
+preplace netloc clk_pll_200_clk_ref 1 1 5 170J 290 620J -130 NJ -130 NJ -130 1770
+preplace netloc clk_pll_cpu_clk_cpu 1 1 3 240 280 630 160 1220
+preplace netloc reset_not_Res 1 1 3 280 300 640J 170 1130
+preplace netloc cpu_int_concat_dout 1 1 2 260 310 630
+preplace netloc axi_int_concat_dout 1 4 2 NJ 900 1730
+preplace netloc axi_intc_0_irq 1 1 6 270 1300 NJ 1300 NJ 1300 NJ 1300 NJ 1300 2220
+preplace netloc axi_uart16550_0_ip2intc_irpt 1 1 6 280 640 NJ 640 NJ 640 NJ 640 1790J 630 2210
+preplace netloc cpu_int_const0_dout 1 1 2 260 660 630
+preplace netloc axi_ethernetlite_0_ip2intc_irpt 1 3 4 1210 1310 NJ 1310 NJ 1310 2240
+preplace netloc axi_int_const0_dout 1 3 2 1220 790 1530
+preplace netloc axi_iic_0_iic2intc_irpt 1 3 4 1220 1320 NJ 1320 NJ 1320 2250
+preplace netloc mycpu_0_data_cache 1 2 1 N 0
+preplace netloc mycpu_0_data_uncache 1 2 1 N 20
+preplace netloc mycpu_0_inst_cache 1 2 1 N 40
+preplace netloc mycpu_0_inst_uncache 1 2 1 N 60
+preplace netloc axi_crossbar_0_M00_AXI 1 3 1 N 50
+preplace netloc axi_interconnect_0_M00_AXI 1 4 2 1520 -620 N
+preplace netloc axi_bram_ctrl_0_BRAM_PORTA 1 6 1 N -600
+preplace netloc axi_interconnect_0_M01_AXI 1 4 2 1530 -480 N
+preplace netloc axi_interconnect_0_M02_AXI 1 4 2 1540 -210 NJ
+preplace netloc axi_interconnect_0_M03_AXI 1 4 2 1550 180 NJ
+preplace netloc axi_interconnect_0_M04_AXI 1 4 2 NJ 270 1810
+preplace netloc axi_iic_0_IIC 1 6 2 NJ 700 N
+preplace netloc axi_interconnect_0_M05_AXI 1 4 2 NJ 290 1800
+preplace netloc axi_ethernetlite_0_MII 1 6 2 NJ 850 N
+preplace netloc axi_ethernetlite_0_MDIO 1 6 2 NJ 870 N
+preplace netloc axi_interconnect_0_M06_AXI 1 4 2 NJ 310 1780
+preplace netloc axi_interconnect_0_M07_AXI 1 4 2 NJ 330 1750
+preplace netloc mig_7series_0_DDR3 1 6 2 NJ 1150 N
+preplace netloc axi_interconnect_0_M08_AXI 1 4 2 NJ 350 1740
+levelinfo -pg 1 -90 80 450 980 1370 1630 2040 2350 2470
+pagesize -pg 1 -db -bbox -sgen -250 -820 2630 1500
+"
+}
+
