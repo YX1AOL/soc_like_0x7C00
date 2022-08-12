@@ -1,2 +1,0 @@
-gpu_axi_to_bram.vhd,vhdl,xil_defaultlib,../../../../../src/gpu_wh/gpu_axi_to_bram/sim/gpu_axi_to_bram.vhd,
-glbl.v,Verilog,xil_defaultlib,glbl.v
