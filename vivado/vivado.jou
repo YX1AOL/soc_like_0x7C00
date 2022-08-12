@@ -1,0 +1,885 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Thu Aug 11 14:31:52 2022
+# Process ID: 16792
+# Current directory: D:/Xilinx_Project/soc_like_0x7C00/vivado
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent6668 D:\Xilinx_Project\soc_like_0x7C00\vivado\soc_like_0x7C00.xpr
+# Log file: D:/Xilinx_Project/soc_like_0x7C00/vivado/vivado.log
+# Journal file: D:/Xilinx_Project/soc_like_0x7C00/vivado\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.xpr
+add_files {D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/mult_gen_0/mult_gen_0.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_fetch_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mycpu_top.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_queue_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_dcache_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/axi_interface.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/instbuffer.v D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_crc16.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_icache_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/preditor.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/FIFO/reg_file.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/icache.v D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu/ts_controller.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_cpu_mid.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_dcr_module.v D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu_ram/gpu_ram.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/global.h D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_rs_module.v D:/Xilinx_Project/soc_like_0x7C00/src/plugable_spi/godson_sbridge_spi.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/cache_def.vh D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/div_gen_0/div_gen_0.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/MMU/TLB.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/branch/PHT.v D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_host.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_dtlb_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/seg_if.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/MEM/seg_mem2.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/TOOLS/excepttype.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/dcache_tag.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_cpu_core.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_memqueue_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_ejtag_tap_module.v D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu/iic_interface.v {D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/MMU/TLB copy.v} D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/TOOLS/debug.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/tools.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/ID/decode.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_ram_bist.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_bus_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/branch/submodule/pht_core.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/mult_gen_1/mult_gen_1.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/EX/seg_ex.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/ID/seg_issue.v D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_fifo.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/dcache_data.v D:/Xilinx_Project/soc_like_0x7C00/src/reset_sync/reset_sync.v D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu_axi_to_bram/gpu_axi_to_bram.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/Head_Files/configure.vh D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_alu_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/icache_data.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mycpu.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/branch/BTB.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/reg.h D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/data_uncache.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/EX/div_gen_0/div_gen_0.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/Head_Files/cpu.vh D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu/gpu_top.v D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_itlb_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_gr_module.v D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_crc5.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/EX/mult_gen_0/mult_gen_0.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_tap_buffer_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/EX/alu_div.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/EX/alu_cloz.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/MEM/seg_mem1.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/EX/alu_mult.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/dcache.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/branch/BHT.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/cpu_core.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/bus.h D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_top.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/branch/RAS.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/inst_uncache.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/TOOLS/convert_addr.v D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_sie.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/EX/alu.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_addr_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_hb_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/mem/icache_tag.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/WB/seg_wb.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/branch/SELECT.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/IF/branch/submodule/bht_hash.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/FIFO/reg_cp0.v D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu/lcd_controller.v D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_host_defs.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/axi_crossbar_0/axi_crossbar_0.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_232/godson_decoder_module.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/ID/seg_id.v D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/core/FIFO/reg_hilo.v}
+export_ip_user_files -of_objects  [get_files  {D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/mult_gen_0/mult_gen_0.xci D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu_ram/gpu_ram.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/div_gen_0/div_gen_0.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/mult_gen_1/mult_gen_1.xci D:/Xilinx_Project/soc_like_0x7C00/src/gpu_wh/gpu_axi_to_bram/gpu_axi_to_bram.xci D:/Xilinx_Project/soc_like_0x7C00/src/cpu_zqy/xilinx_ip/axi_crossbar_0/axi_crossbar_0.xci}] -lib_map_path [list {modelsim=D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.cache/compile_simlib/modelsim} {questa=D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.cache/compile_simlib/questa} {riviera=D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.cache/compile_simlib/riviera} {activehdl=D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.cache/compile_simlib/activehdl}] -force -quiet
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+add_files -fileset constrs_1 -norecurse D:/Xilinx_Project/soc_like_0x7C00/xdc/soc_like_0x7C00.xdc
+set_property file_type {Verilog Header} [get_files  D:/Xilinx_Project/soc_like_0x7C00/src/usb_host_controller/usbh_host_defs.v]
+create_bd_design -dir {D:/Xilinx_Project/soc_like_0x7C00/bd} "bd_top"
+update_compile_order -fileset sources_1
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_0
+endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_1
+endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_2
+endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_3
+endgroup
+create_bd_port -dir I -type clk -freq_hz 100000000 clk
+set_property location {-129 70} [get_bd_ports clk]
+set_property location {-27 158} [get_bd_ports clk]
+set_property location {-43 155} [get_bd_ports clk]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0
+endgroup
+set_property location {1 98 315} [get_bd_cells clk_wiz_3]
+set_property location {2 443 -174} [get_bd_cells proc_sys_reset_0]
+startgroup
+create_bd_port -dir I -type rst resetn
+endgroup
+set_property location {-104 -174} [get_bd_ports resetn]
+set_property CONFIG.ASSOCIATED_RESET {resetn} [get_bd_ports /clk]
+connect_bd_net [get_bd_ports resetn] [get_bd_pins proc_sys_reset_0/ext_reset_in]
+set_property location {-102 -187} [get_bd_ports resetn]
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC USER] [get_bd_cells clk_wiz_1]
+set_property -dict [list CONFIG.PRIMITIVE {PLL} CONFIG.CLK_OUT1_PORT {clk_spi} CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {33.000} CONFIG.USE_LOCKED {false} CONFIG.USE_RESET {false} CONFIG.CLKOUT1_DRIVES {BUFG} CONFIG.CLKOUT2_DRIVES {BUFG} CONFIG.CLKOUT3_DRIVES {BUFG} CONFIG.CLKOUT4_DRIVES {BUFG} CONFIG.CLKOUT5_DRIVES {BUFG} CONFIG.CLKOUT6_DRIVES {BUFG} CONFIG.CLKOUT7_DRIVES {BUFG} CONFIG.MMCM_DIVCLK_DIVIDE {4} CONFIG.MMCM_BANDWIDTH {OPTIMIZED} CONFIG.MMCM_CLKFBOUT_MULT_F {33} CONFIG.MMCM_COMPENSATION {ZHOLD} CONFIG.MMCM_CLKOUT0_DIVIDE_F {25} CONFIG.CLKOUT1_JITTER {333.104} CONFIG.CLKOUT1_PHASE_ERROR {261.747}] [get_bd_cells clk_wiz_1]
+set_property name clk_pll_1 [get_bd_cells clk_wiz_1]
+set_property name clk_pll_33 [get_bd_cells clk_pll_1]
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC USER] [get_bd_cells clk_wiz_0]
+set_property -dict [list CONFIG.PRIMITIVE {PLL} CONFIG.CLK_OUT1_PORT {clk_cpu} CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {33.000} CONFIG.USE_LOCKED {false} CONFIG.USE_RESET {false} CONFIG.CLKOUT1_DRIVES {BUFG} CONFIG.CLKOUT2_DRIVES {BUFG} CONFIG.CLKOUT3_DRIVES {BUFG} CONFIG.CLKOUT4_DRIVES {BUFG} CONFIG.CLKOUT5_DRIVES {BUFG} CONFIG.CLKOUT6_DRIVES {BUFG} CONFIG.CLKOUT7_DRIVES {BUFG} CONFIG.MMCM_DIVCLK_DIVIDE {4} CONFIG.MMCM_BANDWIDTH {OPTIMIZED} CONFIG.MMCM_CLKFBOUT_MULT_F {33} CONFIG.MMCM_COMPENSATION {ZHOLD} CONFIG.MMCM_CLKOUT0_DIVIDE_F {25} CONFIG.CLKOUT1_JITTER {333.104} CONFIG.CLKOUT1_PHASE_ERROR {261.747}] [get_bd_cells clk_wiz_0]
+set_property name clk_pll_cpu [get_bd_cells clk_wiz_0]
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC USER] [get_bd_cells clk_wiz_2]
+set_property -dict [list CONFIG.PRIMITIVE {PLL} CONFIG.CLK_OUT1_PORT {clk_ref} CONFIG.USE_LOCKED {false} CONFIG.USE_RESET {false} CONFIG.CLKOUT1_DRIVES {BUFG} CONFIG.CLKOUT2_DRIVES {BUFG} CONFIG.CLKOUT3_DRIVES {BUFG} CONFIG.CLKOUT4_DRIVES {BUFG} CONFIG.CLKOUT5_DRIVES {BUFG} CONFIG.CLKOUT6_DRIVES {BUFG} CONFIG.CLKOUT7_DRIVES {BUFG} CONFIG.MMCM_BANDWIDTH {OPTIMIZED} CONFIG.MMCM_CLKFBOUT_MULT_F {9} CONFIG.MMCM_COMPENSATION {ZHOLD} CONFIG.MMCM_CLKOUT0_DIVIDE_F {9} CONFIG.CLKOUT1_JITTER {137.681} CONFIG.CLKOUT1_PHASE_ERROR {105.461}] [get_bd_cells clk_wiz_2]
+set_property -dict [list CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {200.000} CONFIG.MMCM_CLKFBOUT_MULT_F {10} CONFIG.MMCM_CLKOUT0_DIVIDE_F {5} CONFIG.CLKOUT1_JITTER {114.829} CONFIG.CLKOUT1_PHASE_ERROR {98.575}] [get_bd_cells clk_wiz_2]
+set_property name clk_pll_200 [get_bd_cells clk_wiz_2]
+set_property name clk_pll_100 [get_bd_cells clk_wiz_3]
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC USER] [get_bd_cells clk_pll_100]
+set_property -dict [list CONFIG.PRIMITIVE {PLL} CONFIG.USE_RESET {false} CONFIG.CLKOUT1_DRIVES {BUFG} CONFIG.CLKOUT2_DRIVES {BUFG} CONFIG.CLKOUT3_DRIVES {BUFG} CONFIG.CLKOUT4_DRIVES {BUFG} CONFIG.CLKOUT5_DRIVES {BUFG} CONFIG.CLKOUT6_DRIVES {BUFG} CONFIG.CLKOUT7_DRIVES {BUFG} CONFIG.MMCM_BANDWIDTH {OPTIMIZED} CONFIG.MMCM_CLKFBOUT_MULT_F {9} CONFIG.MMCM_COMPENSATION {ZHOLD} CONFIG.MMCM_CLKOUT0_DIVIDE_F {9} CONFIG.CLKOUT1_JITTER {137.681} CONFIG.CLKOUT1_PHASE_ERROR {105.461}] [get_bd_cells clk_pll_100]
+connect_bd_net [get_bd_ports clk] [get_bd_pins clk_pll_33/clk_in1]
+connect_bd_net [get_bd_ports clk] [get_bd_pins clk_pll_cpu/clk_in1]
+connect_bd_net [get_bd_ports clk] [get_bd_pins clk_pll_200/clk_in1]
+connect_bd_net [get_bd_ports clk] [get_bd_pins clk_pll_100/clk_in1]
+set_property location {2.5 745 -167} [get_bd_cells proc_sys_reset_0]
+set_property location {1.5 392 -171} [get_bd_cells proc_sys_reset_0]
+set_property location {2 442 -192} [get_bd_cells proc_sys_reset_0]
+set_property location {-105 138} [get_bd_ports clk]
+startgroup
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC PROPAGATED] [get_bd_cells clk_pll_100]
+endgroup
+startgroup
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC PROPAGATED] [get_bd_cells clk_pll_200]
+endgroup
+startgroup
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC PROPAGATED] [get_bd_cells clk_pll_cpu]
+endgroup
+startgroup
+set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC PROPAGATED] [get_bd_cells clk_pll_33]
+endgroup
+create_bd_cell -type module -reference mycpu mycpu_0
+create_bd_cell -type module -reference mycpu mycpu_0
+set_property generate_synth_checkpoint 0 [get_files div_gen_0.xci]
+create_bd_cell -type module -reference mycpu mycpu_0
+set_property location {2 405 87} [get_bd_cells mycpu_0]
+set_property location {2 392 93} [get_bd_cells mycpu_0]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_interconnect_0
+endgroup
+set_property -dict [list CONFIG.NUM_MI {9}] [get_bd_cells axi_interconnect_0]
+set_property location {3.5 1002 -67} [get_bd_cells axi_interconnect_0]
+set_property location {3.5 1416 -56} [get_bd_cells axi_interconnect_0]
+set_property location {3 1430 -109} [get_bd_cells axi_interconnect_0]
+set_property location {3 1423 -53} [get_bd_cells axi_interconnect_0]
+set_property location {3 1428 -74} [get_bd_cells axi_interconnect_0]
+set_property location {3 1415 -106} [get_bd_cells axi_interconnect_0]
+set_property location {3 1429 -14} [get_bd_cells axi_interconnect_0]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_crossbar:2.1 axi_crossbar_0
+endgroup
+set_property -dict [list CONFIG.NUM_SI {4} CONFIG.NUM_MI {1}] [get_bd_cells axi_crossbar_0]
+set_property location {2 377 105} [get_bd_cells mycpu_0]
+undo
+connect_bd_intf_net [get_bd_intf_pins mycpu_0/data_cache] [get_bd_intf_pins axi_crossbar_0/S00_AXI]
+set_property location {3 775 26} [get_bd_cells axi_crossbar_0]
+connect_bd_intf_net [get_bd_intf_pins mycpu_0/data_uncache] [get_bd_intf_pins axi_crossbar_0/S01_AXI]
+connect_bd_intf_net [get_bd_intf_pins mycpu_0/inst_cache] [get_bd_intf_pins axi_crossbar_0/S02_AXI]
+connect_bd_intf_net [get_bd_intf_pins mycpu_0/inst_uncache] [get_bd_intf_pins axi_crossbar_0/S03_AXI]
+set_property location {4 1440 128} [get_bd_cells axi_interconnect_0]
+set_property location {4 1436 181} [get_bd_cells axi_interconnect_0]
+set_property location {4 1428 177} [get_bd_cells axi_interconnect_0]
+set_property location {3.5 1156 173} [get_bd_cells axi_interconnect_0]
+set_property location {4 1159 160} [get_bd_cells axi_interconnect_0]
+set_property location {4 1170 194} [get_bd_cells axi_interconnect_0]
+set_property location {4 1161 240} [get_bd_cells axi_interconnect_0]
+set_property location {4 1165 214} [get_bd_cells axi_interconnect_0]
+set_property location {4 1164 221} [get_bd_cells axi_interconnect_0]
+set_property location {4 1164 214} [get_bd_cells axi_interconnect_0]
+set_property location {4 1163 224} [get_bd_cells axi_interconnect_0]
+set_property location {4 1163 240} [get_bd_cells axi_interconnect_0]
+set_property location {4 1167 245} [get_bd_cells axi_interconnect_0]
+connect_bd_intf_net [get_bd_intf_pins axi_crossbar_0/M00_AXI] -boundary_type upper [get_bd_intf_pins axi_interconnect_0/S00_AXI]
+set_property location {4 1153 291} [get_bd_cells axi_interconnect_0]
+set_property location {4 1147 284} [get_bd_cells axi_interconnect_0]
+set_property location {4 1148 244} [get_bd_cells axi_interconnect_0]
+set_property location {4 1156 278} [get_bd_cells axi_interconnect_0]
+set_property location {4 1152 291} [get_bd_cells axi_interconnect_0]
+set_property location {4 1152 244} [get_bd_cells axi_interconnect_0]
+set_property location {4 1154 272} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 260} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 250} [get_bd_cells axi_interconnect_0]
+save_bd_design
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 axi_bram_ctrl_0
+endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_gen_0
+endgroup
+set_property location {5.5 2425 36} [get_bd_cells blk_mem_gen_0]
+set_property location {6 2311 32} [get_bd_cells blk_mem_gen_0]
+set_property location {5 1544 -195} [get_bd_cells axi_bram_ctrl_0]
+set_property location {5.5 1718 -189} [get_bd_cells axi_bram_ctrl_0]
+set_property location {6 2396 -174} [get_bd_cells blk_mem_gen_0]
+create_bd_port -dir O lcd_bl_ctr
+set_property location {3315 -206} [get_bd_ports lcd_bl_ctr]
+set_property location {5 1649 163} [get_bd_cells axi_bram_ctrl_0]
+set_property location {5 1735 -222} [get_bd_cells axi_bram_ctrl_0]
+set_property location {5 1716 -244} [get_bd_cells axi_bram_ctrl_0]
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
+startgroup
+set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells axi_bram_ctrl_0]
+endgroup
+set_property location {5.5 2083 -242} [get_bd_cells blk_mem_gen_0]
+set_property location {6 2060 -245} [get_bd_cells blk_mem_gen_0]
+set_property -dict [list CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Register_PortA_Output_of_Memory_Primitives {false} CONFIG.Load_Init_File {true} CONFIG.Coe_File {D:/Xilinx_Project/soc_like_0x7C00/coe/eth_ping.coe} CONFIG.Fill_Remaining_Memory_Locations {true} CONFIG.Use_RSTA_Pin {true} CONFIG.use_bram_block {Stand_Alone} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_gen_0]
+connect_bd_intf_net [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTA]
+create_bd_cell -type module -reference spi_flash_ctrl spi_flash_ctrl_0
+set_property location {5 1653 230} [get_bd_cells spi_flash_ctrl_0]
+set_property location {5 1760 -91} [get_bd_cells spi_flash_ctrl_0]
+set_property location {5 1731 -68} [get_bd_cells spi_flash_ctrl_0]
+set_property location {5 1745 -126} [get_bd_cells spi_flash_ctrl_0]
+set_property location {5 1718 -544} [get_bd_cells axi_bram_ctrl_0]
+set_property location {5 1735 -570} [get_bd_cells axi_bram_ctrl_0]
+set_property location {6 2064 -548} [get_bd_cells blk_mem_gen_0]
+set_property location {6 2074 -576} [get_bd_cells blk_mem_gen_0]
+set_property location {6 2080 -570} [get_bd_cells blk_mem_gen_0]
+set_property location {5 1749 -363} [get_bd_cells spi_flash_ctrl_0]
+set_property location {5 1721 -388} [get_bd_cells spi_flash_ctrl_0]
+startgroup
+create_bd_port -dir O -type clk SPI_CLK
+connect_bd_net [get_bd_pins /spi_flash_ctrl_0/SPI_CLK] [get_bd_ports SPI_CLK]
+endgroup
+startgroup
+create_bd_port -dir O SPI_CS
+connect_bd_net [get_bd_pins /spi_flash_ctrl_0/SPI_CS] [get_bd_ports SPI_CS]
+endgroup
+startgroup
+create_bd_port -dir IO SPI_MISO
+connect_bd_net [get_bd_pins /spi_flash_ctrl_0/SPI_MISO] [get_bd_ports SPI_MISO]
+endgroup
+startgroup
+create_bd_port -dir IO SPI_MOSI
+connect_bd_net [get_bd_pins /spi_flash_ctrl_0/SPI_MOSI] [get_bd_ports SPI_MOSI]
+endgroup
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M01_AXI] [get_bd_intf_pins spi_flash_ctrl_0/s]
+set_property location {5 1735 -322} [get_bd_cells spi_flash_ctrl_0]
+set_property location {5 1732 -283} [get_bd_cells spi_flash_ctrl_0]
+set_property location {2576 -507} [get_bd_ports lcd_bl_ctr]
+set_property location {2577 -550} [get_bd_ports lcd_bl_ctr]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0
+endgroup
+set_property location {5 1701 -442} [get_bd_cells xlconstant_0]
+set_property -dict [list CONFIG.CONST_WIDTH {16} CONFIG.CONST_VAL {0x1fe8}] [get_bd_cells xlconstant_0]
+set_property name const_spi_addr [get_bd_cells xlconstant_0]
+connect_bd_net [get_bd_pins const_spi_addr/dout] [get_bd_pins spi_flash_ctrl_0/spi_addr]
+set_property location {4.5 1468 -405} [get_bd_cells const_spi_addr]
+set_property location {5 1429 -305} [get_bd_cells const_spi_addr]
+set_property location {6 1642 -434} [get_bd_cells const_spi_addr]
+set_property location {4 1212 -268} [get_bd_cells const_spi_addr]
+set_property location {4.5 1414 -265} [get_bd_cells const_spi_addr]
+set_property location {5 1394 -272} [get_bd_cells const_spi_addr]
+set_property location {6 1705 -431} [get_bd_cells spi_flash_ctrl_0]
+set_property location {7 2085 -596} [get_bd_cells blk_mem_gen_0]
+set_property location {5 1408 -413} [get_bd_cells const_spi_addr]
+set_property location {5 1410 -420} [get_bd_cells const_spi_addr]
+save_bd_design
+set_property location {5.5 1462 -427} [get_bd_cells const_spi_addr]
+set_property location {5 1460 -420} [get_bd_cells const_spi_addr]
+create_bd_cell -type module -reference confreg confreg_0
+set_property location {6 1741 -172} [get_bd_cells confreg_0]
+undo
+undo
+set_property location {6 1720 -450} [get_bd_cells spi_flash_ctrl_0]
+set_property location {6 1720 -440} [get_bd_cells spi_flash_ctrl_0]
+set_property location {6 1720 -430} [get_bd_cells spi_flash_ctrl_0]
+set_property location {7 2092 -630} [get_bd_cells blk_mem_gen_0]
+create_bd_cell -type module -reference confreg confreg_0
+set_property location {6 1743 -115} [get_bd_cells confreg_0]
+set_property location {6 1720 -120} [get_bd_cells confreg_0]
+set_property location {6 1720 -130} [get_bd_cells confreg_0]
+set_property location {6 1720 -140} [get_bd_cells confreg_0]
+startgroup
+create_bd_port -dir O -from 15 -to 0 led
+connect_bd_net [get_bd_pins /confreg_0/led] [get_bd_ports led]
+endgroup
+startgroup
+create_bd_port -dir O -from 1 -to 0 led_rg0
+connect_bd_net [get_bd_pins /confreg_0/led_rg0] [get_bd_ports led_rg0]
+endgroup
+startgroup
+create_bd_port -dir O -from 1 -to 0 led_rg1
+connect_bd_net [get_bd_pins /confreg_0/led_rg1] [get_bd_ports led_rg1]
+endgroup
+regenerate_bd_layout
+undo
+undo
+startgroup
+create_bd_port -dir O -from 1 -to 0 led_rg1
+connect_bd_net [get_bd_pins /confreg_0/led_rg1] [get_bd_ports led_rg1]
+endgroup
+startgroup
+create_bd_port -dir O -from 7 -to 0 num_csn
+connect_bd_net [get_bd_pins /confreg_0/num_csn] [get_bd_ports num_csn]
+endgroup
+startgroup
+create_bd_port -dir O -from 6 -to 0 num_a_g
+connect_bd_net [get_bd_pins /confreg_0/num_a_g] [get_bd_ports num_a_g]
+endgroup
+startgroup
+create_bd_port -dir O -from 3 -to 0 btn_key_col
+connect_bd_net [get_bd_pins /confreg_0/btn_key_col] [get_bd_ports btn_key_col]
+endgroup
+startgroup
+create_bd_port -dir I -from 1 -to 0 btn_step
+connect_bd_net [get_bd_pins /confreg_0/btn_step] [get_bd_ports btn_step]
+endgroup
+startgroup
+create_bd_port -dir I -from 3 -to 0 btn_key_row
+connect_bd_net [get_bd_pins /confreg_0/btn_key_row] [get_bd_ports btn_key_row]
+endgroup
+startgroup
+create_bd_port -dir I -from 7 -to 0 switch
+connect_bd_net [get_bd_pins /confreg_0/switch] [get_bd_ports switch]
+endgroup
+set_property location {2 426 -257} [get_bd_cells proc_sys_reset_0]
+startgroup
+set_property location {1 96 239} [get_bd_cells clk_pll_200]
+set_property location {1 96 119} [get_bd_cells clk_pll_cpu]
+set_property location {2 416 -211} [get_bd_cells proc_sys_reset_0]
+set_property location {1 96 399} [get_bd_cells clk_pll_100]
+set_property location {1 96 -1} [get_bd_cells clk_pll_33]
+endgroup
+set_property location {-106 182} [get_bd_ports clk]
+startgroup
+set_property location {3 716 107} [get_bd_cells axi_crossbar_0]
+set_property location {4 1136 327} [get_bd_cells axi_interconnect_0]
+set_property location {2 376 167} [get_bd_cells mycpu_0]
+endgroup
+startgroup
+set_property location {3 725 5} [get_bd_cells axi_crossbar_0]
+set_property location {4 1145 225} [get_bd_cells axi_interconnect_0]
+set_property location {2 385 65} [get_bd_cells mycpu_0]
+endgroup
+startgroup
+set_property location {3 706 -14} [get_bd_cells axi_crossbar_0]
+set_property location {4 1126 206} [get_bd_cells axi_interconnect_0]
+set_property location {2 366 46} [get_bd_cells mycpu_0]
+endgroup
+startgroup
+set_property location {3 706 11} [get_bd_cells axi_crossbar_0]
+set_property location {4 1126 231} [get_bd_cells axi_interconnect_0]
+set_property location {2 366 71} [get_bd_cells mycpu_0]
+endgroup
+startgroup
+set_property location {3 707 11} [get_bd_cells axi_crossbar_0]
+set_property location {4 1127 231} [get_bd_cells axi_interconnect_0]
+set_property location {2 367 71} [get_bd_cells mycpu_0]
+endgroup
+startgroup
+set_property location {3 705 47} [get_bd_cells axi_crossbar_0]
+set_property location {4 1125 267} [get_bd_cells axi_interconnect_0]
+set_property location {2 365 107} [get_bd_cells mycpu_0]
+endgroup
+startgroup
+set_property -dict [list CONFIG.NUM_MI {10}] [get_bd_cells axi_interconnect_0]
+endgroup
+set_property location {4 1172 219} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 230} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 240} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 250} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 260} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 270} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 280} [get_bd_cells axi_interconnect_0]
+set_property location {4 1160 290} [get_bd_cells axi_interconnect_0]
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M02_AXI] [get_bd_intf_pins confreg_0/s]
+create_bd_cell -type module -reference gpu_top gpu_top_0
+set_property location {6 1694 162} [get_bd_cells gpu_top_0]
+undo
+undo
+set_property location {6 1730 -170} [get_bd_cells confreg_0]
+set_property location {6 1730 -160} [get_bd_cells confreg_0]
+set_property location {6 1730 -150} [get_bd_cells confreg_0]
+set_property location {6 1730 -140} [get_bd_cells confreg_0]
+set_property location {6 1730 -460} [get_bd_cells spi_flash_ctrl_0]
+set_property location {6 1730 -450} [get_bd_cells spi_flash_ctrl_0]
+set_property location {6 1730 -440} [get_bd_cells spi_flash_ctrl_0]
+set_property location {6 1730 -430} [get_bd_cells spi_flash_ctrl_0]
+set_property location {6 1730 -630} [get_bd_cells axi_bram_ctrl_0]
+create_bd_cell -type module -reference gpu_top gpu_top_0
+set_property location {6 1737 314} [get_bd_cells gpu_top_0]
+set_property location {6 1730 300} [get_bd_cells gpu_top_0]
+set_property location {6 1730 290} [get_bd_cells gpu_top_0]
+set_property location {6 1730 280} [get_bd_cells gpu_top_0]
+set_property location {6 1730 270} [get_bd_cells gpu_top_0]
+set_property location {6 1730 260} [get_bd_cells gpu_top_0]
+set_property location {6 1730 250} [get_bd_cells gpu_top_0]
+set_property location {6 1730 240} [get_bd_cells gpu_top_0]
+set_property location {6 1730 230} [get_bd_cells gpu_top_0]
+set_property location {6 1730 220} [get_bd_cells gpu_top_0]
+set_property location {6 1730 210} [get_bd_cells gpu_top_0]
+set_property location {6 1730 200} [get_bd_cells gpu_top_0]
+set_property location {6 1730 210} [get_bd_cells gpu_top_0]
+set_property location {6 1730 -620} [get_bd_cells axi_bram_ctrl_0]
+set_property location {6 1730 -610} [get_bd_cells axi_bram_ctrl_0]
+set_property location {6 1730 -600} [get_bd_cells axi_bram_ctrl_0]
+set_property location {7 2080 -620} [get_bd_cells blk_mem_gen_0]
+set_property location {7 2080 -610} [get_bd_cells blk_mem_gen_0]
+set_property location {7 2080 -600} [get_bd_cells blk_mem_gen_0]
+startgroup
+create_bd_port -dir IO -from 15 -to 0 lcd_data_io
+connect_bd_net [get_bd_pins /gpu_top_0/lcd_data_io] [get_bd_ports lcd_data_io]
+endgroup
+startgroup
+create_bd_port -dir O -type rst lcd_rst
+connect_bd_net [get_bd_pins /gpu_top_0/lcd_rst] [get_bd_ports lcd_rst]
+endgroup
+startgroup
+create_bd_port -dir O lcd_cs
+connect_bd_net [get_bd_pins /gpu_top_0/lcd_cs] [get_bd_ports lcd_cs]
+endgroup
+startgroup
+create_bd_port -dir O lcd_rs
+connect_bd_net [get_bd_pins /gpu_top_0/lcd_rs] [get_bd_ports lcd_rs]
+endgroup
+startgroup
+create_bd_port -dir O lcd_wr
+connect_bd_net [get_bd_pins /gpu_top_0/lcd_wr] [get_bd_ports lcd_wr]
+endgroup
+startgroup
+create_bd_port -dir O lcd_rd
+connect_bd_net [get_bd_pins /gpu_top_0/lcd_rd] [get_bd_ports lcd_rd]
+endgroup
+delete_bd_objs [get_bd_ports lcd_bl_ctr]
+startgroup
+create_bd_port -dir O lcd_bl_ctr
+connect_bd_net [get_bd_pins /gpu_top_0/lcd_bl_ctr] [get_bd_ports lcd_bl_ctr]
+endgroup
+startgroup
+create_bd_port -dir IO ct_int
+connect_bd_net [get_bd_pins /gpu_top_0/ct_int] [get_bd_ports ct_int]
+endgroup
+startgroup
+create_bd_port -dir IO ct_sda
+connect_bd_net [get_bd_pins /gpu_top_0/ct_sda] [get_bd_ports ct_sda]
+endgroup
+startgroup
+create_bd_port -dir O ct_scl
+connect_bd_net [get_bd_pins /gpu_top_0/ct_scl] [get_bd_ports ct_scl]
+endgroup
+startgroup
+create_bd_port -dir O -type rst ct_rstn
+connect_bd_net [get_bd_pins /gpu_top_0/ct_rstn] [get_bd_ports ct_rstn]
+endgroup
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M03_AXI] [get_bd_intf_pins gpu_top_0/s]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_uart16550:2.0 axi_uart16550_0
+endgroup
+set_property location {6 1735 465} [get_bd_cells axi_uart16550_0]
+set_property location {6 1730 450} [get_bd_cells axi_uart16550_0]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0
+endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_1
+endgroup
+set_property location {5 1459 310} [get_bd_cells xlconstant_1]
+set_property name const_0 [get_bd_cells xlconstant_0]
+set_property name const_1 [get_bd_cells xlconstant_1]
+set_property -dict [list CONFIG.CONST_VAL {0}] [get_bd_cells const_0]
+connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins axi_uart16550_0/ctsn]
+startgroup
+connect_bd_net [get_bd_pins axi_uart16550_0/dcdn] [get_bd_pins const_0/dout]
+endgroup
+connect_bd_net [get_bd_pins axi_uart16550_0/dsrn] [get_bd_pins const_0/dout]
+connect_bd_net [get_bd_pins axi_uart16550_0/rin] [get_bd_pins const_1/dout]
+startgroup
+create_bd_port -dir O sout
+connect_bd_net [get_bd_pins /axi_uart16550_0/sout] [get_bd_ports sout]
+endgroup
+set_property name UART_TX [get_bd_ports sout]
+startgroup
+create_bd_port -dir I UART_RX
+connect_bd_net [get_bd_pins /axi_uart16550_0/sin] [get_bd_ports UART_RX]
+endgroup
+set_property location {2213 541} [get_bd_ports UART_TX]
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M04_AXI] [get_bd_intf_pins axi_uart16550_0/S_AXI]
+connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins axi_uart16550_0/freeze]
+connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins confreg_0/finish_read_order]
+connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins confreg_0/write_dma_end]
+save_bd_design
+set_property location {7.5 2122 -604} [get_bd_cells blk_mem_gen_0]
+set_property location {6.5 2001 -596} [get_bd_cells blk_mem_gen_0]
+set_property location {7.5 2074 -604} [get_bd_cells blk_mem_gen_0]
+set_property location {7.5 2144 -600} [get_bd_cells blk_mem_gen_0]
+set_property location {6.5 1993 -599} [get_bd_cells blk_mem_gen_0]
+set_property location {7.5 2068 -600} [get_bd_cells blk_mem_gen_0]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_ethernetlite:3.0 axi_ethernetlite_0
+endgroup
+set_property location {6 1727 801} [get_bd_cells axi_ethernetlite_0]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_intc:4.1 axi_intc_0
+endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:mig_7series:4.2 mig_7series_0
+endgroup
+set_property location {6 1712 1174} [get_bd_cells mig_7series_0]
+set_property location {6 1711 1255} [get_bd_cells mig_7series_0]
+set_property location {6 1714 1417} [get_bd_cells mig_7series_0]
+set_property location {6 1709 1199} [get_bd_cells axi_intc_0]
+set_property location {6 1701 979} [get_bd_cells axi_ethernetlite_0]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.0 axi_iic_0
+endgroup
+undo
+set_property location {6 1704 1250} [get_bd_cells axi_intc_0]
+set_property location {6 1701 1039} [get_bd_cells axi_ethernetlite_0]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.0 axi_iic_0
+endgroup
+undo
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.0 axi_iic_0
+endgroup
+set_property location {7 1807 895} [get_bd_cells axi_iic_0]
+set_property location {6 1831 804} [get_bd_cells axi_iic_0]
+set_property location {6 1836 742} [get_bd_cells axi_iic_0]
+set_property location {6 1833 725} [get_bd_cells axi_iic_0]
+startgroup
+create_bd_intf_port -mode Master -vlnv xilinx.com:interface:iic_rtl:1.0 IIC
+connect_bd_intf_net [get_bd_intf_pins axi_iic_0/IIC] [get_bd_intf_ports IIC]
+endgroup
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M05_AXI] [get_bd_intf_pins axi_iic_0/S_AXI]
+set_property location {5 1566 -7} [get_bd_cells const_0]
+set_property location {5 1561 97} [get_bd_cells const_1]
+set_property location {6 1858 865} [get_bd_cells axi_ethernetlite_0]
+startgroup
+create_bd_intf_port -mode Master -vlnv xilinx.com:interface:mii_rtl:1.0 MII
+connect_bd_intf_net [get_bd_intf_pins axi_ethernetlite_0/MII] [get_bd_intf_ports MII]
+endgroup
+set_property location {2389 840} [get_bd_intf_ports MII]
+startgroup
+create_bd_intf_port -mode Master -vlnv xilinx.com:interface:mdio_rtl:1.0 MDIO
+connect_bd_intf_net [get_bd_intf_pins axi_ethernetlite_0/MDIO] [get_bd_intf_ports MDIO]
+endgroup
+set_property location {6 1852 1013} [get_bd_cells axi_intc_0]
+set_property -dict [list CONFIG.C_IRQ_CONNECTION {1}] [get_bd_cells axi_intc_0]
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M06_AXI] [get_bd_intf_pins axi_ethernetlite_0/S_AXI]
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M07_AXI] [get_bd_intf_pins axi_intc_0/s_axi]
+set_property location {6 1873 1138} [get_bd_cells mig_7series_0]
+undo
+set_property location {6 1860 1430} [get_bd_cells mig_7series_0]
+set_property location {6 1860 720} [get_bd_cells axi_iic_0]
+set_property location {6 1860 1020} [get_bd_cells axi_intc_0]
+set_property location {6 1860 870} [get_bd_cells axi_ethernetlite_0]
+set_property location {6 1869 1170} [get_bd_cells mig_7series_0]
+set_property -name {CONFIG.XML_INPUT_FILE} -value  {mig_a.prj} -objects [get_bd_cells mig_7series_0]
+set_property -name {CONFIG.RESET_BOARD_INTERFACE} -value  {Custom} -objects [get_bd_cells mig_7series_0]
+set_property -name {CONFIG.MIG_DONT_TOUCH_PARAM} -value  {Custom} -objects [get_bd_cells mig_7series_0]
+set_property -name {CONFIG.BOARD_MIG_PARAM} -value  {Custom} -objects [get_bd_cells mig_7series_0]
+startgroup
+create_bd_intf_port -mode Master -vlnv xilinx.com:interface:ddrx_rtl:1.0 DDR3
+connect_bd_intf_net [get_bd_intf_pins mig_7series_0/DDR3] [get_bd_intf_ports DDR3]
+endgroup
+set_property location {2320 1150} [get_bd_intf_ports DDR3]
+connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M08_AXI] [get_bd_intf_pins mig_7series_0/S_AXI]
+set_property  ip_repo_paths  D:/Xilinx_Project/soc_like_0x7C00/ip [current_project]
+update_ip_catalog
+update_ip_catalog -rebuild
+set_property  ip_repo_paths  {} [current_project]
+update_ip_catalog
+set_property  ip_repo_paths  D:/Xilinx_Project/soc_like_0x7C00/ip [current_project]
+update_ip_catalog
+startgroup
+set_property -dict [list CONFIG.NUM_MI {9}] [get_bd_cells axi_interconnect_0]
+endgroup
+set_property location {4 1290 280} [get_bd_cells axi_interconnect_0]
+set_property location {4 1290 270} [get_bd_cells axi_interconnect_0]
+set_property location {1 104 274} [get_bd_cells clk_pll_200]
+set_property location {-99 191} [get_bd_ports clk]
+set_property location {-90 200} [get_bd_ports clk]
+set_property location {-90 190} [get_bd_ports clk]
+save_bd_design
+connect_bd_net [get_bd_pins clk_pll_100/clk_out1] [get_bd_pins proc_sys_reset_0/slowest_sync_clk]
+connect_bd_net [get_bd_pins clk_pll_100/locked] [get_bd_pins proc_sys_reset_0/dcm_locked]
+connect_bd_net [get_bd_pins proc_sys_reset_0/mb_debug_sys_rst] [get_bd_pins const_0/dout]
+connect_bd_net [get_bd_pins mig_7series_0/init_calib_complete] [get_bd_pins proc_sys_reset_0/aux_reset_in]
+connect_bd_net [get_bd_pins clk_pll_100/clk_out1] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk]
+connect_bd_net [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+connect_bd_net [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axi_interconnect_0/ARESETN]
+connect_bd_net [get_bd_pins clk_pll_100/clk_out1] [get_bd_pins axi_interconnect_0/ACLK]
+connect_bd_net [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] -boundary_type upper
+undo
+connect_bd_net [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins clk_pll_33/clk_spi]
+connect_bd_net [get_bd_pins spi_flash_ctrl_0/aclk] [get_bd_pins clk_pll_33/clk_spi]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_interconnect_0/M01_ARESETN]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins spi_flash_ctrl_0/aresetn]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins confreg_0/aresetn]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins gpu_top_0/aresetn]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_uart16550_0/s_axi_aresetn]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_iic_0/s_axi_aresetn]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_ethernetlite_0/s_axi_aresetn]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_intc_0/s_axi_aresetn]
+connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins spi_flash_ctrl_0/power_down_req]
+connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins spi_flash_ctrl_0/fast_startup]
+connect_bd_net [get_bd_pins confreg_0/aclk] [get_bd_pins const_0/dout]
+disconnect_bd_net /const_0_dout [get_bd_pins confreg_0/aclk]
+connect_bd_net [get_bd_pins confreg_0/aclk] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins proc_sys_reset_0/interconnect_aresetn]
+connect_bd_net [get_bd_pins mig_7series_0/ui_clk] [get_bd_pins axi_interconnect_0/M08_ACLK]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 util_vector_logic_0
+endgroup
+set_property -dict [list CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells util_vector_logic_0]
+set_property -dict [list CONFIG.C_SIZE {1}] [get_bd_cells util_vector_logic_0]
+set_property name reset_not [get_bd_cells util_vector_logic_0]
+connect_bd_net [get_bd_pins proc_sys_reset_0/mb_reset] [get_bd_pins reset_not/Op1]
+set_property location {3 740 -260} [get_bd_cells reset_not]
+set_property location {3 740 -250} [get_bd_cells reset_not]
+save_bd_design
+set_property location {-90 630} [get_bd_ports UART_RX]
+set_property location {-90 -120} [get_bd_ports switch]
+set_property location {-90 -130} [get_bd_ports switch]
+set_property location {-90 -140} [get_bd_ports switch]
+set_property location {-90 -150} [get_bd_ports switch]
+set_property location {-90 -160} [get_bd_ports switch]
+set_property location {-90 -170} [get_bd_ports switch]
+set_property location {-90 -100} [get_bd_ports btn_key_row]
+set_property location {-90 -110} [get_bd_ports btn_key_row]
+set_property location {-90 -120} [get_bd_ports btn_key_row]
+set_property location {-90 -130} [get_bd_ports btn_key_row]
+set_property location {-90 -140} [get_bd_ports btn_key_row]
+set_property location {-90 -150} [get_bd_ports btn_key_row]
+set_property location {-90 -80} [get_bd_ports btn_step]
+set_property location {-90 -90} [get_bd_ports btn_step]
+set_property location {-90 -100} [get_bd_ports btn_step]
+set_property location {-90 -110} [get_bd_ports btn_step]
+set_property location {-90 -120} [get_bd_ports btn_step]
+set_property location {-90 -130} [get_bd_ports btn_step]
+connect_bd_net [get_bd_ports resetn] [get_bd_pins mig_7series_0/sys_rst]
+connect_bd_net [get_bd_pins mig_7series_0/aresetn] [get_bd_pins axi_interconnect_0/M03_ARESETN]
+create_bd_cell -type module -reference reset_synchronizer reset_synchronizer_0
+set_property location {4 1273 1039} [get_bd_cells reset_synchronizer_0]
+set_property location {4 1308 813} [get_bd_cells reset_synchronizer_0]
+set_property name reset_synchronizer_mem [get_bd_cells reset_synchronizer_0]
+set_property location {4 1290 800} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 790} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 780} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 770} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 760} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 750} [get_bd_cells reset_synchronizer_mem]
+connect_bd_net [get_bd_pins mig_7series_0/ui_clk] [get_bd_pins reset_synchronizer_mem/clk]
+connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins reset_synchronizer_mem/rst_i]
+connect_bd_net [get_bd_pins reset_synchronizer_mem/rst_o] [get_bd_pins mig_7series_0/aresetn]
+set_property location {4 1307 1195} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1180} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1170} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1160} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1150} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1160} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1170} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1180} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1190} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1200} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1210} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1220} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1230} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1220} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1210} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1200} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1190} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1180} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1170} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1160} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1150} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1140} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1130} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1120} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1110} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1100} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1090} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1080} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1070} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1060} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1050} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1040} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1030} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1020} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1010} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1000} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 990} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1000} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1010} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1020} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1030} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1040} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1050} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1060} [get_bd_cells reset_synchronizer_mem]
+set_property location {4 1290 1070} [get_bd_cells reset_synchronizer_mem]
+save_bd_design
+connect_bd_net [get_bd_pins clk_pll_200/clk_ref] [get_bd_pins mig_7series_0/clk_ref_i]
+connect_bd_net [get_bd_ports clk] [get_bd_pins mig_7series_0/sys_clk_i]
+save_bd_design
+connect_bd_net [get_bd_pins clk_pll_cpu/clk_cpu] [get_bd_pins mycpu_0/aclk]
+set_property location {1 100 110} [get_bd_cells clk_pll_cpu]
+set_property -dict [list CONFIG.FREQ_HZ {33000000}] [get_bd_intf_pins mycpu_0/data_cache]
+set_property -dict [list CONFIG.FREQ_HZ {33000000}] [get_bd_intf_pins mycpu_0/data_uncache]
+set_property -dict [list CONFIG.FREQ_HZ {33000000}] [get_bd_intf_pins mycpu_0/inst_cache]
+set_property -dict [list CONFIG.FREQ_HZ {33000000}] [get_bd_intf_pins mycpu_0/inst_uncache]
+connect_bd_net [get_bd_pins reset_not/Res] [get_bd_pins mycpu_0/aresetn]
+connect_bd_net [get_bd_pins reset_not/Res] [get_bd_pins axi_crossbar_0/aresetn]
+connect_bd_net [get_bd_pins axi_crossbar_0/aclk] [get_bd_pins clk_pll_cpu/clk_cpu]
+connect_bd_net [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins clk_pll_cpu/clk_cpu]
+connect_bd_net [get_bd_pins reset_not/Res] [get_bd_pins axi_interconnect_0/S00_ARESETN]
+save_bd_design
+connect_bd_net [get_bd_pins axi_interconnect_0/M02_ACLK] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M02_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+connect_bd_net [get_bd_pins axi_interconnect_0/M03_ACLK] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins clk_pll_100/clk_out1] [get_bd_pins gpu_top_0/aclk]
+connect_bd_net [get_bd_pins clk_pll_100/clk_out1] [get_bd_pins gpu_top_0/lcd_clk]
+disconnect_bd_net /M03_ARESETN_1 [get_bd_pins axi_interconnect_0/M03_ARESETN]
+connect_bd_net [get_bd_pins axi_interconnect_0/M08_ARESETN] [get_bd_pins reset_synchronizer_mem/rst_o]
+save_bd_design
+connect_bd_net [get_bd_pins axi_interconnect_0/M03_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+connect_bd_net [get_bd_pins axi_uart16550_0/s_axi_aclk] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M04_ACLK] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M04_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+connect_bd_net [get_bd_pins axi_iic_0/s_axi_aclk] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M05_ACLK] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M05_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+connect_bd_net [get_bd_pins axi_ethernetlite_0/s_axi_aclk] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_intc_0/s_axi_aclk] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M06_ACLK] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M07_ACLK] [get_bd_pins clk_pll_100/clk_out1]
+connect_bd_net [get_bd_pins axi_interconnect_0/M06_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+connect_bd_net [get_bd_pins axi_interconnect_0/M07_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+save_bd_design
+create_bd_port -dir O MII_tx_er
+set_property location {2417 441} [get_bd_ports MII_tx_er]
+connect_bd_net [get_bd_ports MII_tx_er] [get_bd_pins const_0/dout]
+delete_bd_objs [get_bd_ports MII_tx_er]
+create_bd_port -dir I -from 0 -to 0 MII_tx_er
+undo
+create_bd_port -dir O -from 0 -to 0 MII_tx_er
+connect_bd_net [get_bd_ports MII_tx_er] [get_bd_pins const_0/dout]
+set_property location {2410 440} [get_bd_ports MII_tx_er]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0
+endgroup
+set_property location {2 356 435} [get_bd_cells xlconcat_0]
+set_property location {2 440 487} [get_bd_cells xlconcat_0]
+set_property location {2 434 418} [get_bd_cells xlconcat_0]
+copy_bd_objs /  [get_bd_cells {xlconcat_0}]
+set_property location {3 765 436} [get_bd_cells xlconcat_1]
+set_property location {3 770 430} [get_bd_cells xlconcat_1]
+set_property location {3 727 412} [get_bd_cells xlconcat_1]
+set_property location {3 729 413} [get_bd_cells xlconcat_1]
+set_property location {3 723 417} [get_bd_cells xlconcat_1]
+set_property name cpu_int_concat [get_bd_cells xlconcat_0]
+set_property name axi_int_concat [get_bd_cells xlconcat_1]
+set_property -dict [list CONFIG.NUM_PORTS {6}] [get_bd_cells cpu_int_concat]
+set_property -dict [list CONFIG.NUM_PORTS {4}] [get_bd_cells axi_int_concat]
+connect_bd_net [get_bd_pins cpu_int_concat/dout] [get_bd_pins mycpu_0/ext_int]
+set_property location {5 1427 923} [get_bd_cells axi_int_concat]
+set_property location {4 1368 898} [get_bd_cells axi_int_concat]
+connect_bd_net [get_bd_pins axi_int_concat/dout] [get_bd_pins axi_intc_0/intr]
+connect_bd_net [get_bd_pins axi_intc_0/irq] [get_bd_pins cpu_int_concat/In5]
+connect_bd_net [get_bd_pins axi_uart16550_0/ip2intc_irpt] [get_bd_pins cpu_int_concat/In1]
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0
+endgroup
+set_property location {2 461 701} [get_bd_cells xlconstant_0]
+set_property location {2 456 561} [get_bd_cells xlconstant_0]
+set_property name cpu_int_const0 [get_bd_cells xlconstant_0]
+set_property -dict [list CONFIG.CONST_VAL {0}] [get_bd_cells cpu_int_const0]
+connect_bd_net [get_bd_pins cpu_int_const0/dout] [get_bd_pins cpu_int_concat/In0]
+connect_bd_net [get_bd_pins cpu_int_concat/In2] [get_bd_pins cpu_int_const0/dout]
+connect_bd_net [get_bd_pins cpu_int_concat/In3] [get_bd_pins cpu_int_const0/dout]
+connect_bd_net [get_bd_pins cpu_int_concat/In4] [get_bd_pins cpu_int_const0/dout]
+save_bd_design
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0
+endgroup
+set_property name axi_int_const0 [get_bd_cells xlconstant_0]
+set_property -dict [list CONFIG.CONST_VAL {0}] [get_bd_cells axi_int_const0]
+connect_bd_net [get_bd_pins axi_ethernetlite_0/ip2intc_irpt] [get_bd_pins axi_int_concat/In0]
+connect_bd_net [get_bd_pins axi_int_const0/dout] [get_bd_pins axi_int_concat/In1]
+connect_bd_net [get_bd_pins axi_int_const0/dout] [get_bd_pins axi_int_concat/In2]
+connect_bd_net [get_bd_pins axi_iic_0/iic2intc_irpt] [get_bd_pins axi_int_concat/In3]
+save_bd_design
+validate_bd_design
+startgroup
+set_property -dict [list CONFIG.PROTOCOL.VALUE_SRC USER] [get_bd_cells axi_crossbar_0]
+set_property -dict [list CONFIG.PROTOCOL {AXI3} CONFIG.S00_THREAD_ID_WIDTH {0} CONFIG.S01_THREAD_ID_WIDTH {0} CONFIG.S02_THREAD_ID_WIDTH {0} CONFIG.S03_THREAD_ID_WIDTH {0} CONFIG.S04_THREAD_ID_WIDTH {0} CONFIG.S05_THREAD_ID_WIDTH {0} CONFIG.S06_THREAD_ID_WIDTH {0} CONFIG.S07_THREAD_ID_WIDTH {0} CONFIG.S08_THREAD_ID_WIDTH {0} CONFIG.S09_THREAD_ID_WIDTH {0} CONFIG.S10_THREAD_ID_WIDTH {0} CONFIG.S11_THREAD_ID_WIDTH {0} CONFIG.S12_THREAD_ID_WIDTH {0} CONFIG.S13_THREAD_ID_WIDTH {0} CONFIG.S14_THREAD_ID_WIDTH {0} CONFIG.S15_THREAD_ID_WIDTH {0} CONFIG.S01_BASE_ID {0x00000001} CONFIG.S02_BASE_ID {0x00000002} CONFIG.S03_BASE_ID {0x00000003} CONFIG.S04_BASE_ID {0x00000004} CONFIG.S05_BASE_ID {0x00000005} CONFIG.S06_BASE_ID {0x00000006} CONFIG.S07_BASE_ID {0x00000007} CONFIG.S08_BASE_ID {0x00000008} CONFIG.S09_BASE_ID {0x00000009} CONFIG.S10_BASE_ID {0x0000000a} CONFIG.S11_BASE_ID {0x0000000b} CONFIG.S12_BASE_ID {0x0000000c} CONFIG.S13_BASE_ID {0x0000000d} CONFIG.S14_BASE_ID {0x0000000e} CONFIG.S15_BASE_ID {0x0000000f}] [get_bd_cells axi_crossbar_0]
+endgroup
+set_property location {2 450 110} [get_bd_cells mycpu_0]
+set_property location {2 450 420} [get_bd_cells cpu_int_concat]
+set_property location {2 450 580} [get_bd_cells cpu_int_const0]
+validate_bd_design
+validate_bd_design
+assign_bd_address [get_bd_addr_segs {axi_bram_ctrl_0/S_AXI/Mem0 }]
+set_property offset 0x1A000000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_axi_bram_ctrl_0_Mem0}]
+assign_bd_address [get_bd_addr_segs {axi_ethernetlite_0/S_AXI/Reg }]
+set_property offset 0x1FF00000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_axi_ethernetlite_0_Reg}]
+assign_bd_address [get_bd_addr_segs {axi_intc_0/S_AXI/Reg }]
+set_property offset 0x1D000000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_axi_intc_0_Reg}]
+assign_bd_address [get_bd_addr_segs {axi_uart16550_0/S_AXI/Reg }]
+set_property offset 0x1FE40000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_axi_uart16550_0_Reg}]
+assign_bd_address [get_bd_addr_segs {confreg_0/s/reg0 }]
+set_property range 1M [get_bd_addr_segs {mycpu_0/data_cache/SEG_confreg_0_reg0}]
+set_property range 64K [get_bd_addr_segs {mycpu_0/data_cache/SEG_confreg_0_reg0}]
+set_property offset 0x1FD00000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_confreg_0_reg0}]
+assign_bd_address [get_bd_addr_segs {gpu_top_0/s/reg0 }]
+set_property range 1M [get_bd_addr_segs {mycpu_0/data_cache/SEG_gpu_top_0_reg0}]
+set_property offset 0x1FA00000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_gpu_top_0_reg0}]
+assign_bd_address [get_bd_addr_segs {mig_7series_0/memmap/memaddr }]
+set_property offset 0x00000000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_mig_7series_0_memaddr}]
+assign_bd_address [get_bd_addr_segs {spi_flash_ctrl_0/s/reg0 }]
+set_property range 1M [get_bd_addr_segs {mycpu_0/data_cache/SEG_spi_flash_ctrl_0_reg0}]
+set_property offset 0x1FC00000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_spi_flash_ctrl_0_reg0}]
+assign_bd_address [get_bd_addr_segs {axi_iic_0/S_AXI/Reg }]
+set_property offset 0x1FB00000 [get_bd_addr_segs {mycpu_0/data_cache/SEG_axi_iic_0_Reg}]
+set_property range 64K [get_bd_addr_segs {mycpu_0/data_uncache/SEG_confreg_0_reg0}]
+set_property range 1M [get_bd_addr_segs {mycpu_0/data_uncache/SEG_gpu_top_0_reg0}]
+set_property range 1M [get_bd_addr_segs {mycpu_0/data_uncache/SEG_spi_flash_ctrl_0_reg0}]
+set_property range 64K [get_bd_addr_segs {mycpu_0/inst_cache/SEG_confreg_0_reg0}]
+set_property range 1M [get_bd_addr_segs {mycpu_0/inst_cache/SEG_gpu_top_0_reg0}]
+set_property range 1M [get_bd_addr_segs {mycpu_0/inst_cache/SEG_spi_flash_ctrl_0_reg0}]
+set_property range 64K [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_confreg_0_reg0}]
+set_property range 2M [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_gpu_top_0_reg0}]
+set_property range 1M [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_gpu_top_0_reg0}]
+set_property range 1M [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_spi_flash_ctrl_0_reg0}]
+set_property offset 0x1A000000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_axi_bram_ctrl_0_Mem0}]
+set_property offset 0x1A000000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_axi_bram_ctrl_0_Mem0}]
+set_property offset 0x1A000000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_axi_bram_ctrl_0_Mem0}]
+set_property offset 0x1FF00000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_axi_ethernetlite_0_Reg}]
+set_property offset 0x1FF00000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_axi_ethernetlite_0_Reg}]
+set_property offset 0x1FF00000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_axi_ethernetlite_0_Reg}]
+set_property offset 0x1D000000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_axi_intc_0_Reg}]
+set_property offset 0x1D000000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_axi_intc_0_Reg}]
+set_property offset 0x1D000000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_axi_intc_0_Reg}]
+set_property offset 0x1FE40000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_axi_uart16550_0_Reg}]
+set_property offset 0x1FE40000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_axi_uart16550_0_Reg}]
+set_property offset 0x1FE40000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_axi_uart16550_0_Reg}]
+set_property offset 0x1FD00000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_confreg_0_reg0}]
+set_property offset 0x1FD00000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_confreg_0_reg0}]
+set_property offset 0x1FD00000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_confreg_0_reg0}]
+set_property offset 0x1FA00000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_gpu_top_0_reg0}]
+set_property offset 0x1FA00000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_gpu_top_0_reg0}]
+set_property offset 0x00000000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_mig_7series_0_memaddr}]
+set_property offset 0x00000000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_mig_7series_0_memaddr}]
+set_property offset 0x00000000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_mig_7series_0_memaddr}]
+set_property offset 0x1FC00000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_spi_flash_ctrl_0_reg0}]
+set_property offset 0x1FC00000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_spi_flash_ctrl_0_reg0}]
+set_property offset 0x1FC00000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_spi_flash_ctrl_0_reg0}]
+set_property offset 0x1FB00000 [get_bd_addr_segs {mycpu_0/data_uncache/SEG_axi_iic_0_Reg}]
+set_property offset 0x1FB00000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_axi_iic_0_Reg}]
+set_property offset 0x1FB00000 [get_bd_addr_segs {mycpu_0/inst_uncache/SEG_axi_iic_0_Reg}]
+save_bd_design
+make_wrapper -files [get_files D:/Xilinx_Project/soc_like_0x7C00/bd/bd_top/bd_top.bd] -top
+startgroup
+set_property -dict [list CONFIG.STRATEGY {1}] [get_bd_cells axi_interconnect_0]
+endgroup
+validate_bd_design
+set_property offset 0x1FA00000 [get_bd_addr_segs {mycpu_0/inst_cache/SEG_gpu_top_0_reg0}]
+save_bd_design
+validate_bd_design
+make_wrapper -files [get_files D:/Xilinx_Project/soc_like_0x7C00/bd/bd_top/bd_top.bd] -top
+add_files -norecurse D:/Xilinx_Project/soc_like_0x7C00/bd/bd_top/hdl/bd_top_wrapper.v
+update_compile_order -fileset sources_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top bd_top_wrapper [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+set_property location {-90 640} [get_bd_ports UART_RX]
+set_property location {-90 650} [get_bd_ports UART_RX]
+set_property location {-90 660} [get_bd_ports UART_RX]
+set_property location {-90 670} [get_bd_ports UART_RX]
+set_property location {-90 680} [get_bd_ports UART_RX]
+set_property location {-90 690} [get_bd_ports UART_RX]
+set_property location {-90 700} [get_bd_ports UART_RX]
+set_property location {-90 710} [get_bd_ports UART_RX]
+set_property location {-90 720} [get_bd_ports UART_RX]
+set_property location {-90 730} [get_bd_ports UART_RX]
+set_property location {-90 740} [get_bd_ports UART_RX]
+set_property location {-90 750} [get_bd_ports UART_RX]
+set_property location {-90 760} [get_bd_ports UART_RX]
+set_property location {-90 770} [get_bd_ports UART_RX]
+set_property location {-90 780} [get_bd_ports UART_RX]
+set_property location {-90 790} [get_bd_ports UART_RX]
+set_property location {-90 800} [get_bd_ports UART_RX]
+set_property location {-90 790} [get_bd_ports UART_RX]
+set_property location {-90 780} [get_bd_ports UART_RX]
+set_property location {-90 770} [get_bd_ports UART_RX]
+set_property location {-90 760} [get_bd_ports UART_RX]
+set_property location {-90 750} [get_bd_ports UART_RX]
+set_property location {-90 740} [get_bd_ports UART_RX]
+set_property location {-90 730} [get_bd_ports UART_RX]
+set_property location {-90 720} [get_bd_ports UART_RX]
+set_property location {-90 710} [get_bd_ports UART_RX]
+set_property location {-90 700} [get_bd_ports UART_RX]
+set_property location {-90 690} [get_bd_ports UART_RX]
+set_property location {-90 680} [get_bd_ports UART_RX]
+set_property location {-90 670} [get_bd_ports UART_RX]
+set_property location {-90 660} [get_bd_ports UART_RX]
+set_property location {-90 650} [get_bd_ports UART_RX]
+undo
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+open_hw_manager
+connect_hw_server -allow_non_jtag
+open_hw_target
+set_property PROGRAM.FILE {D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/impl_1/bd_top_wrapper.bit} [get_hw_devices xc7a200t_0]
+current_hw_device [get_hw_devices xc7a200t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a200t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a200t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a200t_0]
+set_property PROGRAM.FILE {D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/impl_1/bd_top_wrapper.bit} [get_hw_devices xc7a200t_0]
+program_hw_devices [get_hw_devices xc7a200t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a200t_0] 0]
+open_bd_design {D:/Xilinx_Project/soc_like_0x7C00/bd/bd_top/bd_top.bd}
+disconnect_bd_net /cpu_int_const0_dout [get_bd_pins cpu_int_concat/In4]
+connect_bd_net [get_bd_pins cpu_int_concat/In4] [get_bd_pins axi_intc_0/irq]
+disconnect_bd_net /axi_intc_0_irq [get_bd_pins cpu_int_concat/In5]
+connect_bd_net [get_bd_pins cpu_int_concat/In5] [get_bd_pins cpu_int_const0/dout]
+save_bd_design
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+set_property PROBES.FILE {} [get_hw_devices xc7a200t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a200t_0]
+set_property PROGRAM.FILE {D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/impl_1/bd_top_wrapper.bit} [get_hw_devices xc7a200t_0]
+program_hw_devices [get_hw_devices xc7a200t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a200t_0] 0]
+open_bd_design {D:/Xilinx_Project/soc_like_0x7C00/bd/bd_top/bd_top.bd}

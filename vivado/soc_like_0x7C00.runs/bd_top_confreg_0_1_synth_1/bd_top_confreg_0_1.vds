@@ -1,0 +1,462 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Thu Aug 11 18:13:31 2022
+# Process ID: 12484
+# Current directory: D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_confreg_0_1_synth_1
+# Command line: vivado.exe -log bd_top_confreg_0_1.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source bd_top_confreg_0_1.tcl
+# Log file: D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_confreg_0_1_synth_1/bd_top_confreg_0_1.vds
+# Journal file: D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_confreg_0_1_synth_1\vivado.jou
+#-----------------------------------------------------------
+source bd_top_confreg_0_1.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'd:/Xilinx_Project/soc_like_0x7C00/ip'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2019.2/data/ip'.
+Command: synth_design -top bd_top_confreg_0_1 -part xc7a200tfbg676-2 -mode out_of_context
+Starting synth_design
+WARNING: [IP_Flow 19-3571] IP 'bd_top_confreg_0_1' is restricted:
+* Module reference is stale and needs refreshing.
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a200t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a200t'
+INFO: [Device 21-403] Loading part xc7a200tfbg676-2
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 19320 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 831.785 ; gain = 234.965
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'bd_top_confreg_0_1' [d:/Xilinx_Project/soc_like_0x7C00/bd/bd_top/ip/bd_top_confreg_0_1/synth/bd_top_confreg_0_1.v:58]
+INFO: [Synth 8-6157] synthesizing module 'confreg' [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:43]
+	Parameter ID_WIDTH bound to: 6 - type: integer 
+INFO: [Synth 8-155] case statement is not full and has no default [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:256]
+WARNING: [Synth 8-6014] Unused sequential element buf_len_reg was removed.  [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:214]
+WARNING: [Synth 8-6014] Unused sequential element buf_size_reg was removed.  [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:215]
+WARNING: [Synth 8-6014] Unused sequential element buf_burst_reg was removed.  [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:216]
+WARNING: [Synth 8-6014] Unused sequential element buf_lock_reg was removed.  [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:217]
+WARNING: [Synth 8-6014] Unused sequential element buf_cache_reg was removed.  [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:218]
+WARNING: [Synth 8-6014] Unused sequential element buf_prot_reg was removed.  [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:219]
+INFO: [Synth 8-6155] done synthesizing module 'confreg' (1#1) [D:/Xilinx_Project/soc_like_0x7C00/src/confreg/confreg.v:43]
+INFO: [Synth 8-6155] done synthesizing module 'bd_top_confreg_0_1' (2#1) [d:/Xilinx_Project/soc_like_0x7C00/bd/bd_top/ip/bd_top_confreg_0_1/synth/bd_top_confreg_0_1.v:58]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[7]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[6]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[5]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[4]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[3]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlen[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awsize[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awsize[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awsize[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awburst[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awburst[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awlock
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awcache[3]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awcache[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awcache[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awcache[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awprot[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awprot[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_awprot[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wid[5]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wid[4]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wid[3]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wid[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wid[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wid[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wstrb[3]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wstrb[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wstrb[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_wstrb[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[7]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[6]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[5]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[4]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[3]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlen[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arsize[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arsize[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arsize[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arburst[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arburst[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arlock
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arcache[3]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arcache[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arcache[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arcache[0]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arprot[2]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arprot[1]
+WARNING: [Synth 8-3331] design confreg has unconnected port s_arprot[0]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 910.242 ; gain = 313.422
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 910.242 ; gain = 313.422
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 910.242 ; gain = 313.422
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.027 . Memory (MB): peak = 910.242 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1033.219 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.090 . Memory (MB): peak = 1034.137 ; gain = 0.918
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a200tfbg676-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'confreg'
+INFO: [Synth 8-5544] ROM "num_csn" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "num_a_g" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 iSTATE4 |                           000001 |                              000
+                  iSTATE |                           100000 |                              001
+                 iSTATE0 |                           010000 |                              010
+                 iSTATE1 |                           001000 |                              011
+                 iSTATE2 |                           000100 |                              100
+                 iSTATE3 |                           000010 |                              111
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'confreg'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 15    
+	               16 Bit    Registers := 1     
+	                8 Bit    Registers := 1     
+	                7 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
+	                4 Bit    Registers := 2     
+	                1 Bit    Registers := 12    
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 5     
+	  10 Input     32 Bit        Muxes := 1     
+	   2 Input     16 Bit        Muxes := 13    
+	   6 Input     16 Bit        Muxes := 1     
+	  17 Input     16 Bit        Muxes := 1     
+	   8 Input      8 Bit        Muxes := 1     
+	   2 Input      6 Bit        Muxes := 7     
+	   6 Input      6 Bit        Muxes := 1     
+	   6 Input      4 Bit        Muxes := 1     
+	  10 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 10    
+	   6 Input      3 Bit        Muxes := 2     
+	   2 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 18    
+	   8 Input      1 Bit        Muxes := 8     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module confreg 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 15    
+	               16 Bit    Registers := 1     
+	                8 Bit    Registers := 1     
+	                7 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
+	                4 Bit    Registers := 2     
+	                1 Bit    Registers := 12    
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 5     
+	  10 Input     32 Bit        Muxes := 1     
+	   2 Input     16 Bit        Muxes := 13    
+	   6 Input     16 Bit        Muxes := 1     
+	  17 Input     16 Bit        Muxes := 1     
+	   8 Input      8 Bit        Muxes := 1     
+	   2 Input      6 Bit        Muxes := 7     
+	   6 Input      6 Bit        Muxes := 1     
+	   6 Input      4 Bit        Muxes := 1     
+	  10 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 10    
+	   6 Input      3 Bit        Muxes := 2     
+	   2 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 18    
+	   8 Input      1 Bit        Muxes := 8     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 740 (col length:100)
+BRAMs: 730 (col length: RAMB18 100 RAMB36 50)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-3917] design bd_top_confreg_0_1 has port s_bresp[1] driven by constant 0
+INFO: [Synth 8-3917] design bd_top_confreg_0_1 has port s_bresp[0] driven by constant 0
+INFO: [Synth 8-3917] design bd_top_confreg_0_1 has port s_rresp[1] driven by constant 0
+INFO: [Synth 8-3917] design bd_top_confreg_0_1 has port s_rresp[0] driven by constant 0
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[7]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[6]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[5]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[4]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[3]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlen[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awsize[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awsize[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awsize[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awburst[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awburst[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awlock
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awcache[3]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awcache[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awcache[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awcache[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awprot[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awprot[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_awprot[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wid[5]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wid[4]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wid[3]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wid[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wid[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wid[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wstrb[3]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wstrb[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wstrb[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_wstrb[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[7]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[6]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[5]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[4]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[3]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlen[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arsize[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arsize[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arsize[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arburst[1]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arburst[0]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arlock
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arcache[3]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arcache[2]
+WARNING: [Synth 8-3331] design bd_top_confreg_0_1 has unconnected port s_arcache[1]
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:17 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |CARRY4 |    28|
+|2     |LUT1   |     7|
+|3     |LUT2   |     9|
+|4     |LUT3   |    81|
+|5     |LUT4   |    73|
+|6     |LUT5   |    99|
+|7     |LUT6   |   157|
+|8     |MUXF7  |    68|
+|9     |FDRE   |   628|
+|10    |FDSE   |    11|
++------+-------+------+
+
+Report Instance Areas: 
++------+---------+--------+------+
+|      |Instance |Module  |Cells |
++------+---------+--------+------+
+|1     |top      |        |  1161|
+|2     |  inst   |confreg |  1160|
++------+---------+--------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 1034.137 ; gain = 437.316
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 52 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:27 . Memory (MB): peak = 1034.137 ; gain = 313.422
+Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1034.137 ; gain = 437.316
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1034.137 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 96 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+WARNING: [Netlist 29-101] Netlist 'bd_top_confreg_0_1' is not ideal for floorplanning, since the cellview 'confreg' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1034.137 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+28 Infos, 109 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 1034.137 ; gain = 735.707
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1034.137 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_confreg_0_1_synth_1/bd_top_confreg_0_1.dcp' has been generated.
+WARNING: [Common 17-576] 'use_project_ipc' is deprecated. This option is deprecated and no longer used.
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1034.137 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_confreg_0_1_synth_1/bd_top_confreg_0_1.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file bd_top_confreg_0_1_utilization_synth.rpt -pb bd_top_confreg_0_1_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Aug 11 18:14:09 2022...

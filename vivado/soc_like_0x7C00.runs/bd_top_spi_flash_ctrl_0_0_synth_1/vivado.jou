@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Thu Aug 11 18:11:30 2022
+# Process ID: 19928
+# Current directory: D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_spi_flash_ctrl_0_0_synth_1
+# Command line: vivado.exe -log bd_top_spi_flash_ctrl_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source bd_top_spi_flash_ctrl_0_0.tcl
+# Log file: D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_spi_flash_ctrl_0_0_synth_1/bd_top_spi_flash_ctrl_0_0.vds
+# Journal file: D:/Xilinx_Project/soc_like_0x7C00/vivado/soc_like_0x7C00.runs/bd_top_spi_flash_ctrl_0_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source bd_top_spi_flash_ctrl_0_0.tcl -notrace

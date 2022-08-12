@@ -1,0 +1,6 @@
+verilog xil_defaultlib  \
+"../../../../../src/gpu_wh/gpu_ram/sim/gpu_ram.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort
