@@ -4,8 +4,10 @@ module reg_file(
     input clk,
     input rst,
 
-    input [9:0]raddr1_i,//{[4:0]addr1,[4:0]addr2}
-    input [9:0]raddr2_i,//{[4:0]addr1,[4:0]addr2}
+    input [9:0]id_raddr1_i,//{[4:0]addr1,[4:0]addr2}
+    input [9:0]id_raddr2_i,//{[4:0]addr1,[4:0]addr2}
+    input [9:0]ex_raddr1_i,//{[4:0]addr1,[4:0]addr2}
+    input [9:0]ex_raddr2_i,//{[4:0]addr1,[4:0]addr2}
 
     input we1_i,
     input [4:0]waddr1_i,
@@ -15,8 +17,10 @@ module reg_file(
     input [31:0]wdata2_i,
 
 
-    output [63:0]reg_rdata1_o,
-    output [63:0]reg_rdata2_o
+    output [63:0]id_reg_rdata1_o,
+    output [63:0]id_reg_rdata2_o,
+    output [63:0]ex_reg_rdata1_o,
+    output [63:0]ex_reg_rdata2_o
     );
 
 	reg [31:0]regs [31:0];
@@ -47,11 +51,20 @@ module reg_file(
 	////////////////////////////////////////////////////////////////
 	/////////////////		regfile ouput		////////////////////
 	////////////////////////////////////////////////////////////////
-	wire [31:0]reg1 = (raddr1_i[9:5] == `Zero5)?`Zero32:regs[raddr1_i[9:5]];
-	wire [31:0]reg2 = (raddr1_i[4:0] == `Zero5)?`Zero32:regs[raddr1_i[4:0]];	
-	assign reg_rdata1_o = {reg1,reg2};
+	wire [31:0]reg1 = (id_raddr1_i[9:5] == `Zero5)?`Zero32:regs[id_raddr1_i[9:5]];
+	wire [31:0]reg2 = (id_raddr1_i[4:0] == `Zero5)?`Zero32:regs[id_raddr1_i[4:0]];	
+	assign id_reg_rdata1_o = {reg1,reg2};
 
-    wire [31:0]reg3 = (raddr2_i[9:5] == `Zero5)?`Zero32:regs[raddr2_i[9:5]];
-	wire [31:0]reg4 = (raddr2_i[4:0] == `Zero5)?`Zero32:regs[raddr2_i[4:0]];	
-	assign reg_rdata2_o = {reg3,reg4};
+    wire [31:0]reg3 = (id_raddr2_i[9:5] == `Zero5)?`Zero32:regs[id_raddr2_i[9:5]];
+	wire [31:0]reg4 = (id_raddr2_i[4:0] == `Zero5)?`Zero32:regs[id_raddr2_i[4:0]];	
+	assign id_reg_rdata2_o = {reg3,reg4};
+
+    wire [31:0]reg5 = (ex_raddr1_i[9:5] == `Zero5)?`Zero32:regs[ex_raddr1_i[9:5]];
+	wire [31:0]reg6 = (ex_raddr1_i[4:0] == `Zero5)?`Zero32:regs[ex_raddr1_i[4:0]];	
+	assign ex_reg_rdata1_o = {reg5,reg6};
+
+    wire [31:0]reg7 = (ex_raddr2_i[9:5] == `Zero5)?`Zero32:regs[ex_raddr2_i[9:5]];
+	wire [31:0]reg8 = (ex_raddr2_i[4:0] == `Zero5)?`Zero32:regs[ex_raddr2_i[4:0]];	
+	assign ex_reg_rdata2_o = {reg7,reg8};
+
 endmodule

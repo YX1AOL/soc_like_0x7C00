@@ -11,17 +11,17 @@ module seg_id(
     //pipeline signal
     input           ex_allowin_i,
     input  [1:0]    issue_mode_i,
-    input  [266:0]  issue_id_bus_primary_i,
-    input  [170:0]  issue_id_bus_secondary_i,
+    input  [267:0]  issue_id_bus_primary_i,
+    input  [171:0]  issue_id_bus_secondary_i,
     output          id_allowin_o,
     output          id_ex_valid_o,
-    output [288:0]  id_ex_bus_primary_o,
-    output [192:0]  id_ex_bus_secondary_o,
+    output [300:0]  id_ex_bus_primary_o,
+    output [205:0]  id_ex_bus_secondary_o,
 
-    //LOAD stall signal
-    input  [29:0]   ex_id_bus_primary_i,
-    input  [8:0]    mem1_id_bus_primary_i,
-    input  [9:0]    mem2_id_bus_primary_i,
+    //other segment stall signal
+    input  [11:0]   ex_up_bus_i,
+    input  [5:0]    mem1_up_bus_i,
+    input  [5:0]    mem2_up_bus_i,
 
     //regile and bypass
     input  [303:0]  reg_bypass_i,
@@ -65,6 +65,7 @@ module seg_id(
     reg [31:0] predictor_addr_primary;
     reg        predictor_pht_flag_primary;
     reg        predictor_bht_flag_primary;
+    reg        allow_delay_exe_primary;
     
     reg        valid_secondary;
     reg [31:0] inst_addr_secondary;
@@ -85,13 +86,15 @@ module seg_id(
     reg [31:0] predictor_addr_secondary;
     reg        predictor_pht_flag_secondary;
     reg        predictor_bht_flag_secondary;
+    reg        allow_delay_exe_secondary;
     //-------------------------------------------------------------
     //                        FIFO          
     //-------------------------------------------------------------
     wire fllush_all       =  exception_flag_i || branch_flag_i && !delayslot;
     wire fllush_secondary =  branch_flag_i && delayslot;
-
-    assign id_ready_go  = !stall_relvance_primary && (!valid_secondary || !stall_relvance_secondary) && !branch_flag_i;
+    
+    //TODO:(valid_secondary && !stall_relvance_secondary)
+    assign id_ready_go  = !stall_relvance_primary && !stall_relvance_secondary && !branch_flag_i;
     assign id_allowin   = !id_valid || id_ready_go && ex_allowin_i;
     assign id_ex_valid  = id_valid && id_ready_go;
     always @(posedge clk) begin
@@ -129,6 +132,7 @@ module seg_id(
             predictor_addr_primary      <=  issue_id_bus_primary_i[264:233];
             predictor_pht_flag_primary  <=  issue_id_bus_primary_i[265];
             predictor_bht_flag_primary  <=  issue_id_bus_primary_i[266];
+            allow_delay_exe_primary     <=  issue_id_bus_primary_i[267];
         end
 
         if(id_allowin && (issue_mode_i != `NoIssue)) begin
@@ -150,6 +154,7 @@ module seg_id(
             predictor_addr_secondary    <= {32{issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[168:137];
             predictor_pht_flag_secondary<= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[169];
             predictor_bht_flag_secondary<= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[170];
+            allow_delay_exe_secondary    <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[171];
         end
     end
 
@@ -172,104 +177,117 @@ module seg_id(
     //            select opdata from bypass and regfile
     //-------------------------------------------------------------
     //----- bypass bus decode -----
-    wire [3:0]ex_alusel_primary         = ex_id_bus_primary_i[3:0];
-    wire [4:0]ex_reg_waddr_primary      = ex_id_bus_primary_i[8:4];
-    wire [7:0]ex_aluop_primary          = ex_id_bus_primary_i[16:9];
-    wire [4:0]ex_reg_waddr_secondary    = ex_id_bus_primary_i[21:17];
-    wire [7:0]ex_aluop_secondary        = ex_id_bus_primary_i[29:22];
-
-    wire [3:0]mem1_alusel_primary       = mem1_id_bus_primary_i[3:0];
-    wire [4:0]mem1_reg_waddr_primary    = mem1_id_bus_primary_i[8:4];
-    wire [3:0]mem2_alusel_primary       = mem2_id_bus_primary_i[3:0];
-    wire [4:0]mem2_reg_waddr_primary    = mem2_id_bus_primary_i[8:4];
-    wire      mem2_ready_go             = mem2_id_bus_primary_i[9];
-
     wire        ex_reg1_w       = reg_bypass_i[0];
-    wire [4:0]  ex_reg1_addr    = reg_bypass_i[5:1];
+    wire [4:0]  ex_reg1_waddr   = reg_bypass_i[5:1];
     wire [31:0] ex_reg1_wdata   = reg_bypass_i[37:6];
     wire        ex_reg2_w       = reg_bypass_i[38];
-    wire [4:0]  ex_reg2_addr    = reg_bypass_i[43:39];
+    wire [4:0]  ex_reg2_waddr   = reg_bypass_i[43:39];
     wire [31:0] ex_reg2_wdata   = reg_bypass_i[75:44];
     wire        mem1_reg1_w     = reg_bypass_i[76];
-    wire [4:0]  mem1_reg1_addr  = reg_bypass_i[81:77];
+    wire [4:0]  mem1_reg1_waddr = reg_bypass_i[81:77];
     wire [31:0] mem1_reg1_wdata = reg_bypass_i[113:82];
     wire        mem1_reg2_w     = reg_bypass_i[114];
-    wire [4:0]  mem1_reg2_addr  = reg_bypass_i[119:115];
+    wire [4:0]  mem1_reg2_waddr = reg_bypass_i[119:115];
     wire [31:0] mem1_reg2_wdata = reg_bypass_i[151:120];
     wire        mem2_reg1_w     = reg_bypass_i[152];
-    wire [4:0]  mem2_reg1_addr  = reg_bypass_i[157:153];
+    wire [4:0]  mem2_reg1_waddr = reg_bypass_i[157:153];
     wire [31:0] mem2_reg1_wdata = reg_bypass_i[189:158];
     wire        mem2_reg2_w     = reg_bypass_i[190];
-    wire [4:0]  mem2_reg2_addr  = reg_bypass_i[195:191];
+    wire [4:0]  mem2_reg2_waddr = reg_bypass_i[195:191];
     wire [31:0] mem2_reg2_wdata = reg_bypass_i[227:196];
     wire        wb_reg1_w       = reg_bypass_i[228];
-    wire [4:0]  wb_reg1_addr    = reg_bypass_i[233:229];
+    wire [4:0]  wb_reg1_waddr   = reg_bypass_i[233:229];
     wire [31:0] wb_reg1_wdata   = reg_bypass_i[265:234];
     wire        wb_reg2_w       = reg_bypass_i[266];
-    wire [4:0]  wb_reg2_addr    = reg_bypass_i[271:267];
+    wire [4:0]  wb_reg2_waddr   = reg_bypass_i[271:267];
     wire [31:0] wb_reg2_wdata   = reg_bypass_i[303:272];
 
     //-------------select opdata and bupass---------------------------
-    wire [31:0] opdata1_primary  =      (!reg1_read_primary                                   )?  imm_primary:
-                                        (ex_reg2_w   &&  rsrt_primary_o[9:5] == ex_reg2_addr  )?  ex_reg2_wdata:
-                                        (ex_reg1_w   &&  rsrt_primary_o[9:5] == ex_reg1_addr  )?  ex_reg1_wdata:
-                                        (mem1_reg2_w &&  rsrt_primary_o[9:5] == mem1_reg2_addr)?  mem1_reg2_wdata:
-                                        (mem1_reg1_w &&  rsrt_primary_o[9:5] == mem1_reg1_addr)?  mem1_reg1_wdata:
-                                        (mem2_reg2_w &&  rsrt_primary_o[9:5] == mem2_reg2_addr)?  mem2_reg2_wdata:
-                                        (mem2_reg1_w &&  rsrt_primary_o[9:5] == mem2_reg1_addr)?  mem2_reg1_wdata:
-                                        (wb_reg2_w   &&  rsrt_primary_o[9:5] == wb_reg2_addr  )?  wb_reg2_wdata:
-                                        (wb_reg1_w   &&  rsrt_primary_o[9:5] == wb_reg1_addr  )?  wb_reg1_wdata:reg_rdata_primary_i[63:32];
+    wire [31:0] opdata1_primary  =      (!reg1_read_primary                                       )?  imm_primary:
+                                        (ex_reg2_w   &&  reg1_read_addr_primary == ex_reg2_waddr  )?  ex_reg2_wdata:
+                                        (ex_reg1_w   &&  reg1_read_addr_primary == ex_reg1_waddr  )?  ex_reg1_wdata:
+                                        (mem1_reg2_w &&  reg1_read_addr_primary == mem1_reg2_waddr)?  mem1_reg2_wdata:
+                                        (mem1_reg1_w &&  reg1_read_addr_primary == mem1_reg1_waddr)?  mem1_reg1_wdata:
+                                        (mem2_reg2_w &&  reg1_read_addr_primary == mem2_reg2_waddr)?  mem2_reg2_wdata:
+                                        (mem2_reg1_w &&  reg1_read_addr_primary == mem2_reg1_waddr)?  mem2_reg1_wdata:
+                                        (wb_reg2_w   &&  reg1_read_addr_primary == wb_reg2_waddr  )?  wb_reg2_wdata:
+                                        (wb_reg1_w   &&  reg1_read_addr_primary == wb_reg1_waddr  )?  wb_reg1_wdata:reg_rdata_primary_i[63:32];
     
-    wire [31:0] opdata2_primary  =      (!reg2_read_primary                                     )?  imm_primary:
-                                        (ex_reg2_w   &&  rsrt_primary_o[4:0] == ex_reg2_addr    )?  ex_reg2_wdata:
-                                        (ex_reg1_w   &&  rsrt_primary_o[4:0] == ex_reg1_addr    )?  ex_reg1_wdata:
-                                        (mem1_reg2_w &&  rsrt_primary_o[4:0] == mem1_reg2_addr  )?  mem1_reg2_wdata:
-                                        (mem1_reg1_w &&  rsrt_primary_o[4:0] == mem1_reg1_addr  )?  mem1_reg1_wdata:
-                                        (mem2_reg2_w &&  rsrt_primary_o[4:0] == mem2_reg2_addr  )?  mem2_reg2_wdata:
-                                        (mem2_reg1_w &&  rsrt_primary_o[4:0] == mem2_reg1_addr  )?  mem2_reg1_wdata:
-                                        (wb_reg2_w   &&  rsrt_primary_o[4:0] == wb_reg2_addr    )?  wb_reg2_wdata:
-                                        (wb_reg1_w   &&  rsrt_primary_o[4:0] == wb_reg1_addr    )?  wb_reg1_wdata:reg_rdata_primary_i[31:0];
+    wire [31:0] opdata2_primary  =      (!reg2_read_primary                                         )?  imm_primary:
+                                        (ex_reg2_w   &&  reg2_read_addr_primary == ex_reg2_waddr    )?  ex_reg2_wdata:
+                                        (ex_reg1_w   &&  reg2_read_addr_primary == ex_reg1_waddr    )?  ex_reg1_wdata:
+                                        (mem1_reg2_w &&  reg2_read_addr_primary == mem1_reg2_waddr  )?  mem1_reg2_wdata:
+                                        (mem1_reg1_w &&  reg2_read_addr_primary == mem1_reg1_waddr  )?  mem1_reg1_wdata:
+                                        (mem2_reg2_w &&  reg2_read_addr_primary == mem2_reg2_waddr  )?  mem2_reg2_wdata:
+                                        (mem2_reg1_w &&  reg2_read_addr_primary == mem2_reg1_waddr  )?  mem2_reg1_wdata:
+                                        (wb_reg2_w   &&  reg2_read_addr_primary == wb_reg2_waddr    )?  wb_reg2_wdata:
+                                        (wb_reg1_w   &&  reg2_read_addr_primary == wb_reg1_waddr    )?  wb_reg1_wdata:reg_rdata_primary_i[31:0];
 
-    wire [31:0] opdata1_secondary   =   (!reg1_read_secondary                                   )?  imm_secondary:
-                                        (ex_reg2_w   &&  rsrt_secondary_o[9:5] == ex_reg2_addr  )?  ex_reg2_wdata:
-                                        (ex_reg1_w   &&  rsrt_secondary_o[9:5] == ex_reg1_addr  )?  ex_reg1_wdata:
-                                        (mem1_reg2_w &&  rsrt_secondary_o[9:5] == mem1_reg2_addr)?  mem1_reg2_wdata:
-                                        (mem1_reg1_w &&  rsrt_secondary_o[9:5] == mem1_reg1_addr)?  mem1_reg1_wdata:
-                                        (mem2_reg2_w &&  rsrt_secondary_o[9:5] == mem2_reg2_addr)?  mem2_reg2_wdata:
-                                        (mem2_reg1_w &&  rsrt_secondary_o[9:5] == mem2_reg1_addr)?  mem2_reg1_wdata:
-                                        (wb_reg2_w   &&  rsrt_secondary_o[9:5] == wb_reg2_addr  )?  wb_reg2_wdata:
-                                        (wb_reg1_w   &&  rsrt_secondary_o[9:5] == wb_reg1_addr  )?  wb_reg1_wdata:reg_rdata_secondary_i[63:32];
+    wire [31:0] opdata1_secondary   =   (!reg1_read_secondary                                       )?  imm_secondary:
+                                        (ex_reg2_w   &&  reg1_read_addr_secondary == ex_reg2_waddr  )?  ex_reg2_wdata:
+                                        (ex_reg1_w   &&  reg1_read_addr_secondary == ex_reg1_waddr  )?  ex_reg1_wdata:
+                                        (mem1_reg2_w &&  reg1_read_addr_secondary == mem1_reg2_waddr)?  mem1_reg2_wdata:
+                                        (mem1_reg1_w &&  reg1_read_addr_secondary == mem1_reg1_waddr)?  mem1_reg1_wdata:
+                                        (mem2_reg2_w &&  reg1_read_addr_secondary == mem2_reg2_waddr)?  mem2_reg2_wdata:
+                                        (mem2_reg1_w &&  reg1_read_addr_secondary == mem2_reg1_waddr)?  mem2_reg1_wdata:
+                                        (wb_reg2_w   &&  reg1_read_addr_secondary == wb_reg2_waddr  )?  wb_reg2_wdata:
+                                        (wb_reg1_w   &&  reg1_read_addr_secondary == wb_reg1_waddr  )?  wb_reg1_wdata:reg_rdata_secondary_i[63:32];
     
-    wire [31:0] opdata2_secondary   =    (!reg2_read_secondary                                   )?  imm_secondary:
-                                        (ex_reg2_w   &&  rsrt_secondary_o[4:0] == ex_reg2_addr  )?  ex_reg2_wdata:
-                                        (ex_reg1_w   &&  rsrt_secondary_o[4:0] == ex_reg1_addr  )?  ex_reg1_wdata:
-                                        (mem1_reg2_w &&  rsrt_secondary_o[4:0] == mem1_reg2_addr)?  mem1_reg2_wdata:
-                                        (mem1_reg1_w &&  rsrt_secondary_o[4:0] == mem1_reg1_addr)?  mem1_reg1_wdata:
-                                        (mem2_reg2_w &&  rsrt_secondary_o[4:0] == mem2_reg2_addr)?  mem2_reg2_wdata:
-                                        (mem2_reg1_w &&  rsrt_secondary_o[4:0] == mem2_reg1_addr)?  mem2_reg1_wdata:
-                                        (wb_reg2_w   &&  rsrt_secondary_o[4:0] == wb_reg2_addr  )?  wb_reg2_wdata:
-                                        (wb_reg1_w   &&  rsrt_secondary_o[4:0] == wb_reg1_addr  )?  wb_reg1_wdata:reg_rdata_secondary_i[31:0];
+    wire [31:0] opdata2_secondary   =    (!reg2_read_secondary                                      )?  imm_secondary:
+                                        (ex_reg2_w   &&  reg2_read_addr_secondary == ex_reg2_waddr  )?  ex_reg2_wdata:
+                                        (ex_reg1_w   &&  reg2_read_addr_secondary == ex_reg1_waddr  )?  ex_reg1_wdata:
+                                        (mem1_reg2_w &&  reg2_read_addr_secondary == mem1_reg2_waddr)?  mem1_reg2_wdata:
+                                        (mem1_reg1_w &&  reg2_read_addr_secondary == mem1_reg1_waddr)?  mem1_reg1_wdata:
+                                        (mem2_reg2_w &&  reg2_read_addr_secondary == mem2_reg2_waddr)?  mem2_reg2_wdata:
+                                        (mem2_reg1_w &&  reg2_read_addr_secondary == mem2_reg1_waddr)?  mem2_reg1_wdata:
+                                        (wb_reg2_w   &&  reg2_read_addr_secondary == wb_reg2_waddr  )?  wb_reg2_wdata:
+                                        (wb_reg1_w   &&  reg2_read_addr_secondary == wb_reg1_waddr  )?  wb_reg1_wdata:reg_rdata_secondary_i[31:0];
 
     //-------------------------------------------------------------
     //                   judging LOAD relvance
     //-------------------------------------------------------------
-
-    assign stall_relvance_primary    =  ((ex_alusel_primary == `LOAD ||ex_aluop_primary == `SC_OP)                         && ( |ex_reg_waddr_primary)   && ((ex_reg_waddr_primary   == rsrt_primary_o[9:5]  && reg1_read_primary) || (ex_reg_waddr_primary   == rsrt_primary_o[4:0] && reg2_read_primary))) |   
-                                        (mem1_alusel_primary == `LOAD                                                      && ( |mem1_reg_waddr_primary) && ((mem1_reg_waddr_primary == rsrt_primary_o[9:5]  && reg1_read_primary) || (mem1_reg_waddr_primary == rsrt_primary_o[4:0] && reg2_read_primary))) |
-                                `ifdef MEM2_bypass        
-                                        (!mem2_ready_go && mem2_alusel_primary == `LOAD                                    && ( |mem2_reg_waddr_primary) && ((mem2_reg_waddr_primary == rsrt_primary_o[9:5]  && reg1_read_primary) || (mem2_reg_waddr_primary == rsrt_primary_o[4:0] && reg2_read_primary))) ;
-                                `else
-                                        (mem2_alusel_primary == `LOAD                                                      && ( |mem2_reg_waddr_primary) && ((mem2_reg_waddr_primary == rsrt_primary_o[9:5]  && reg1_read_primary) || (mem2_reg_waddr_primary == rsrt_primary_o[4:0] && reg2_read_primary))) ;
-                                `endif
-
-    assign stall_relvance_secondary  =  ((ex_alusel_primary == `LOAD ||ex_aluop_primary == `SC_OP)                         && ( |ex_reg_waddr_primary)   && ((ex_reg_waddr_primary   == rsrt_secondary_o[9:5] && reg1_read_secondary )  || (ex_reg_waddr_primary    == rsrt_secondary_o[4:0] && reg2_read_secondary ))) |   
-                                        (mem1_alusel_primary == `LOAD                                                      && ( |mem1_reg_waddr_primary) && ((mem1_reg_waddr_primary == rsrt_secondary_o[9:5] && reg1_read_secondary ) || (mem1_reg_waddr_primary  == rsrt_secondary_o[4:0] && reg2_read_secondary ))) |
-                                `ifdef MEM2_bypass
-                                        (!mem2_ready_go && mem2_alusel_primary == `LOAD                                    && ( |mem2_reg_waddr_primary) && ((mem2_reg_waddr_primary == rsrt_secondary_o[9:5] && reg1_read_secondary ) || (mem2_reg_waddr_primary  == rsrt_secondary_o[4:0] && reg2_read_secondary ))) ;
-                                `else
-                                        (mem2_alusel_primary == `LOAD                                                      && ( |mem2_reg_waddr_primary) && ((mem2_reg_waddr_primary == rsrt_secondary_o[9:5] && reg1_read_secondary ) || (mem2_reg_waddr_primary  == rsrt_secondary_o[4:0] && reg2_read_secondary ))) ;
-                                `endif
+    wire       ex_stall_primary   = ex_up_bus_i[0];
+    wire [4:0] ex_waddr_primary   = ex_up_bus_i[5:1];
+    wire       ex_stall_secondary = ex_up_bus_i[6];
+    wire [4:0] ex_waddr_secondary = ex_up_bus_i[11:7];
     
+    wire       mem1_stall_primary   = mem1_up_bus_i[0];
+    wire [4:0] mem1_waddr_primary   = mem1_up_bus_i[5:1];
+
+    wire       mem2_stall_primary   = mem2_up_bus_i[0];
+    wire [4:0] mem2_waddr_primary   = mem2_up_bus_i[5:1];
+
+    wire opdata1_stall_primary = reg1_read_primary && |reg1_read_addr_primary && (
+                                        (reg1_read_addr_primary == ex_waddr_primary    ) && (ex_stall_primary     ) ||
+                                        (reg1_read_addr_primary == ex_waddr_secondary  ) && (ex_stall_secondary   ) ||
+                                        (reg1_read_addr_primary == mem1_waddr_primary  ) && (mem1_stall_primary   ) ||
+                                        (reg1_read_addr_primary == mem2_waddr_primary  ) && (mem2_stall_primary   )
+                                    );
+    wire opdata2_stall_primary = reg2_read_primary && |reg2_read_addr_primary && (
+                                        (reg2_read_addr_primary == ex_waddr_primary    ) && (ex_stall_primary     ) ||
+                                        (reg2_read_addr_primary == ex_waddr_secondary  ) && (ex_stall_secondary   ) ||
+                                        (reg2_read_addr_primary == mem1_waddr_primary  ) && (mem1_stall_primary   ) ||
+                                        (reg2_read_addr_primary == mem2_waddr_primary  ) && (mem2_stall_primary   )
+                                    );
+    wire opdata1_stall_secondary = reg1_read_secondary && |reg1_read_addr_secondary && (
+                                        (reg1_read_addr_secondary == ex_waddr_primary    ) && (ex_stall_primary     ) ||
+                                        (reg1_read_addr_secondary == ex_waddr_secondary  ) && (ex_stall_secondary   ) ||
+                                        (reg1_read_addr_secondary == mem1_waddr_primary  ) && (mem1_stall_primary   ) ||
+                                        (reg1_read_addr_secondary == mem2_waddr_primary  ) && (mem2_stall_primary   )
+                                    );
+    wire opdata2_stall_secondary = reg2_read_secondary && |reg2_read_addr_secondary && (
+                                        (reg2_read_addr_secondary == ex_waddr_primary    ) && (ex_stall_primary     ) ||
+                                        (reg2_read_addr_secondary == ex_waddr_secondary  ) && (ex_stall_secondary   ) ||
+                                        (reg2_read_addr_secondary == mem1_waddr_primary  ) && (mem1_stall_primary   ) ||
+                                        (reg2_read_addr_secondary == mem2_waddr_primary  ) && (mem2_stall_primary   )
+                                    );
+    
+    assign stall_relvance_primary   = !allow_delay_exe_primary && (opdata1_stall_primary | opdata2_stall_primary);
+    assign stall_relvance_secondary = !allow_delay_exe_secondary && (opdata1_stall_secondary | opdata2_stall_secondary);
+    
+    wire need_delay_exe_primary   = allow_delay_exe_primary && (opdata1_stall_primary | opdata2_stall_primary);
+    wire need_delay_exe_secondary = allow_delay_exe_secondary && (opdata1_stall_secondary | opdata2_stall_secondary);
+
     //-------------------------------------------------------------
     //                      output
     //-------------------------------------------------------------
@@ -278,12 +296,11 @@ module seg_id(
     assign rsrt_secondary_o = {reg1_read_addr_secondary,reg2_read_addr_secondary};
 
     //----- pipeline output -----
-    wire return_flag = (aluop_primary == `JR_OP) && (reg1_read_addr_primary == 5'b11111);
-
     assign id_allowin_o = id_allowin;
     assign id_ex_valid_o = id_ex_valid;
-    assign id_ex_bus_primary_o  =   {289{id_valid}} & 
-                                    {   predictor_bht_flag_primary,predictor_pht_flag_primary,predictor_addr_primary,predictor_flag_primary,branch_addr_primary_tmp,return_flag,
+    assign id_ex_bus_primary_o  =   {301{id_valid}} & 
+                                    {   reg2_read_addr_primary,reg2_read_primary,reg1_read_addr_primary,reg1_read_primary,need_delay_exe_primary,
+                                        predictor_bht_flag_primary,predictor_pht_flag_primary,predictor_addr_primary,predictor_flag_primary,branch_addr_primary_tmp,
                                         hilo_write_primary,
                                         cp0_addr_primary,cp0_write_primary,
                                         mem_addr_primary,
@@ -293,8 +310,9 @@ module seg_id(
                                         reg_waddr_primary,reg_write_primary,
                                         inst_addr_primary };
 
-    assign id_ex_bus_secondary_o =  {193{valid_secondary}} &  
-                                    {   predictor_bht_flag_secondary,predictor_pht_flag_secondary,predictor_addr_secondary,predictor_flag_secondary,
+    assign id_ex_bus_secondary_o =  {206{valid_secondary}} &  
+                                    {   reg2_read_addr_secondary,reg2_read_secondary,reg1_read_addr_secondary,reg1_read_secondary,need_delay_exe_secondary,
+                                        predictor_bht_flag_secondary,predictor_pht_flag_secondary,predictor_addr_secondary,predictor_flag_secondary,
                                         hilo_write_secondary,
                                         cp0_addr_secondary,cp0_write_secondary,
                                         in_delayslot_secondary,exception_type_secondary,

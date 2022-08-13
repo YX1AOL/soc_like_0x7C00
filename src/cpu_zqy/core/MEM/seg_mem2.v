@@ -18,9 +18,9 @@ module seg_mem2(
     input [31:0]    mem_rdata_i,
     input           data_data_ok_i,
     
-    //bus
-    output [9:0] mem2_id_bus_primary_o,//LOAD STALL
-    output [75:0]mem2_bypass_o
+    //stall and bypass bus
+    output [5 :0]   mem2_up_bus_o,
+    output [75:0]   mem2_bypass_o
     
 );
     //-------------------------------------------------------------
@@ -55,8 +55,6 @@ module seg_mem2(
     //-------------------------------------------------------------
     //                     mem1_mem2 FIFO
     //-------------------------------------------------------------
-  
-
     assign mem2_ready_go = (inst_is_memory && !data_data_ok_i)? 1'b0:1'b1;
     assign mem2_allowin = !mem2_valid || mem2_ready_go && wb_allowin_i;
     assign mem2_wb_valid = mem2_valid && mem2_ready_go;
@@ -114,14 +112,14 @@ module seg_mem2(
     //-------------------------------------------------------------
     //                            output     
     //-------------------------------------------------------------
+    //----- mem2_to_id stall bus and bypass bus -----
+    assign mem2_bypass_o = {76{mem2_valid}} & {reg_wdata_secondary,reg_waddr_secondary,reg_write_secondary,(alusel_primary == `LOAD)?loadout:reg_wdata_primary,reg_waddr_primary,reg_write_primary}; 
+    assign mem2_up_bus_o = {6{mem2_valid}}  & {reg_waddr_primary,(alusel_primary == `LOAD && !data_data_ok_i)};
+
     //----- pipeline output -----
     assign mem2_allowin_o  = mem2_allowin;
     assign mem2_wb_valid_o = mem2_wb_valid;
     assign mem2_wb_bus_primary_o   = {70{mem2_valid}} & {(alusel_primary == `LOAD)?loadout:reg_wdata_primary,reg_waddr_primary,reg_write_primary,inst_addr_primary};
     assign mem2_wb_bus_secondary_o = {70{mem2_valid}} & {reg_wdata_secondary,reg_waddr_secondary,reg_write_secondary,inst_addr_secondary};
-
-    //----- mem2_to_id stall bus and bypass bus -----
-    assign mem2_bypass_o         = {76{mem2_valid}} & {reg_wdata_secondary,reg_waddr_secondary,reg_write_secondary,(alusel_primary == `LOAD)?loadout:reg_wdata_primary,reg_waddr_primary,reg_write_primary}; 
-    assign mem2_id_bus_primary_o = {10{mem2_valid}} & {mem2_ready_go,reg_waddr_primary,alusel_primary};
 
 endmodule

@@ -1,12 +1,13 @@
-// date:        2021/07/09
+// date:        2022/08/06
 // by:          kun
 // module:      data_uncache
 // description: sram-axi bridge, used to handle uncached data
 //              transactions, a FIFO of 32 depth used as a store
-//              buffer to accelerate store transactions
+//              buffer to accelerate store transactions, the FIFO
+//              can be disabled
 //* NOTE:       transactions must be in-order, so we need to empty
 //*             the store buffer to handle a new read request
-//! Better to use 'miscellaneous/data_uncache_nofifo.v' for correctness
+//! Better to disable USE_UNCACHE_FIFO for correctness
 
 `timescale 1ns / 1ps
 
@@ -72,6 +73,11 @@ module data_uncache (
     output        bready
 );
 
+    wire        fifo_req_addr_ok;
+    wire        fifo_req_data_ok;
+    wire [31:0] fifo_req_rdata;
+
+`ifdef USE_UNCACHE_FIFO
     // Structure:
     //      SRAM <---> Store Buffer <---> SRAM-AXI Bridge
 
@@ -150,9 +156,9 @@ module data_uncache (
     wire fifo_bypass_data_ok = fifo_empty && !fifo_last_trans_wait;
 
     // Request from CPU to FIFO
-    assign data_rdata   = fifo_req_rdata;
     assign data_addr_ok = data_req && (data_wr ? fifo_write : (fifo_bypass_addr_ok && fifo_req_addr_ok));
     assign data_data_ok = fifo_bypass_data_ok ? fifo_req_data_ok : fifo_data_ok_reg;
+    assign data_rdata   = fifo_req_rdata;
 
     // Request from FIFO to SRAM-AXI Bridge
     // CPU write req -> store, CPU read req -> bypass
@@ -163,10 +169,19 @@ module data_uncache (
     wire [31:0] fifo_req_addr    = fifo_bypass_req ? data_addr  : fifo_addr [fifo_head_ptr];
     wire [31:0] fifo_req_wdata   = fifo_bypass_req ? data_wdata : fifo_wdata[fifo_head_ptr];
     wire [3 :0] fifo_req_wstrb   = fifo_bypass_req ? data_wstrb : fifo_wstrb[fifo_head_ptr];
+`else
+    // NO FIFO, just bypass the signals
+    assign data_addr_ok = fifo_req_addr_ok;
+    assign data_data_ok = fifo_req_data_ok;
+    assign data_rdata   = fifo_req_rdata;
 
-    wire [31:0] fifo_req_rdata;
-    wire        fifo_req_addr_ok;
-    wire        fifo_req_data_ok;
+    wire        fifo_req_req     = data_req;
+    wire        fifo_req_wr      = data_wr;
+    wire [2 :0] fifo_req_size    = data_size;
+    wire [31:0] fifo_req_addr    = data_addr;
+    wire [31:0] fifo_req_wdata   = data_wdata;
+    wire [3 :0] fifo_req_wstrb   = data_wstrb;
+`endif
 
     //* SRAM-AXI Bridge
 

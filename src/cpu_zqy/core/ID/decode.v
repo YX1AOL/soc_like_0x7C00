@@ -3,19 +3,23 @@
 module decode(
     //instruction
     input [95:0]    inst_bus_i,
-    output [231:0]  decode_bus_o,
+    output [232:0]  decode_bus_o,
     //output
     output       reg_write_o,
     output [4:0] reg_waddr_o,
-    output [3:0] alusel_o,
-    output [7:0] aluop_o,
+    
     output       reg1_read_o,
     output       reg2_read_o,
     output [4:0] reg1_read_addr_o,
     output [4:0] reg2_read_addr_o,
-    output       cp0_write_o,
-    output [7:0] cp0_addr_o,
-    output       hilo_write_o
+
+    output       hilo_write_o,
+    output       hilo_read_o,
+    
+    output       not_2_issue_o,
+    output       wait_delaysolt_o,
+    output       only_issue_o    
+
     );
     //-------------------------------------------------------------
     //                  input bus decode
@@ -223,13 +227,15 @@ module decode(
                             `BRANCH     &   {4{ins_jr     | ins_jalr     | ins_j        | ins_jal      | ins_bltz     | ins_bltzal   | ins_bgez     | ins_bgezal   | ins_beq      | ins_bgtz     | ins_blez     | ins_bne   }} |
                             `LOAD       &   {4{ins_lb     | ins_lbu      | ins_lh       | ins_lhu      | ins_lw       | ins_ll       | ins_lwl      | ins_lwr                                                               }} |
                             `STORE      &   {4{ins_sb     | ins_sh       | ins_sw       | ins_sc       | ins_swl      | ins_swr                                                                                             }} |
-                            `MULDIV     &   {4{ins_mult   | ins_multu    | ins_div      | ins_divu     | ins_mul      | ins_madd     | ins_maddu    | ins_msub     | ins_msubu                                              }} |
+                            `MULL       &   {4{ins_mult   | ins_multu    | ins_mul      | ins_madd     | ins_maddu    | ins_msub     | ins_msubu                                                                            }} |
+                            `DIVV       &   {4{ins_div    | ins_divu                                                                                                                                                        }} |
                             `MOVE       &   {4{ins_mflo   | ins_mfhi     | ins_mthi     | ins_mtlo     | ins_movn     | ins_movz                                                                                            }} |
                             `CP0        &   {4{ins_mtc0   | ins_mfc0     | ins_eret     | ins_wait     | ins_rdhwr                                                                                                          }} |
                             `TLB        &   {4{ins_tlbp   | ins_tlbr     | ins_tlbwi    | ins_tlbwr                                                                                                                         }} |
                             `LIKELY     &   {4{ins_beql   | ins_bgezall  | ins_bgezl    | ins_bgtzl    | ins_blezl    | ins_bltzl    | ins_bnel     | ins_bltzall                                                           }} |
                             `CACHE      &   {4{ins_cache                                                                                                                                                                    }} ;
-    
+
+
     assign aluop        =   `AND_OP       & {8{ins_and   | ins_andi             }} |
                             `OR_OP        & {8{ins_or    | ins_ori  | ins_lui   }} |
                             `NOR_OP       & {8{ins_nor                          }} |
@@ -348,6 +354,11 @@ module decode(
                             {pc_plus_4[31:28],inst_data[25:0],2'b00} & {32{ins_j    | ins_jal }};
 
     wire hilo_write     =   ins_mult   | ins_multu | ins_div   | ins_divu  | ins_mthi  | ins_mtlo  | ins_madd  | ins_maddu | ins_msub  | ins_msubu;
+
+    wire delay_exe      =   ins_addu    | ins_addiu | ins_subu  | ins_slt   | ins_sltu  | ins_slti  | ins_sltiu | 
+                            ins_and     | ins_andi  | ins_lui   | ins_nor   | ins_or    | ins_ori   | ins_xor   | ins_xori  |
+                            ins_sll     | ins_sllv  | ins_sra   | ins_srav  | ins_srl   | ins_srlv  |
+                            ins_movn    | ins_movz  ;
     //-------------------------------------------------------------
     //                      exception check
     //-------------------------------------------------------------
@@ -392,7 +403,8 @@ module decode(
     //-------------------------------------------------------------
     //                      output bus encode
     //-------------------------------------------------------------
-    assign decode_bus_o = { branch_addr,hilo_write,cp0_addr,cp0_write,mem_addr,exception_vector,link_addr,
+    assign decode_bus_o = { delay_exe,
+                            branch_addr,hilo_write,cp0_addr,cp0_write,mem_addr,exception_vector,link_addr,
                             imm,reg2_read_addr,reg2_read,reg1_read_addr,reg1_read,
                             aluop,alusel,
                             reg_addr,reg_write,
@@ -400,14 +412,23 @@ module decode(
 
     assign reg_write_o      = reg_write;
     assign reg_waddr_o      = reg_addr;
-    assign alusel_o         = alusel;
-    assign aluop_o          = aluop;
     assign reg1_read_o      = reg1_read;
     assign reg2_read_o      = reg2_read;
     assign reg1_read_addr_o =  reg1_read_addr;
     assign reg2_read_addr_o =  reg2_read_addr;
-    assign cp0_write_o      =  cp0_write;
-    assign cp0_addr_o       =  cp0_addr;
     assign hilo_write_o     =  hilo_write;
+    assign hilo_read_o      = ins_mfhi || ins_mflo;
+
+    wire sel_load   = ins_lb | ins_lbu | ins_lh | ins_lhu | ins_lw  | ins_ll | ins_lwl| ins_lwr;
+    wire sel_store  = ins_sb | ins_sh  | ins_sw | ins_sc  | ins_swl | ins_swr;
+    wire sel_muldiv = ins_mult| ins_multu | ins_div | ins_divu | ins_mul | ins_madd | ins_maddu | ins_msub | ins_msubu;
+    wire sel_cloz   = ins_clz | ins_clo;
+    
+    wire sel_branch = ins_jr | ins_jalr | ins_j | ins_jal | ins_bltz | ins_bltzal | ins_bgez | ins_bgezal | ins_beq | ins_bgtz | ins_blez | ins_bne;
+    wire sel_likely = ins_beql | ins_bgezall | ins_bgezl | ins_bgtzl | ins_blezl | ins_bltzl | ins_bnel | ins_bltzall;
+
+    assign not_2_issue_o      = sel_load | sel_store | sel_muldiv | sel_cloz | sel_branch | sel_likely;
+    assign wait_delaysolt_o = sel_branch | sel_likely;
+    assign only_issue_o     = ins_mtc0| ins_mfc0  | ins_eret | ins_wait | ins_rdhwr | ins_tlbp | ins_tlbr | ins_tlbwi | ins_tlbwr | ins_cache;
 
 endmodule

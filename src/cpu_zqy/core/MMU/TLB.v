@@ -30,6 +30,34 @@ module TLB(
     wire tlb_write = tlb_write_index_i || tlb_write_random_i;
     wire [$clog2(`TLB_NUM)-1:0] write_index = ({$clog2(`TLB_NUM){tlb_write_index_i}}  & cp0_index_i[$clog2(`TLB_NUM)-1:0] ) | 
                                               ({$clog2(`TLB_NUM){tlb_write_random_i}} & cp0_random_i[$clog2(`TLB_NUM)-1:0] );
+
+    //-------------------------------------------------------------
+    //                   pipeline register
+    //-------------------------------------------------------------
+    reg tlb_write_r;
+    reg [$clog2(`TLB_NUM)-1:0] write_index_r;
+    always @(posedge clk) begin
+        if(rst == `RstEnable)begin
+            tlb_write_r   <= 0;
+            write_index_r <= 0;
+        end else begin
+            tlb_write_r   <= tlb_write_index_i || tlb_write_random_i;
+            write_index_r <= ({$clog2(`TLB_NUM){tlb_write_index_i}}  & cp0_index_i[$clog2(`TLB_NUM)-1:0]  ) | 
+                             ({$clog2(`TLB_NUM){tlb_write_random_i}} & cp0_random_i[$clog2(`TLB_NUM)-1:0] );
+        end
+    end
+
+    reg [31:0]inst_vaddr_r;
+    reg [31:0]data_vaddr_r;
+    always @(posedge clk) begin
+        if(rst == `RstEnable)begin
+            inst_vaddr_r <= 0;
+            data_vaddr_r <= 0;
+        end else begin
+            inst_vaddr_r <= inst_vaddr_i;
+            data_vaddr_r <= data_vaddr_i;
+        end
+    end
     //-------------------------------------------------------------
     //                        tlb RAM
     //-------------------------------------------------------------
@@ -73,17 +101,17 @@ module TLB(
     generate
         for (i=0; i<`TLB_NUM; i=i+1) begin
             // all lookup results are OR'd together assuming match is at-most-one-hot, (EvenOddBit[i]-5'd12) means bits of inst_pfn that should be replaced with offset
-            assign inst_match[i] = (inst_vaddr_i[31:13]  == tlb_vpn2[i]) && (tlb_g[i] || tlb_asid[i] == cp0_entryhi_i[7:0]);
+            assign inst_match[i] = (inst_vaddr_r[31:13]  == tlb_vpn2[i]) && (tlb_g[i] || tlb_asid[i] == cp0_entryhi_i[7:0]);
             assign inst_pfn[i]   =  inst_sel[i]? tlb_pfn1[i] : tlb_pfn0[i];
             assign inst_lookup_c[i+1]        = inst_lookup_c[i]       | { 3{inst_match[i]}} & (inst_sel[i] ? tlb_c1[i]   : tlb_c0[i]);
             assign inst_lookup_v[i+1]        = inst_lookup_v[i]       | { 1{inst_match[i]}} & (inst_sel[i] ? tlb_v1[i]   : tlb_v0[i]);
 
 `ifdef GKD  
-            assign inst_sel[i]   = (inst_vaddr_i[24:12] & {tlb_mask[i], 1'b1}) != (inst_vaddr_i[24:12] & {1'b0, tlb_mask[i]});
-            assign inst_lookup_paddr[i+1]    = inst_lookup_paddr[i]   | {32{inst_match[i]}} & (((inst_pfn[i] & ~tlb_mask[i]) << 12) | (inst_vaddr_i & {tlb_mask[i], 12'hfff}));
+            assign inst_sel[i]   = (inst_vaddr_r[24:12] & {tlb_mask[i], 1'b1}) != (inst_vaddr_r[24:12] & {1'b0, tlb_mask[i]});
+            assign inst_lookup_paddr[i+1]    = inst_lookup_paddr[i]   | {32{inst_match[i]}} & (((inst_pfn[i] & ~tlb_mask[i]) << 12) | (inst_vaddr_r & {tlb_mask[i], 12'hfff}));
 `else
-            assign inst_sel[i]   = inst_vaddr_i[12];
-            assign inst_lookup_paddr[i+1]    = inst_lookup_paddr[i]   | {32{inst_match[i]}} & {inst_pfn[i],inst_vaddr_i[11:0]};
+            assign inst_sel[i]   = inst_vaddr_r[12];
+            assign inst_lookup_paddr[i+1]    = inst_lookup_paddr[i]   | {32{inst_match[i]}} & {inst_pfn[i],inst_vaddr_r[11:0]};
             //assign inst_sel[i]   = inst_vaddr_i[EvenOddBit[i]];
             //assign inst_lookup_paddr[i+1]    = inst_lookup_paddr[i]   | {32{inst_match[i]}} & {((inst_pfn[i] & (20'hfffff << (EvenOddBit[i]-5'd12))) << 12) ,(inst_vaddr_i & (32'hffffffff >> (5'd0-EvenOddBit[i])))};
 `endif
@@ -117,18 +145,18 @@ module TLB(
     generate
         for (i=0; i<`TLB_NUM; i=i+1) begin
             //all lookup results are OR'd together assuming match is at-most-one-hot
-            assign data_match[i] = (data_vaddr_i[31:13]  == tlb_vpn2[i]) && (tlb_g[i] || tlb_asid[i] == cp0_entryhi_i[7:0]);
+            assign data_match[i] = (data_vaddr_r[31:13]  == tlb_vpn2[i]) && (tlb_g[i] || tlb_asid[i] == cp0_entryhi_i[7:0]);
             assign data_pfn[i]   = data_sel[i] ? tlb_pfn1[i] : tlb_pfn0[i];
             assign data_lookup_c[i+1]        = data_lookup_c[i]       | { 3{data_match[i]}} & (data_sel[i] ? tlb_c1[i]   : tlb_c0[i]);
             assign data_lookup_d[i+1]        = data_lookup_d[i]       | { 1{data_match[i]}} & (data_sel[i] ? tlb_d1[i]   : tlb_d0[i]);
             assign data_lookup_v[i+1]        = data_lookup_v[i]       | { 1{data_match[i]}} & (data_sel[i] ? tlb_v1[i]   : tlb_v0[i]);
 
 `ifdef GKD  
-            assign data_sel[i]   = (data_vaddr_i[24:12] & {tlb_mask[i], 1'b1}) != (data_vaddr_i[24:12] & {1'b0, tlb_mask[i]});
-            assign data_lookup_paddr[i+1]    = data_lookup_paddr[i]   | {32{data_match[i]}} & (((data_pfn[i] & ~tlb_mask[i]) << 12) | (data_vaddr_i & {tlb_mask[i], 12'hfff}));
+            assign data_sel[i]   = (data_vaddr_r[24:12] & {tlb_mask[i], 1'b1}) != (data_vaddr_r[24:12] & {1'b0, tlb_mask[i]});
+            assign data_lookup_paddr[i+1]    = data_lookup_paddr[i]   | {32{data_match[i]}} & (((data_pfn[i] & ~tlb_mask[i]) << 12) | (data_vaddr_r & {tlb_mask[i], 12'hfff}));
 `else
-            assign data_sel[i]   = data_vaddr_i[12];
-            assign data_lookup_paddr[i+1]    = data_lookup_paddr[i]   | {32{data_match[i]}} & {data_pfn[i], data_vaddr_i[11:0]};
+            assign data_sel[i]   = data_vaddr_r[12];
+            assign data_lookup_paddr[i+1]    = data_lookup_paddr[i]   | {32{data_match[i]}} & {data_pfn[i], data_vaddr_r[11:0]};
             //assign data_sel[i]   = data_vaddr_i[EvenOddBit[i]];
             //assign data_lookup_paddr[i+1]    = data_lookup_paddr[i]   | {32{data_match[i]}} & {((data_pfn[i] & (20'hfffff << (EvenOddBit[i]-5'd12))) << 12) | (data_vaddr_i & (32'hffffffff >> (5'd0-EvenOddBit[i])))};
 `endif
@@ -165,20 +193,20 @@ module TLB(
                 tlb_d1[j]      <= 0;
                 tlb_v1[j]      <= 0;
             end
-        end else if(tlb_write)begin
+        end else if(tlb_write_r)begin
             //-----comparison section-----
-            tlb_vpn2[write_index]   <= cp0_entryhi_i[31:13];
-            tlb_g[write_index]      <= cp0_entrylo0_i[0] & cp0_entrylo1_i[0];
-            tlb_asid[write_index]   <= cp0_entryhi_i[7:0];
+            tlb_vpn2[write_index_r]   <= cp0_entryhi_i[31:13];
+            tlb_g[write_index_r]      <= cp0_entrylo0_i[0] & cp0_entrylo1_i[0];
+            tlb_asid[write_index_r]   <= cp0_entryhi_i[7:0];
             //-----physical translation section-----
-            tlb_pfn0[write_index]   <= cp0_entrylo0_i[25:6];
-            tlb_c0[write_index]     <= cp0_entrylo0_i[5:3];
-            tlb_d0[write_index]     <= cp0_entrylo0_i[2];
-            tlb_v0[write_index]     <= cp0_entrylo0_i[1];
-            tlb_pfn1[write_index]   <= cp0_entrylo1_i[25:6];
-            tlb_c1[write_index]     <= cp0_entrylo1_i[5:3];
-            tlb_d1[write_index]     <= cp0_entrylo1_i[2];
-            tlb_v1[write_index]     <= cp0_entrylo1_i[1];
+            tlb_pfn0[write_index_r]   <= cp0_entrylo0_i[25:6];
+            tlb_c0[write_index_r]     <= cp0_entrylo0_i[5:3];
+            tlb_d0[write_index_r]     <= cp0_entrylo0_i[2];
+            tlb_v0[write_index_r]     <= cp0_entrylo0_i[1];
+            tlb_pfn1[write_index_r]   <= cp0_entrylo1_i[25:6];
+            tlb_c1[write_index_r]     <= cp0_entrylo1_i[5:3];
+            tlb_d1[write_index_r]     <= cp0_entrylo1_i[2];
+            tlb_v1[write_index_r]     <= cp0_entrylo1_i[1];
         end
     end
 

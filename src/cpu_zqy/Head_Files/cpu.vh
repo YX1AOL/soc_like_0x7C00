@@ -197,12 +197,13 @@
 `define BRANCH          4'b0110
 `define LOAD            4'b0111
 `define STORE           4'b1000 
-`define MULDIV          4'b1001
+`define MULL            4'b1001
 `define TLB             4'b1010
 `define EXCEPTION       4'b1011
 `define LIKELY          4'b1100
 `define CACHE           4'b1101
 `define CP0             4'b1110
+`define DIVV            4'b1111
 
 
 //NOP Aluop

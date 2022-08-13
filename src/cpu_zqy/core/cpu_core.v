@@ -62,22 +62,22 @@ wire        instbufer_allowin;
 wire [1:0]  instbuffer_count;
 //-----ISSUE-----
 wire [1:0]  issue_mode;
-wire [266:0]issue_id_bus_primary;
-wire [170:0]issue_id_bus_secondary;
+wire [267:0]issue_id_bus_primary;
+wire [171:0]issue_id_bus_secondary;
 //----- ID -----
 wire        id_allowin;
 wire        id_ex_valid;
-wire [288:0]id_ex_bus_primary;
-wire [192:0]id_ex_bus_secondary;
-wire [9:0]  rsrt_primary;
-wire [9:0]  rsrt_secondary;
+wire [300:0]id_ex_bus_primary;
+wire [205:0]id_ex_bus_secondary;
+wire [9:0]  id_rsrt_primary;
+wire [9:0]  id_rsrt_secondary;
 wire [103:0]corr_branch_bus;
 wire [32:0] branch_bus;
 //-----EX-----
 wire        ex_allowin;
 wire        ex_mem1_valid;
-wire [212:0]ex_mem1_bus_primary;
-wire [102:0]ex_mem1_bus_secondary;
+wire [317:0]ex_mem1_bus_primary;
+wire [179:0]ex_mem1_bus_secondary;
 wire [7:0]  cp0_raddr_primary;
 wire [7:0]  cp0_raddr_secondary;
 wire [64:0] ex_hilo_bus_primary;
@@ -88,8 +88,10 @@ wire        tlb_write_index;
 wire        tlb_write_random;
 wire        tlb_read;
 wire        tlb_probe;
-wire [29:0] ex_id_bus_primary;
+wire [11:0] ex_up_bus;
 wire [75:0] ex_bypass;
+wire [9:0]  ex_rsrt_primary;
+wire [9:0]  ex_rsrt_secondary;
 //-----cp0-----
 wire [191:0]cp0_tlb_bus;
 wire [31:0] cp0_rdata_primary;
@@ -108,7 +110,7 @@ wire        mem1_mem2_valid;
 wire [145:0]mem1_mem2_bus_primary;
 wire [69:0] mem1_mem2_bus_secondary;
 wire [71:0] mem1_cp0_bus;
-wire [8:0]  mem1_id_bus_primary;
+wire [5:0]  mem1_up_bus;
 wire [75:0] mem1_bypass;
 wire [32:0] exception_bus;
 wire [31:0] virtual_data_addr;
@@ -119,6 +121,7 @@ wire [69:0] mem2_wb_bus_primary;
 wire [69:0] mem2_wb_bus_secondary;
 wire [9:0]  mem2_id_bus_primary;
 wire [75:0] mem2_bypass;
+wire [5:0]  mem2_up_bus;
 //-----wb-----
 wire [75:0] wb_bypass;
 wire [31:0] inst_addr_primary;
@@ -130,8 +133,10 @@ wire        reg_write_secondary;
 wire [4:0]  reg_waddr_secondary;
 wire [31:0] reg_wdata_secondary;
 //-----regfile-----
-wire [63:0] reg_rdata_primary;
-wire [63:0] reg_rdata_secondary;
+wire [63:0] id_reg_rdata_primary;
+wire [63:0] id_reg_rdata_secondary;
+wire [63:0] ex_reg_rdata_primary;
+wire [63:0] ex_reg_rdata_secondary;
 //-----mmu-----
 wire [36:0] tlb_if_bus;
 wire [37:0] tlb_mem1_bus;
@@ -262,17 +267,17 @@ seg_id U_id(
     .id_ex_bus_secondary_o      (id_ex_bus_secondary),
 
     //LOAD stall signal
-    .ex_id_bus_primary_i        (ex_id_bus_primary),
-    .mem1_id_bus_primary_i      (mem1_id_bus_primary),
-    .mem2_id_bus_primary_i      (mem2_id_bus_primary),
+    .ex_up_bus_i                (ex_up_bus),
+    .mem1_up_bus_i              (mem1_up_bus),
+    .mem2_up_bus_i              (mem2_up_bus),
 
     //regile and bypass
     .reg_bypass_i               ({wb_bypass,mem2_bypass,mem1_bypass,ex_bypass}),
-    .reg_rdata_primary_i        (reg_rdata_primary),
-    .reg_rdata_secondary_i      (reg_rdata_secondary),
-    .rsrt_primary_o             (rsrt_primary),
-    .rsrt_secondary_o           (rsrt_secondary)
-
+    .reg_rdata_primary_i        (id_reg_rdata_primary),
+    .reg_rdata_secondary_i      (id_reg_rdata_secondary),
+    .rsrt_primary_o             (id_rsrt_primary),
+    .rsrt_secondary_o           (id_rsrt_secondary)
+    
     );
 
 seg_ex U_ex(
@@ -317,12 +322,26 @@ seg_ex U_ex(
     .tlb_probe_o            (tlb_probe),
     
     //bypass bus and load stall signal
-    .ex_id_bus_primary_o    (ex_id_bus_primary),//Load_stall
+    .ex_up_bus_o            (ex_up_bus),//Load_stall
     .ex_bypass_o            (ex_bypass),
     
     //branch bus
-    .corr_branch_bus_o          (corr_branch_bus),
-    .branch_bus_o               (branch_bus)
+    .corr_branch_bus_o      (corr_branch_bus),
+    .branch_bus_o           (branch_bus),
+    
+    //delay exe register read
+    .rsrt_primary_o         (ex_rsrt_primary),
+    .rsrt_secondary_o       (ex_rsrt_secondary),
+    .reg_rdata_primary_i    (ex_reg_rdata_primary),
+    .reg_rdata_secondary_i  (ex_reg_rdata_secondary),
+
+    //delay exe mem2 stall signal and bypass
+    .reg_bypass_i           ({wb_bypass,mem2_bypass,mem1_bypass}),
+    .mem1_up_bus_i          (mem1_up_bus),
+    .mem2_up_bus_i          (mem2_up_bus),
+
+    //mem_addr
+    .cp0_config_uncache_i   (cp0_config_uncache)
     );
 
 reg_cp0 U_cp0(
@@ -341,10 +360,11 @@ reg_cp0 U_cp0(
     .cp0_rdata_secondary_o  (cp0_rdata_secondary),
 
     //TLB
-    .tlb_read_i     (tlb_read),
-    .tlb_probe_i    (tlb_probe),
-    .tlb_cp0_bus_i  (tlb_cp0_bus),
-    .cp0_tlb_bus_o  (cp0_tlb_bus),
+    .tlb_write_random_i (tlb_write_random),
+    .tlb_read_i         (tlb_read),
+    .tlb_probe_i        (tlb_probe),
+    .tlb_cp0_bus_i      (tlb_cp0_bus),
+    .cp0_tlb_bus_o      (cp0_tlb_bus),
     
     //exception
     .mem1_cp0_bus_i         (mem1_cp0_bus),
@@ -390,10 +410,11 @@ seg_mem1 U_mem1(
     .tlb_mem1_bus_i         (tlb_mem1_bus),
 
     //output bus
-    .mem1_cp0_bus_o             (mem1_cp0_bus),
-    .mem1_id_bus_primary_o      (mem1_id_bus_primary),//Load_stall
-    .mem1_bypass_o              (mem1_bypass),
+    .mem1_cp0_bus_o     (mem1_cp0_bus),
+    .mem1_up_bus_o      (mem1_up_bus),//Load_stall
+    .mem1_bypass_o      (mem1_bypass),
 
+    //cache
     .cache_req_o    (cache_req),
     .cache_op_o     (cache_op),
     .cache_over_i   (cache_over),
@@ -413,10 +434,7 @@ seg_mem1 U_mem1(
     .mem_sel_o              (data_wstrb),
     .mem_addr_o             (data_addr),
     .mem_wdata_o            (data_wdata),
-    .data_cache_o           (data_cache),
-
-    //mem_addr
-    .cp0_config_uncache_i   (cp0_config_uncache)
+    .data_cache_o           (data_cache)
 );
 
 seg_mem2 U_mem2(
@@ -434,11 +452,11 @@ seg_mem2 U_mem2(
     .mem2_wb_bus_secondary_o    (mem2_wb_bus_secondary),
 
     //mem
-    .mem_rdata_i    (data_rdata),
-    .data_data_ok_i (data_data_ok),
+    .mem_rdata_i            (data_rdata),
+    .data_data_ok_i         (data_data_ok),
     
     //bus
-    .mem2_id_bus_primary_o  (mem2_id_bus_primary),//LOAD STALL
+    .mem2_up_bus_o          (mem2_up_bus),
     .mem2_bypass_o          (mem2_bypass)
 );
 
@@ -467,8 +485,10 @@ reg_file U_regfile(
     .clk    (clk),
     .rst    (resetn),
 
-    .raddr1_i   (rsrt_primary),//{addr1(),addr2}
-    .raddr2_i   (rsrt_secondary),//{addr1(),addr2}
+    .id_raddr1_i   (id_rsrt_primary),
+    .id_raddr2_i   (id_rsrt_secondary),
+    .ex_raddr1_i   (ex_rsrt_primary),
+    .ex_raddr2_i   (ex_rsrt_secondary),
 
     .we1_i      (reg_write_primary),
     .waddr1_i   (reg_waddr_primary),
@@ -478,8 +498,10 @@ reg_file U_regfile(
     .wdata2_i   (reg_wdata_secondary),
 
 
-    .reg_rdata1_o   (reg_rdata_primary),
-    .reg_rdata2_o   (reg_rdata_secondary)
+    .id_reg_rdata1_o (id_reg_rdata_primary),
+    .id_reg_rdata2_o (id_reg_rdata_secondary),
+    .ex_reg_rdata1_o (ex_reg_rdata_primary),
+    .ex_reg_rdata2_o (ex_reg_rdata_secondary)
     );
 
 //TLB U_tlb(

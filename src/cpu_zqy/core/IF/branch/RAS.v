@@ -53,10 +53,10 @@ module RAS(
     //-------------------------------------------------------------
     //                      stack_predictor
     //-------------------------------------------------------------
-    assign top_next_pridictor   =   {$clog2(`RAS_NUM){ ras_push_r &&  ras_pop_r}} &  top_predictor       |
-                                    {$clog2(`RAS_NUM){ ras_push_r && !ras_pop_r}} &  (top_predictor + 1) |
-                                    {$clog2(`RAS_NUM){!ras_push_r &&  ras_pop_r}} &  (top_predictor - 1) |
-                                    {$clog2(`RAS_NUM){!ras_push_r && !ras_pop_r}} &  top_predictor       ;
+    assign top_next_pridictor   =   {($clog2(`RAS_NUM)-1){ ras_push_r &&  ras_pop_r}} &  top_predictor       |
+                                    {($clog2(`RAS_NUM)-1){ ras_push_r && !ras_pop_r}} &  (top_predictor + 1) |
+                                    {($clog2(`RAS_NUM)-1){!ras_push_r &&  ras_pop_r}} &  (top_predictor - 1) |
+                                    {($clog2(`RAS_NUM)-1){!ras_push_r && !ras_pop_r}} &  top_predictor       ;
 
     always @(posedge clk) begin
         if(rst == `RstEnable) begin

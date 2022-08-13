@@ -8,8 +8,8 @@ module seg_mem1(
     //pipeline signal
     input           mem2_allowin_i,
     input           ex_mem1_valid_i,
-    input   [212:0] ex_mem1_bus_primary_i,
-    input   [102:0] ex_mem1_bus_secondary_i,
+    input   [317:0] ex_mem1_bus_primary_i,
+    input   [179:0] ex_mem1_bus_secondary_i,
     output          mem1_allowin_o,
     output          mem1_mem2_valid_o,
     output  [145:0] mem1_mem2_bus_primary_o,
@@ -19,22 +19,22 @@ module seg_mem1(
     input   [37:0]   tlb_mem1_bus_i,
     output  [31:0]   virtual_data_addr_o,
 
-    //output bus
+    //stall and bypass bus
     output  [71:0]  mem1_cp0_bus_o,
-    output  [8:0]   mem1_id_bus_primary_o,//Load_stall
+    output  [5 :0]  mem1_up_bus_o,
     output  [75:0]  mem1_bypass_o,
 
     //cp0 regfile to compute exception addr
-    input [31:0]cp0_epc_i,
-    input [31:0]cp0_ebase_i,
-    input [31:0]cp0_status_i,
-    input [31:0]cp0_cause_i,
-    output [32:0]exception_bus_o,
+    input [31:0]    cp0_epc_i,
+    input [31:0]    cp0_ebase_i,
+    input [31:0]    cp0_status_i,
+    input [31:0]    cp0_cause_i,
+    output [32:0]   exception_bus_o,
 
     //cache
-    output cache_req_o,
-    output [4:0]cache_op_o,
-    input  cache_over_i,
+    output          cache_req_o,
+    output [4:0]    cache_op_o,
+    input           cache_over_i,
 
     //mem
     input           data_addr_ok_i,
@@ -44,10 +44,7 @@ module seg_mem1(
     output  [3:0]   mem_sel_o,
     output  [31:0]  mem_addr_o,
     output  [31:0]  mem_wdata_o,
-    output          data_cache_o,
-    
-    //mem addr
-    input           cp0_config_uncache_i
+    output          data_cache_o
 );
 
     //-------------------------------------------------------------
@@ -67,19 +64,31 @@ module seg_mem1(
     reg [31:0] exception_vector_primary_tmp;
     reg        in_delaysolt_primary;
     reg [3:0]  alusel_primary;
-    reg [7:0]  aluop_primary;
+    (* max_fanout = "3" *)reg [7:0]  aluop_primary;
+    reg        mem_wr_primary;                
+    reg [3: 0] mem_sel_primary;
+    reg [2: 0] mem_size_primary;
     reg [31:0] mem_addr_primary;
+    reg [31:0] mem_wdata_primary;
+    reg        untlb_cache_primary;
+    reg        need_tlb_primary;
+    reg [31:0] untlb_paddr_primary;
     reg [31:0] opdata2_primary;
-    /*reg        cache_primary;
-    reg        need_tlb;
-    reg [31:0] mem_addr_primary_ex;*/
+    reg        delay_exe_primary;
+    reg [31:0] delay_opdata1_primary;
+    reg [31:0] delay_opdata2_primary;
 
     reg [31:0] inst_addr_secondary;
     reg        reg_write_secondary_tmp;
     reg [4:0]  reg_waddr_secondary;
-    reg [31:0] reg_wdata_secondary;
+    reg [31:0] reg_wdata_secondary_tmp;
     reg [31:0] exception_vector_secondary;
     reg        in_delaysolt_secondary;
+    reg [3:0]  alusel_secondary;
+    reg [7:0]  aluop_secondary;
+    reg        delay_exe_secondary;
+    reg [31:0] delay_opdata1_secondary;
+    reg [31:0] delay_opdata2_secondary;
 
     //---- mem_ready_go control signal -----
     reg  LLbit;
@@ -115,18 +124,30 @@ module seg_mem1(
             in_delaysolt_primary            <= ex_mem1_bus_primary_i[102];
             alusel_primary                  <= ex_mem1_bus_primary_i[106:103];
             aluop_primary                   <= ex_mem1_bus_primary_i[114:107];
-            mem_addr_primary                <= ex_mem1_bus_primary_i[146:115];//this addr is virtual_addr. 
-            opdata2_primary                 <= ex_mem1_bus_primary_i[178:147];
-            /*cache_primary                   <= ex_mem1_bus_primary_i[179];
-            need_tlb                <= ex_mem1_bus_primary_i[180];
-            mem_addr_primary_ex             <= ex_mem1_bus_primary_i[212:181];//this addr is changed when unmap.                    
-            */
+            mem_wr_primary                  <= ex_mem1_bus_primary_i[115];
+            mem_sel_primary                 <= ex_mem1_bus_primary_i[119:116];
+            mem_size_primary                <= ex_mem1_bus_primary_i[122:120];
+            mem_addr_primary                <= ex_mem1_bus_primary_i[154:123];//this addr is virtual_addr. 
+            mem_wdata_primary               <= ex_mem1_bus_primary_i[186:155];
+            untlb_cache_primary             <= ex_mem1_bus_primary_i[187];
+            need_tlb_primary                <= ex_mem1_bus_primary_i[188];
+            untlb_paddr_primary             <= ex_mem1_bus_primary_i[220:189];//this addr is changed when unmap. 
+            opdata2_primary                 <= ex_mem1_bus_primary_i[252:221];
+            delay_exe_primary               <= ex_mem1_bus_primary_i[253];
+            delay_opdata1_primary           <= ex_mem1_bus_primary_i[285:254];
+            delay_opdata2_primary           <= ex_mem1_bus_primary_i[317:286];
+
             inst_addr_secondary             <= ex_mem1_bus_secondary_i[31:0];
             reg_write_secondary_tmp         <= ex_mem1_bus_secondary_i[32];
             reg_waddr_secondary             <= ex_mem1_bus_secondary_i[37:33];
-            reg_wdata_secondary             <= ex_mem1_bus_secondary_i[69:38];
+            reg_wdata_secondary_tmp         <= ex_mem1_bus_secondary_i[69:38];
             exception_vector_secondary      <= ex_mem1_bus_secondary_i[101:70];
             in_delaysolt_secondary          <= ex_mem1_bus_secondary_i[102];
+            alusel_secondary                <= ex_mem1_bus_secondary_i[106:103];
+            aluop_secondary                 <= ex_mem1_bus_secondary_i[114:107];
+            delay_exe_secondary             <= ex_mem1_bus_secondary_i[115];
+            delay_opdata1_secondary         <= ex_mem1_bus_secondary_i[147:116];
+            delay_opdata2_secondary         <= ex_mem1_bus_secondary_i[179:148];
         end
     end
 
@@ -142,31 +163,6 @@ module seg_mem1(
         end
     end
     
-    //-------------------------------------------------------------
-    //                     mem addr convert
-    //-------------------------------------------------------------
-    //----- convert mem_addr by virtual address segment -----
-    wire        addr_error;
-    wire        need_tlb;
-    wire        untlb_cache;
-    wire [31:0] untlb_paddr;
-    convert_addr if_ConvertAddr(
-        .cp0_status_i           (cp0_status_i),
-        .virtual_addr_i         (mem_addr_primary),
-        .cp0_config_uncache_i   (cp0_config_uncache_i),
-        .error_o                (addr_error),
-        .need_tlb_o             (need_tlb),
-        .untlb_cache_o          (untlb_cache),
-        .untlb_paddr_o          (untlb_paddr)
-    );
-
-    //----- Addr Error Exception -----
-    wire exception_dataaddr_read_primary    =   ((aluop_primary == `LH_OP || aluop_primary == `LHU_OP)  &&  mem_addr_primary[0]   ) ||  
-                                                ((aluop_primary == `LW_OP || aluop_primary == `LL_OP)   && |mem_addr_primary[1:0] ) ||
-                                                ( alusel_primary == `LOAD                               &&  addr_error            ) ;
-    wire exception_dataaddr_write_primary   =   ( aluop_primary == `SH_OP                               &&  mem_addr_primary[0]   ) ||
-                                                ((aluop_primary == `SW_OP || aluop_primary == `SC_OP)   && |mem_addr_primary[1:0] ) ||
-                                                ( alusel_primary == `STORE                              &&  addr_error            ) ;
     
     //-------------------------------------------------------------
     //                      TLB control module         
@@ -192,14 +188,12 @@ module seg_mem1(
     reg [2:0]   data_cache_r;
     reg [31:0]  physical_data_addr_r;
 
-    wire exception_occur_primary_pre = |exception_vector_primary_tmp || exception_dataaddr_read_primary || exception_dataaddr_write_primary;
-
     always @(posedge clk) begin
         if(rst == `RstEnable) begin
             tlb_state <= TLB_NOT_USE;
         end else begin
             case (tlb_state)
-                TLB_NOT_USE :   tlb_state <= (mem1_valid && (inst_is_memory || inst_is_cache)  && need_tlb && !exception_occur_primary_pre)? TLB_REQ:TLB_NOT_USE;
+                TLB_NOT_USE :   tlb_state <= (mem1_valid && (inst_is_memory || inst_is_cache)  && need_tlb_primary && !exception_vector_primary_tmp)? TLB_REQ:TLB_NOT_USE;
                 TLB_REQ     :   tlb_state <= TLB_OK;
                 TLB_OK      :   tlb_state <= (mem1_mem2_valid && mem2_allowin_i)?  TLB_NOT_USE:TLB_OK;
                 default     :   tlb_state <= TLB_NOT_USE;
@@ -246,8 +240,8 @@ module seg_mem1(
         .tlb_refill_dataaddr_read_i     (exception_tlbrefill_dataaddr_read_primary),
         .tlb_invalid_instaddr_i         (1'b0),
         .tlb_refill_instaddr_i          (1'b0),
-        .dataaddr_write_i               (exception_dataaddr_write_primary),
-        .dataaddr_read_i                (exception_dataaddr_read_primary),
+        .dataaddr_write_i               (1'b0),
+        .dataaddr_read_i                (1'b0),
         .trap_i                         (1'b0),
         .overflow_i                     (1'b0),
         .instvaild_i                    (1'b0),
@@ -385,41 +379,25 @@ module seg_mem1(
     assign exception_bus_o  = {33{mem1_valid && exception_state == IDEL}} & {exception_addr,exception_flag};
 
     //-------------------------------------------------------------
-    //                      reg_write change      
-    //-------------------------------------------------------------
-    wire reg_write_primary   = !exception_occur_primary && reg_write_primary_tmp;
-    wire reg_write_secondary = !exception_occur_primary && !exception_occur_secondary && reg_write_secondary_tmp;
-    wire [31:0] reg_wdata_primary = (aluop_primary == `SC_OP)?   {31'b0,LLbit}:reg_wdata_primary_tmp;
-
-    //-------------------------------------------------------------
     //                      Dcache signal       
     //-------------------------------------------------------------
-    wire   addr_ready   =   (tlb_state == TLB_OK) || (tlb_state == TLB_NOT_USE && !need_tlb); 
+    wire   addr_ready   =   (tlb_state == TLB_OK) || (tlb_state == TLB_NOT_USE && !need_tlb_primary); 
     assign mem_req_o    =   (rst == `RstDisable) && mem1_valid /*&& mem2_allowin_i*/ && inst_is_memory && !exception_occur_primary && addr_ready;
     
-    assign mem_addr_o  =   (need_tlb)? physical_data_addr_r:untlb_paddr;
+    assign mem_addr_o  =   (need_tlb_primary)? physical_data_addr_r:untlb_paddr_primary;
     //TODO:maybe wrong
     //assign mem_addr_o = (aluop_primary == `LWL_OP ||aluop_primary == `LWR_OP ||aluop_primary == `SWL_OP || aluop_primary == `SWR_OP)? {mem_addr_tmp[31:2],2'b00}:mem_addr_tmp;
 
-    assign mem_wdata_o  =   {32{aluop_primary == `SB_OP                             }} & {4{opdata2_primary[7:0] }}                         |
-                            {32{aluop_primary == `SH_OP                             }} & {2{opdata2_primary[15:0]}}                         |
-                            {32{aluop_primary == `SWL_OP                            }} & (opdata2_primary >> {~mem_addr_primary[1:0],3'b0}) |
-                            {32{aluop_primary == `SWR_OP                            }} & (opdata2_primary << { mem_addr_primary[1:0],3'b0}) |
-                            {32{aluop_primary == `SW_OP || aluop_primary == `SC_OP  }} &  opdata2_primary;
+    assign mem_wdata_o  =   mem_wdata_primary;
     
-    assign mem_wr_o =   (alusel_primary == `STORE);
+    assign mem_wr_o     =   mem_wr_primary;
     
-    assign mem_sel_o    =   {4{aluop_primary == `SB_OP                             }} & (4'b0001 <<  mem_addr_primary[1:0]) |
-                            {4{aluop_primary == `SH_OP                             }} & (4'b0011 <<  mem_addr_primary[1:0]) |
-                            {4{aluop_primary == `SWL_OP                            }} & (4'b1111 >> ~mem_addr_primary[1:0]) |
-                            {4{aluop_primary == `SWR_OP                            }} & (4'b1111 <<  mem_addr_primary[1:0]) |
-                            {4{aluop_primary == `SW_OP || aluop_primary == `SC_OP  }} & (4'b1111                          ) ;
+    assign mem_sel_o    =   mem_sel_primary;
 
-    assign mem_size_o   =   (aluop_primary == `LB_OP || aluop_primary == `LBU_OP || aluop_primary == `SB_OP)?  3'b000:
-                            (aluop_primary == `LH_OP || aluop_primary == `LHU_OP || aluop_primary == `SH_OP)?  3'b001:3'b010;
+    assign mem_size_o   =   mem_size_primary;
 
-    assign data_cache_o = (need_tlb)?  (data_cache_r == 3'h3):untlb_cache;
-    
+    assign data_cache_o = (need_tlb_primary)?  (data_cache_r == 3'h3):untlb_cache_primary;
+
     //-------------------------------------------------------------
     //                       CACHE inst signal       
     //-------------------------------------------------------------
@@ -434,8 +412,98 @@ module seg_mem1(
     assign cache_op_o = reg_waddr_primary;
 
     //-------------------------------------------------------------
+    //                      delay exceute      
+    //-------------------------------------------------------------
+    wire [31:0] logicout_primary;
+    wire [31:0] shiftout_primary;
+    wire [31:0] arithmeticout_primary;
+
+    wire [31:0] logicout_secondary;
+    wire [31:0] shiftout_secondary;
+    wire [31:0] arithmeticout_secondary;
+
+    alu ex_alu_primary(
+
+        .aluop_i            (aluop_primary          ),
+        .opdata1_i          (delay_opdata1_primary  ),
+        .opdata2_i          (delay_opdata2_primary  ), 
+
+        .logicout_o         (logicout_primary       ),
+        .shiftout_o         (shiftout_primary       ),
+        .arithmeticout_o    (arithmeticout_primary  ),
+
+        .exception_ov_o     (                       ),
+        .exception_trap_o   (                       )
+    );
+    
+    alu ex_alu_secondary(
+
+        .aluop_i            (aluop_secondary          ),
+        .opdata1_i          (delay_opdata1_secondary  ),
+        .opdata2_i          (delay_opdata2_secondary  ),
+
+        .logicout_o         (logicout_secondary       ),
+        .shiftout_o         (shiftout_secondary       ),
+        .arithmeticout_o    (arithmeticout_secondary  ),
+
+        .exception_ov_o     (                         ),
+        .exception_trap_o   (                         )
+    );
+
+    wire        unwrite_primary;
+    wire [31:0] moveout_primary;
+
+    wire        unwrite_secondary;
+    wire [31:0] moveout_secondary;
+
+    alu_move ex_alu_move_primary(
+
+        .aluop_i            (aluop_primary          ),
+        .opdata1_i          (delay_opdata1_primary  ),
+        .opdata2_i          (delay_opdata2_primary  ),
+        .hilo_rdata_i       (0                      ),
+
+        .unwrite_o          (unwrite_primary        ),
+        .moveout_o          (moveout_primary        )
+    );
+    
+    alu_move ex_alu_move_secondary(
+
+        .aluop_i            (aluop_secondary          ),
+        .opdata1_i          (delay_opdata1_secondary  ),
+        .opdata2_i          (delay_opdata2_secondary  ),
+        .hilo_rdata_i       (0                        ),
+
+        .unwrite_o          (unwrite_secondary        ),
+        .moveout_o          (moveout_secondary        )
+    );
+
+    wire [31:0] delay_result_primary =  logicout_primary        & {32{alusel_primary == `LOGIC         }} |
+                                        shiftout_primary        & {32{alusel_primary == `SHIFT         }} |
+                                        arithmeticout_primary   & {32{alusel_primary == `ARITHMETIC    }} |
+                                        moveout_primary         & {32{alusel_primary == `MOVE          }} ;
+    
+    wire [31:0] delay_result_secondary =  logicout_secondary      & {32{alusel_secondary == `LOGIC     }} |
+                                          shiftout_secondary      & {32{alusel_secondary == `SHIFT     }} |
+                                          arithmeticout_secondary & {32{alusel_secondary == `ARITHMETIC}} |
+                                          moveout_secondary       & {32{alusel_secondary == `MOVE      }} ;
+
+    //-------------------------------------------------------------
+    //                      reg_write change      
+    //-------------------------------------------------------------
+    wire reg_write_primary   = !exception_occur_primary && reg_write_primary_tmp && (!delay_exe_primary || !unwrite_primary);
+    wire reg_write_secondary = !exception_occur_primary && !exception_occur_secondary && reg_write_secondary_tmp && (!delay_exe_secondary || !unwrite_secondary);
+    
+    wire [31:0] reg_wdata_primary   =   (aluop_primary == `SC_OP)?  {31'b0,LLbit}:
+                                        (delay_exe_primary)?        delay_result_primary:reg_wdata_primary_tmp;
+    wire [31:0] reg_wdata_secondary =   (delay_exe_secondary)?      delay_result_secondary:reg_wdata_secondary_tmp;
+
+    //-------------------------------------------------------------
     //                      otuput bus       
     //-------------------------------------------------------------
+    //----- mem1 stall bus and bypass bus -----
+    assign mem1_bypass_o = {76{mem1_valid}} & {reg_wdata_secondary,reg_waddr_secondary,reg_write_secondary,reg_wdata_primary,reg_waddr_primary,reg_write_primary};
+    assign mem1_up_bus_o = {6{mem1_valid}} & {reg_waddr_primary,alusel_primary == `LOAD};
     //----- pipeline output -----
     assign mem1_allowin_o = mem1_allowin;
     assign mem1_mem2_valid_o = mem1_mem2_valid;
@@ -446,9 +514,5 @@ module seg_mem1(
                                                 reg_wdata_primary,reg_waddr_primary,reg_write_primary,inst_addr_primary};
     assign mem1_mem2_bus_secondary_o    =   {70{mem1_valid}} & 
                                             {   reg_wdata_secondary,reg_waddr_secondary,reg_write_secondary,inst_addr_secondary};
-
-    //----- mem1_to_id stall bus and bypass bus -----
-    assign mem1_id_bus_primary_o    =   {9{mem1_valid}} & {reg_waddr_primary,alusel_primary};
-    assign mem1_bypass_o            =   {76{mem1_valid}} & {reg_wdata_secondary,reg_waddr_secondary,reg_write_secondary,reg_wdata_primary,reg_waddr_primary,reg_write_primary};
 
 endmodule

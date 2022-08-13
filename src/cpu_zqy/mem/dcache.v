@@ -1,8 +1,9 @@
-// date:        2021/07/21
+// date:        2022/08/06
 // by:          kun
 // module:      dcache
 // description: data cache, can handle 1 request a cycle at most
 // features:    Critical Word First, Victim Cache
+//! note: Cache OP Index WriteBack Invalidate didn't check Victim Cache
 
 `timescale 1ns / 1ps
 
@@ -136,6 +137,7 @@ module dcache (
 
 `ifdef ENABLE_CACHE_OP
     // Cache OP
+    wire        cache_start = (state == RUN) && !req_reg && cache_req;
     reg  [4 :0] cache_op_reg;
     reg  [1 :0] cache_way_reg;
 
@@ -152,7 +154,7 @@ module dcache (
     wire        cache_hit_op = (cache_op_reg == HIT_INV) || (cache_op_reg == HIT_WB_INV);
 
     reg         cache_wb_vc;   // hit and dirty on victim cache
-    reg  [1 :0] cache_wb_vc_way;
+    reg         cache_wb_vc_way;
 
     always @(posedge clk) begin
         if (cache_start) begin
@@ -185,7 +187,7 @@ module dcache (
                     cache_valid_reg <= 1'b0;
                     cache_dirty_wen <= hit_array;
                     cache_dirty_reg <= 1'b0;
-                    cache_way_reg   <= `encoder4_2(hit_array);
+                    cache_way_reg   <= `ENCODE4_2(hit_array);
                 end
                 HIT_WB_INV : begin
                     cache_tag_wen   <= 4'b0;
@@ -193,7 +195,7 @@ module dcache (
                     cache_valid_reg <= 1'b0;
                     cache_dirty_wen <= hit_array;
                     cache_dirty_reg <= 1'b0;
-                    cache_way_reg   <= `encoder4_2(hit_array);
+                    cache_way_reg   <= `ENCODE4_2(hit_array);
                     cache_need_wb   <= |(hit_array & dirty_array) || hit_vc;
                     cache_wb_vc     <= hit_vc;
                     cache_wb_vc_way <= hit_vc_way;
@@ -523,7 +525,7 @@ module dcache (
                             (state == FINISH || state == REPLACE || state == WRITE_VC ||
                             (state == MISS && !sel_way_need_wb))  ? 4'b1 << way_sel : 4'b0;
     wire [3 :0] dirty_wen = (state == RESET)                      ? 4'hf            :
-                            (state == FINISH || state == REPLACE) ? 4'b1 << way_sel;
+                            (state == FINISH || state == REPLACE) ? 4'b1 << way_sel :
                             (state_ready && hit_data && wr_reg)   ? hit_array       : 4'b0;
     wire [19:0] tag_write = (state == REPLACE)                    ? tag_reg         : fill_tag;
     wire        valid_in  = (state == FINISH) || (state == REPLACE);
@@ -534,7 +536,7 @@ module dcache (
 `endif
 
     wire [3 :0] hit_array;
-    wire [1 :0] hit_way = `encoder4_2(hit_array);
+    wire [1 :0] hit_way = `ENCODE4_2(hit_array);
     wire [19:0] tag_array [3:0];
     wire [3 :0] valid_array;
     wire [3 :0] dirty_array;
@@ -589,7 +591,6 @@ module dcache (
 
     // to cpu
 `ifdef ENABLE_CACHE_OP
-    assign cache_start  = (state == RUN) && !req_reg && cache_req;
     assign data_addr_ok = !cache_start && data_req && (state == RUN || state == FILL) && (req_reg ? hit : 1'b1);
     assign cache_ok     = (state == CACHE_OP && !cache_need_wb) || (state == CACHE_WB && (wb_state == WB_FINISH) && bvalid);
 `else

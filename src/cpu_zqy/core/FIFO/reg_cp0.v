@@ -16,6 +16,7 @@ module reg_cp0 (
     output [31:0]cp0_rdata_secondary_o,
 
     //TLB
+    input tlb_write_random_i,
     input tlb_read_i,
     input tlb_probe_i,
     input  [159:0]tlb_cp0_bus_i,
@@ -100,7 +101,7 @@ module reg_cp0 (
 
     wire [31:0]wired = 32'b0 | wired_wired;
     //--------------------------------------------------------------
-    //                          random*          
+    //                          random*
     //--------------------------------------------------------------
     reg [$clog2(`TLB_NUM)-1:0] random_random;
 
@@ -109,7 +110,7 @@ module reg_cp0 (
 
     always @(posedge clk) begin
         if(rst == `RstEnable || wired_wen)  random_random <= `TLB_NUM - 1;
-        else                                random_random <= (random_random == wired_wired)? (`TLB_NUM - 1):(random_random - 1'b1);
+        else if(tlb_write_random_i)         random_random <= (random_random == wired_wired)? (`TLB_NUM - 1):(random_random - 1'b1);
     end
 
     wire [31:0] random = 32'b0 | random_random;
