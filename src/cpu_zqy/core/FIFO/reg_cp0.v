@@ -7,7 +7,6 @@ module reg_cp0 (
 
     //write port
     input [40:0]ex_cp0_bus_primary_i,
-    input [40:0]ex_cp0_bus_secondary_i,
 
     //read port
     input [7:0]cp0_raddr_primary_i,
@@ -43,10 +42,6 @@ module reg_cp0 (
     wire        cp0_write_primary = ex_cp0_bus_primary_i[0];
     wire [7:0]  cp0_waddr_primary = ex_cp0_bus_primary_i[8:1];
     wire [31:0] cp0_wdata_primary = ex_cp0_bus_primary_i[40:9];
-
-    wire        cp0_write_secondary = ex_cp0_bus_secondary_i[0];
-    wire [7:0]  cp0_waddr_secondary = ex_cp0_bus_secondary_i[8:1];
-    wire [31:0] cp0_wdata_secondary = ex_cp0_bus_secondary_i[40:9];
 
     wire        exception_flag      = mem1_cp0_bus_i[0];
     wire [31:0] exception_inst_addr = mem1_cp0_bus_i[32:1];
@@ -84,7 +79,6 @@ module reg_cp0 (
     reg[$clog2(`TLB_NUM)-1:0]index_index;//for example, `TLB_NUM is 16, so 3:0
     always @(posedge clk) begin
         if(tlb_probe_i)                                                     index_index <= tlb_index[$clog2(`TLB_NUM)-1:0];
-        else if(cp0_write_secondary && cp0_waddr_secondary == `index_ADDR)  index_index <= cp0_wdata_secondary[$clog2(`TLB_NUM)-1:0];
         else if(cp0_write_primary && cp0_waddr_primary == `index_ADDR)      index_index <= cp0_wdata_primary[$clog2(`TLB_NUM)-1:0];
     end
 
@@ -95,7 +89,6 @@ module reg_cp0 (
     reg [$clog2(`TLB_NUM)-1:0] wired_wired;
     always @(posedge clk) begin
         if (rst == `RstEnable)                                              wired_wired <= 0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `wire_ADDR)   wired_wired <= cp0_wdata_secondary[$clog2(`TLB_NUM)-1:0];
         else if(cp0_write_primary && cp0_waddr_primary == `wire_ADDR)       wired_wired <= cp0_wdata_primary[$clog2(`TLB_NUM)-1:0];
     end
 
@@ -105,8 +98,7 @@ module reg_cp0 (
     //--------------------------------------------------------------
     reg [$clog2(`TLB_NUM)-1:0] random_random;
 
-    wire wired_wen = (cp0_write_primary && cp0_waddr_primary == `wire_ADDR) ||
-                     (cp0_write_secondary && cp0_waddr_secondary == `wire_ADDR) ;
+    wire wired_wen = (cp0_write_primary && cp0_waddr_primary == `wire_ADDR);
 
     always @(posedge clk) begin
         if(rst == `RstEnable || wired_wen)  random_random <= `TLB_NUM - 1;
@@ -122,7 +114,6 @@ module reg_cp0 (
     reg [25:0] entrylo0_tlb;
     always @(posedge clk) begin
         if(tlb_read_i)                                                          entrylo0_tlb <= tlb_entrylo0[25:0];
-        else if(cp0_write_secondary && cp0_waddr_secondary == `entrylo0_ADDR)   entrylo0_tlb <= cp0_wdata_secondary[25:0];
         else if(cp0_write_primary && cp0_waddr_primary == `entrylo0_ADDR)       entrylo0_tlb <= cp0_wdata_primary[25:0];
     end
 
@@ -139,7 +130,6 @@ module reg_cp0 (
     reg [25:0] entrylo1_tlb;
     always @(posedge clk) begin
         if(tlb_read_i)                                                          entrylo1_tlb <= tlb_entrylo1[25:0];
-        else if(cp0_write_secondary && cp0_waddr_secondary == `entrylo1_ADDR)   entrylo1_tlb <= cp0_wdata_secondary[25:0];
         else if(cp0_write_primary && cp0_waddr_primary == `entrylo1_ADDR)       entrylo1_tlb <= cp0_wdata_primary[25:0];
     end
 
@@ -154,8 +144,7 @@ module reg_cp0 (
     //a pointer to an entry in the page table entry (PTE) array
     reg [8 :0] context_ptebase;
     always @(posedge clk) begin
-        if(cp0_write_secondary && cp0_waddr_secondary == `context_ADDR)     context_ptebase <= cp0_wdata_secondary[31:23];
-        else if(cp0_write_primary && cp0_waddr_primary == `context_ADDR)    context_ptebase <= cp0_wdata_primary[31:23];
+        if(cp0_write_primary && cp0_waddr_primary == `context_ADDR)    context_ptebase <= cp0_wdata_primary[31:23];
     end
 
     //This field is written by hardware on a TLB exception. It contains bits VA31..13 of the virtual address that caused the exception.
@@ -177,7 +166,6 @@ module reg_cp0 (
     always @(posedge clk) begin
         if(exception_occur_tlb)                                                 entryhi_vpn2 <= exception_badaddr[31:13];
         else if(tlb_read_i)                                                     entryhi_vpn2 <= tlb_entryhi[31:13];
-        else if(cp0_write_secondary && cp0_waddr_secondary == `entryhi_ADDR)    entryhi_vpn2 <= cp0_wdata_secondary[31:13];
         else if(cp0_write_primary && cp0_waddr_primary == `entryhi_ADDR)        entryhi_vpn2 <= cp0_wdata_primary[31:13];
     end
 
@@ -186,7 +174,6 @@ module reg_cp0 (
     always @(posedge clk) begin
         if(rst == `RstEnable)                                                entryhi_asid <= 8'b0;
         else if(tlb_read_i)                                                  entryhi_asid <= tlb_entryhi[7:0];
-        else if(cp0_write_secondary && cp0_waddr_secondary == `entryhi_ADDR) entryhi_asid <= cp0_wdata_secondary[7:0];
         else if(cp0_write_primary && cp0_waddr_primary == `entryhi_ADDR)     entryhi_asid <= cp0_wdata_primary[7:0];
     end
 
@@ -204,7 +191,6 @@ module reg_cp0 (
     reg [11:0] pagemask_mask;
     always @(posedge clk) begin
         if(tlb_read_i)                                                        pagemask_mask <= tlb_pagemask[24:13];
-        else if(cp0_write_secondary && cp0_waddr_secondary == `pagemask_ADDR) pagemask_mask <= cp0_wdata_secondary[24:13];
         else if(cp0_write_primary && cp0_waddr_primary == `pagemask_ADDR)     pagemask_mask <= cp0_wdata_primary[24:13];
     end
     
@@ -241,7 +227,6 @@ module reg_cp0 (
     reg [31:0]count;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               count <= 0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `count_ADDR)  count <= cp0_wdata_secondary;
         else if(cp0_write_primary && cp0_waddr_primary == `count_ADDR)      count <= cp0_wdata_primary;
         else if(half_clk == 1'b1)                                           count <= count + 1'b1;
     end
@@ -251,8 +236,7 @@ module reg_cp0 (
     //--------------------------------------------------------------
     reg [31:0]compare;
     always @(posedge clk) begin
-        if(cp0_write_secondary && cp0_waddr_secondary == `compare_ADDR) compare <= cp0_wdata_secondary;
-        else if(cp0_write_primary && cp0_waddr_primary == `compare_ADDR)compare <= cp0_wdata_primary;
+        if(cp0_write_primary && cp0_waddr_primary == `compare_ADDR)compare <= cp0_wdata_primary;
     end
 
     //--------------------------------------------------------------
@@ -272,7 +256,6 @@ module reg_cp0 (
     reg status_cu0;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               status_cu0 <= 1'b0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `status_ADDR) status_cu0 <= cp0_wdata_secondary[28];
         else if(cp0_write_primary && cp0_waddr_primary == `status_ADDR)     status_cu0 <= cp0_wdata_primary[28];
     end
 
@@ -285,7 +268,6 @@ module reg_cp0 (
     reg status_bev;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               status_bev <= 1'b1;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `status_ADDR) status_bev <= cp0_wdata_secondary[22];
         else if(cp0_write_primary && cp0_waddr_primary == `status_ADDR)     status_bev <= cp0_wdata_primary[22];
     end
 
@@ -299,7 +281,6 @@ module reg_cp0 (
     reg [7:0] status_im;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               status_im <= 8'b0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `status_ADDR) status_im <= cp0_wdata_secondary[15:8];
         else if(cp0_write_primary && cp0_waddr_primary == `status_ADDR)     status_im <= cp0_wdata_primary[15:8];
     end
 
@@ -307,7 +288,6 @@ module reg_cp0 (
     reg status_um;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               status_um <= 1'b0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `status_ADDR) status_um <= cp0_wdata_secondary[4];
         else if(cp0_write_primary && cp0_waddr_primary == `status_ADDR)     status_um <= cp0_wdata_primary[4];
     end
 
@@ -320,7 +300,6 @@ module reg_cp0 (
         if(rst == `RstEnable)                                               status_exl <= 1'b0;
         else if(exception_occur_er)                                         status_exl <= 1'b0;
         else if(exception_occur_ner)                                        status_exl <= 1'b1;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `status_ADDR) status_exl <= cp0_wdata_secondary[1];
         else if(cp0_write_primary && cp0_waddr_primary == `status_ADDR)     status_exl <= cp0_wdata_primary[1];
     end
 
@@ -328,7 +307,6 @@ module reg_cp0 (
     reg status_ie;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               status_ie <= 1'b0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `status_ADDR) status_ie <= cp0_wdata_secondary[0];
         else if(cp0_write_primary && cp0_waddr_primary == `status_ADDR)     status_ie <= cp0_wdata_primary[0];
     end
 
@@ -368,7 +346,7 @@ module reg_cp0 (
     
     //TODO:not sure
     //if cp0_compare is writed, cause_ti should be set.
-    wire compare_write = (cp0_write_secondary && cp0_waddr_secondary == `compare_ADDR) || (cp0_write_primary && cp0_waddr_primary == `compare_ADDR);
+    wire compare_write = (cp0_write_primary && cp0_waddr_primary == `compare_ADDR);
     reg cause_ti; 
     always @(posedge clk) begin
         if(compare_write || rst == `RstEnable)      cause_ti <= 1'b0;
@@ -390,7 +368,6 @@ module reg_cp0 (
     reg cause_iv;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                                 cause_iv <= 1'b0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `cause_ADDR)    cause_iv <= cp0_wdata_secondary[23];
         else if(cp0_write_primary && cp0_waddr_primary == `cause_ADDR)        cause_iv <= cp0_wdata_primary[23];    
     end
 
@@ -407,7 +384,6 @@ module reg_cp0 (
 
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               cause_ip[1:0] <= 2'b0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `cause_ADDR)  cause_ip[1:0] <= cp0_wdata_secondary[9:8];
         else if(cp0_write_primary && cp0_waddr_primary == `cause_ADDR)      cause_ip[1:0] <= cp0_wdata_primary[9:8];
     end
     
@@ -441,7 +417,6 @@ module reg_cp0 (
     reg [31:0]epc;
     always @(posedge clk) begin
         if(status_exl == 1'b0 && exception_occur_ner)                       epc <= (in_delayslot)?   (exception_inst_addr - 32'h4):exception_inst_addr;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `epc_ADDR)    epc <= cp0_wdata_secondary;
         else if(cp0_write_primary && cp0_waddr_primary == `epc_ADDR)        epc <= cp0_wdata_primary;
     end
 
@@ -483,7 +458,6 @@ module reg_cp0 (
     reg [2:0]config_k0;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                                config_k0 <= 3'h3;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `config0_ADDR) config_k0 <= cp0_wdata_secondary[2:0];
         else if(cp0_write_primary && cp0_waddr_primary == `config0_ADDR)     config_k0 <= cp0_wdata_primary[2:0];
     end
     
@@ -549,7 +523,6 @@ module reg_cp0 (
     reg [17:0] ebase_ExceptionBase;
     always @(posedge clk) begin
         if(rst == `RstEnable)                                               ebase_ExceptionBase <= 18'b0;
-        else if(cp0_write_secondary && cp0_waddr_secondary == `ebase_ADDR)  ebase_ExceptionBase <= cp0_wdata_secondary[29:12];
         else if(cp0_write_primary && cp0_waddr_primary == `ebase_ADDR)      ebase_ExceptionBase <= cp0_wdata_primary[29:12];
     end
 
@@ -570,8 +543,7 @@ module reg_cp0 (
     //--------------------------------------------------------------
     reg [31:0] taglo;
     always @(posedge clk) begin
-        if(cp0_write_secondary && cp0_waddr_secondary == `taglo_ADDR)  taglo <= cp0_wdata_secondary;
-        else if(cp0_write_primary && cp0_waddr_primary == `taglo_ADDR) taglo <= cp0_wdata_primary;
+        if(cp0_write_primary && cp0_waddr_primary == `taglo_ADDR) taglo <= cp0_wdata_primary;
     end
 
     //--------------------------------------------------------------
@@ -580,9 +552,7 @@ module reg_cp0 (
     /*//TODO:cache inst
     reg [31:0] taghi;//XXX:cache inst
     always @(posedge clk) begin
-        if(cp0_write_secondary && cp0_waddr_secondary == `taglo_ADDR)begin
-            taghi <= cp0_wdata_secondary;
-        else if(cp0_write_primary && cp0_waddr_primary == `taglo_ADDR)begin
+        if(cp0_write_primary && cp0_waddr_primary == `taglo_ADDR)begin
             taghi <= cp0_wdata_primary;
 
     end*/
@@ -592,8 +562,7 @@ module reg_cp0 (
     //--------------------------------------------------------------
     reg [31:0] userlocal;
     always @(posedge clk) begin
-        if(cp0_write_secondary && cp0_waddr_secondary == `userlocal_ADDR)  userlocal <= cp0_wdata_secondary;
-        else if(cp0_write_primary && cp0_waddr_primary == `userlocal_ADDR) userlocal <= cp0_wdata_primary;
+        if(cp0_write_primary && cp0_waddr_primary == `userlocal_ADDR) userlocal <= cp0_wdata_primary;
     end
 
     //--------------------------------------------------------------
@@ -603,11 +572,7 @@ module reg_cp0 (
     reg HWREna_CC;
     reg HWREna_ULR;
     always @(posedge clk) begin
-        if(cp0_write_secondary && cp0_waddr_secondary == `hwrena_ADDR)  begin
-            HWREna_CpuNum <= cp0_wdata_secondary[0];
-            HWREna_CC <= cp0_wdata_secondary[2];
-            HWREna_ULR <= cp0_wdata_secondary[29];
-        end else if(cp0_write_primary && cp0_waddr_primary == `hwrena_ADDR) begin
+        if(cp0_write_primary && cp0_waddr_primary == `hwrena_ADDR) begin
             HWREna_CpuNum <= cp0_wdata_primary[0];
             HWREna_CC <= cp0_wdata_primary[2];
             HWREna_ULR <= cp0_wdata_primary[29];

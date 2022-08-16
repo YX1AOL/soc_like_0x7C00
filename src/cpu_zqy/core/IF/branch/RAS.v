@@ -6,7 +6,8 @@ module RAS(
     input           ras_pop_i,
     input           ras_push_i,
     input  [31:0]   ras_push_addr_i,
-    output [31:0]   ras_branch_addr_o,
+
+    output reg [31:0]   ras_branch_addr_o,
     
     input  [31:0]   corr_addr_i,
     input           corr_link_flag_i,
@@ -53,10 +54,10 @@ module RAS(
     //-------------------------------------------------------------
     //                      stack_predictor
     //-------------------------------------------------------------
-    assign top_next_pridictor   =   {($clog2(`RAS_NUM)-1){ ras_push_r &&  ras_pop_r}} &  top_predictor       |
-                                    {($clog2(`RAS_NUM)-1){ ras_push_r && !ras_pop_r}} &  (top_predictor + 1) |
-                                    {($clog2(`RAS_NUM)-1){!ras_push_r &&  ras_pop_r}} &  (top_predictor - 1) |
-                                    {($clog2(`RAS_NUM)-1){!ras_push_r && !ras_pop_r}} &  top_predictor       ;
+    assign top_next_pridictor   =   {$clog2(`RAS_NUM){ ras_push_r &&  ras_pop_r}} &  top_predictor       |
+                                    {$clog2(`RAS_NUM){ ras_push_r && !ras_pop_r}} &  (top_predictor + 1) |
+                                    {$clog2(`RAS_NUM){!ras_push_r &&  ras_pop_r}} &  (top_predictor - 1) |
+                                    {$clog2(`RAS_NUM){!ras_push_r && !ras_pop_r}} &  top_predictor       ;
 
     always @(posedge clk) begin
         if(rst == `RstEnable) begin
@@ -85,10 +86,10 @@ module RAS(
     //-------------------------------------------------------------
     //                      stack_decode
     //-------------------------------------------------------------
-    assign top_next_decoder =   {($clog2(`RAS_NUM)-1){ corr_link_flag_r &&  corr_return_flag_r}} &  top_decoder       |
-                                {($clog2(`RAS_NUM)-1){ corr_link_flag_r && !corr_return_flag_r}} &  (top_decoder + 1) |
-                                {($clog2(`RAS_NUM)-1){!corr_link_flag_r &&  corr_return_flag_r}} &  (top_decoder - 1) |
-                                {($clog2(`RAS_NUM)-1){!corr_link_flag_r && !corr_return_flag_r}} &  top_decoder       ;
+    assign top_next_decoder =   {$clog2(`RAS_NUM){ corr_link_flag_r &&  corr_return_flag_r}} &  top_decoder       |
+                                {$clog2(`RAS_NUM){ corr_link_flag_r && !corr_return_flag_r}} &  (top_decoder + 1) |
+                                {$clog2(`RAS_NUM){!corr_link_flag_r &&  corr_return_flag_r}} &  (top_decoder - 1) |
+                                {$clog2(`RAS_NUM){!corr_link_flag_r && !corr_return_flag_r}} &  top_decoder       ;
 
     always @(posedge clk) begin
         if(rst == `RstEnable) begin
@@ -111,7 +112,20 @@ module RAS(
     //-------------------------------------------------------------
     //                      output bus
     //-------------------------------------------------------------
-    assign ras_branch_addr_o = (ras_push_r)? ras_push_addr_r:stack_predictor[top_predictor];
+    always @(posedge clk) begin
+        if(rst == `RstEnable)begin
+            ras_branch_addr_o <= 0;
+        end else if(fllush) begin
+            ras_branch_addr_o <= (corr_link_flag_r)?    corr_addr_8_r:
+                                 (corr_return_flag_r)?  stack_decoder[top_decoder - 1]:stack_decoder[top_decoder];
+        end else begin
+            ras_branch_addr_o <= (ras_push_r)? ras_push_addr_r:
+                                 (ras_pop_r)?  stack_predictor[top_predictor - 1]:ras_branch_addr_o;
+        end
+    end
+
+
+    //assign ras_branch_addr_o = (ras_push_r)? ras_push_addr_r:stack_predictor[top_predictor];
 
 
 endmodule

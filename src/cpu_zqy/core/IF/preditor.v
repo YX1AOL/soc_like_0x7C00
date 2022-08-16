@@ -80,7 +80,7 @@ module predictor(
         .branch_flag2_o (pht_branch_flag2),
 
         //correct port
-        .corr_valid_i       (corr_valid),
+        .corr_valid_i       (corr_valid && !corr_uncondition_flag),
         .corr_index_i       (corr_inst_addr),
         .corr_branch_flag_i (corr_branch_flag)
     );
@@ -163,13 +163,8 @@ module predictor(
                 BUSY: state <= IDEL;
             endcase
         end else begin end
-    end
 
-    wire  idel_to_busy = (state == IDEL) && (branch_flag1 && !inst_data2_valid || branch_flag2);
-    always @(posedge clk) begin
-        if((rst == `RstEnable) || fllush) begin
-            state_addr <= 0;
-        end else if(preif_to_if_valid && idel_to_busy) begin
+        if(preif_to_if_valid) begin
             state_addr <= branch_addr;
         end else begin end
     end
@@ -177,9 +172,9 @@ module predictor(
     //-------------------------------------------------------------
     //                     update ras 
     //-------------------------------------------------------------
-    assign ras_pop       = preif_to_if_valid && (state == IDEL) && (search_found1 &&  btb_return_flag1 || inst_data2_valid && search_found2 && btb_return_flag2);
+    assign ras_pop       = preif_to_if_valid && (search_found1 &&  btb_return_flag1 || inst_data2_valid && search_found2 && btb_return_flag2);
     //dont care the two link_flag is high, it must be wrong and RAS need to be fllush.
-    assign ras_push      = preif_to_if_valid && (state == IDEL) && (search_found1 &&  btb_link_flag1   || inst_data2_valid && search_found2 && btb_link_flag2);
+    assign ras_push      = preif_to_if_valid && (search_found1 &&  btb_link_flag1   || inst_data2_valid && search_found2 && btb_link_flag2);
     assign ras_push_addr = {32{search_found1 && btb_link_flag1                     }} & (inst_addr1 + 32'd8)  |
                            {32{search_found2 && btb_link_flag2 && inst_data2_valid }} & (inst_addr1 + 32'd12) ;
     //-------------------------------------------------------------
@@ -188,9 +183,9 @@ module predictor(
     //----- predictor to compute-pc bus-----
     wire [31:0] next_pc         =   (inst_data2_valid)? (inst_addr1 + 32'd8):(inst_addr1 + 32'd4);
 
-    wire        predictor_data2_valid = !idel_to_busy;
-    wire [31:0] predictor_addr  =   (state == BUSY)?                                            state_addr  :
-                                    (state == IDEL && branch_flag1 && inst_data2_valid)?        branch_addr :next_pc;
+    wire        predictor_data2_valid = !((state == IDEL) && (branch_flag1 && !inst_data2_valid || branch_flag2));
+    wire [31:0] predictor_addr  =   (state == BUSY)?                           state_addr  :
+                                    (branch_flag1 && inst_data2_valid)?        branch_addr :next_pc;
 
     //----- generate output bus -----
     assign predictor_computepc_bus_o = {predictor_addr,predictor_data2_valid};

@@ -83,7 +83,6 @@ wire [7:0]  cp0_raddr_secondary;
 wire [64:0] ex_hilo_bus_primary;
 wire [64:0] ex_hilo_bus_secondary;
 wire [40:0] ex_cp0_bus_primary;
-wire [40:0] ex_cp0_bus_secondary;
 wire        tlb_write_index;
 wire        tlb_write_random;
 wire        tlb_read;
@@ -107,7 +106,7 @@ wire [63:0] hilo_rdata;
 //-----mem1----
 wire        mem1_allowin;
 wire        mem1_mem2_valid;
-wire [145:0]mem1_mem2_bus_primary;
+wire [143:0]mem1_mem2_bus_primary;
 wire [69:0] mem1_mem2_bus_secondary;
 wire [71:0] mem1_cp0_bus;
 wire [5:0]  mem1_up_bus;
@@ -308,7 +307,6 @@ seg_ex U_ex(
     .ex_hilo_bus_primary_o  (ex_hilo_bus_primary),
     .ex_hilo_bus_secondary_o(ex_hilo_bus_secondary),
     .ex_cp0_bus_primary_o   (ex_cp0_bus_primary),
-    .ex_cp0_bus_secondary_o (ex_cp0_bus_secondary),
     
     //cp0 needed by interrupt and cpU exception
     .cp0_cause_i                (cp0_cause),
@@ -351,7 +349,6 @@ reg_cp0 U_cp0(
     
     //write port
     .ex_cp0_bus_primary_i   (ex_cp0_bus_primary),
-    .ex_cp0_bus_secondary_i (ex_cp0_bus_secondary),
 
     //read port
     .cp0_raddr_primary_i    (cp0_raddr_primary),

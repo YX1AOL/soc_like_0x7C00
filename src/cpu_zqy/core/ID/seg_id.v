@@ -94,7 +94,7 @@ module seg_id(
     wire fllush_secondary =  branch_flag_i && delayslot;
     
     //TODO:(valid_secondary && !stall_relvance_secondary)
-    assign id_ready_go  = !stall_relvance_primary && !stall_relvance_secondary && !branch_flag_i;
+    assign id_ready_go  = !stall_relvance_primary && (!valid_secondary || !stall_relvance_secondary) && !branch_flag_i;
     assign id_allowin   = !id_valid || id_ready_go && ex_allowin_i;
     assign id_ex_valid  = id_valid && id_ready_go;
     always @(posedge clk) begin
@@ -127,34 +127,34 @@ module seg_id(
             cp0_write_primary           <=  issue_id_bus_primary_i[190];
             cp0_addr_primary            <=  issue_id_bus_primary_i[198:191];
             hilo_write_primary          <=  issue_id_bus_primary_i[199];
-            branch_addr_primary_tmp     <=  issue_id_bus_primary_i[231:200];
-            predictor_flag_primary      <=  issue_id_bus_primary_i[232];
-            predictor_addr_primary      <=  issue_id_bus_primary_i[264:233];
-            predictor_pht_flag_primary  <=  issue_id_bus_primary_i[265];
-            predictor_bht_flag_primary  <=  issue_id_bus_primary_i[266];
-            allow_delay_exe_primary     <=  issue_id_bus_primary_i[267];
+            allow_delay_exe_primary     <=  issue_id_bus_primary_i[200];
+            branch_addr_primary_tmp     <=  issue_id_bus_primary_i[232:201];
+            predictor_flag_primary      <=  issue_id_bus_primary_i[233];
+            predictor_addr_primary      <=  issue_id_bus_primary_i[265:234];
+            predictor_pht_flag_primary  <=  issue_id_bus_primary_i[266];
+            predictor_bht_flag_primary  <=  issue_id_bus_primary_i[267];
         end
 
         if(id_allowin && (issue_mode_i != `NoIssue)) begin
-            inst_addr_secondary         <= {32{issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[31:0];
-            reg_write_secondary         <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[32];
-            reg_waddr_secondary         <= {5 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[37:33];
-            alusel_secondary            <= {4 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[41:38];
-            aluop_secondary             <= {8 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[49:42];
-            reg1_read_secondary         <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[50];
-            reg1_read_addr_secondary    <= {5 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[55:51];
-            reg2_read_secondary         <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[56];
-            reg2_read_addr_secondary    <= {5 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[61:57];
-            imm_secondary               <= {32{issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[93:62];
-            exception_type_secondary    <= {32{issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[125:94];
-            cp0_write_secondary         <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[126];
-            cp0_addr_secondary          <= {8 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[134:127];
-            hilo_write_secondary        <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[135];
-            predictor_flag_secondary    <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[136];
-            predictor_addr_secondary    <= {32{issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[168:137];
-            predictor_pht_flag_secondary<= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[169];
-            predictor_bht_flag_secondary<= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[170];
-            allow_delay_exe_secondary    <= {1 {issue_mode_i == `DoubleIssue}} & issue_id_bus_secondary_i[171];
+            inst_addr_secondary         <= issue_id_bus_secondary_i[31:0];
+            reg_write_secondary         <= issue_id_bus_secondary_i[32];
+            reg_waddr_secondary         <= issue_id_bus_secondary_i[37:33];
+            alusel_secondary            <= issue_id_bus_secondary_i[41:38];
+            aluop_secondary             <= issue_id_bus_secondary_i[49:42];
+            reg1_read_secondary         <= issue_id_bus_secondary_i[50];
+            reg1_read_addr_secondary    <= issue_id_bus_secondary_i[55:51];
+            reg2_read_secondary         <= issue_id_bus_secondary_i[56];
+            reg2_read_addr_secondary    <= issue_id_bus_secondary_i[61:57];
+            imm_secondary               <= issue_id_bus_secondary_i[93:62];
+            exception_type_secondary    <= issue_id_bus_secondary_i[125:94];
+            cp0_write_secondary         <= issue_id_bus_secondary_i[126];
+            cp0_addr_secondary          <= issue_id_bus_secondary_i[134:127];
+            hilo_write_secondary        <= issue_id_bus_secondary_i[135];
+            allow_delay_exe_secondary   <= issue_id_bus_secondary_i[136];
+            predictor_flag_secondary    <= issue_id_bus_secondary_i[137];
+            predictor_addr_secondary    <= issue_id_bus_secondary_i[169:138];
+            predictor_pht_flag_secondary<= issue_id_bus_secondary_i[170];
+            predictor_bht_flag_secondary<= issue_id_bus_secondary_i[171];
         end
     end
 

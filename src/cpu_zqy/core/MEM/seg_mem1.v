@@ -12,7 +12,7 @@ module seg_mem1(
     input   [179:0] ex_mem1_bus_secondary_i,
     output          mem1_allowin_o,
     output          mem1_mem2_valid_o,
-    output  [145:0] mem1_mem2_bus_primary_o,
+    output  [143:0] mem1_mem2_bus_primary_o,
     output  [69:0]  mem1_mem2_bus_secondary_o,
 
     //tlb bus
@@ -103,8 +103,8 @@ module seg_mem1(
     //-------------------------------------------------------------
     //                        ex_mem1 FIFO
     //-------------------------------------------------------------
-    assign mem1_ready_go    =   (inst_is_memory && !data_addr_ok_i && !exception_occur_primary )? 1'b0:
-                                (inst_is_cache  && !cache_over_i   && !exception_occur_primary )? 1'b0:1'b1;
+    assign mem1_ready_go    =  !(inst_is_memory && !data_addr_ok_i && !exception_occur_primary ) &&
+                               !(inst_is_cache  && !cache_over_i   && !exception_occur_primary ) ;
     assign mem1_allowin     =   !mem1_valid || mem1_mem2_valid && mem2_allowin_i;
     assign mem1_mem2_valid  =   mem1_valid && mem1_ready_go;
 
@@ -299,8 +299,7 @@ module seg_mem1(
                                         (exception_vector_primary[4]  )?  `Er:
                                         (exception_vector_primary[31] )?  `Refetch:`NoException;
 
-    wire [4:0]exception_code_secondary =    (exception_vector_secondary[0]    )?  `Int:
-                                            (exception_vector_secondary[1]    )?  `AdEL:
+    wire [4:0]exception_code_secondary =    (exception_vector_secondary[1]    )?  `AdEL:
                                             (exception_vector_secondary[10]   )?  `TLBL:
                                             (exception_vector_secondary[11]   )?  `TLBL:
                                             (|exception_vector_secondary[18:17] )?  `CpU:
@@ -323,9 +322,8 @@ module seg_mem1(
     wire        in_delaysolt        = (exception_occur_primary)? in_delaysolt_primary   :in_delaysolt_secondary;
 
     //----- generate the exception addr to badaddr or context -----
-    wire [31:0]exception_badaddr_primary    =   (exception_vector_primary[1]    | exception_vector_primary[10]   | exception_vector_primary[11] )? inst_addr_primary:
-                                                (exception_vector_primary[8]    | exception_vector_primary[9]    | exception_vector_primary[12] | exception_vector_primary[13] | exception_vector_primary[14] | exception_vector_primary[15] | exception_vector_primary[16])? mem_addr_primary :`Zero32;
-    wire [31:0]exception_badaddr_secondary  =   (exception_vector_secondary[1]  | exception_vector_secondary[10] | exception_vector_secondary[11])? inst_addr_secondary:`Zero32; 
+    wire [31:0]exception_badaddr_primary    =   (exception_vector_primary[1] | exception_vector_primary[10] | exception_vector_primary[11] )? inst_addr_primary:mem_addr_primary;
+    wire [31:0]exception_badaddr_secondary  =   inst_addr_secondary; 
     wire [31:0]exception_badaddr    = (exception_occur_primary)? exception_badaddr_primary:exception_badaddr_secondary;
     
     //----- generate the cpux unused -----
@@ -336,22 +334,26 @@ module seg_mem1(
     //-------------------------------------------------------------
     //   exception handle: generate exception bus to compute_npc
     //-------------------------------------------------------------
-    //----- generate the tlb refill to compute exception addr-----
-    wire exception_refill_primary   =  (exception_code_primary == `TLBL || exception_code_primary == `TLBS) && (exception_vector_primary[10] | exception_vector_primary[12] | exception_vector_primary[13]);
-    wire exception_refill_secondary =  (exception_code_secondary == `TLBL) && (exception_vector_secondary[10]);
+    //----- generate the tlb refill to compute exception addr----- because of exception TLB only occur in other exception not occur
+    wire exception_refill_primary   =  (exception_vector_primary[10] | exception_vector_primary[12] | exception_vector_primary[13]);
+    wire exception_refill_secondary =  (exception_vector_secondary[10]);
     wire exception_refill           =  (exception_occur_primary)? exception_refill_primary:exception_refill_secondary;
-    
+
+    //----- generate the Int to compute exception addr-----
+    wire exception_int              =   exception_vector_primary[0];
+    wire exception_eret             =   exception_vector_primary[4]     | exception_vector_secondary[4];
+    wire exception_refetch          =   exception_vector_primary[31]    | exception_vector_secondary[31];
+
     //----- generate the exception flag ----- 
-    wire exception_flag = (exception_code != `NoException);
+    wire exception_flag = exception_occur_primary || exception_occur_secondary;
 
     //----- compute the exception addr -----
-    wire [31:0]exception_base   =   (cp0_status_i[`STATUS_BEV]                           )?    32'hBFC00200:{cp0_ebase_i[31:12],12'b0};
-    wire [11:0]exception_offset =   (exception_code == `Int && cp0_cause_i[`CAUSE_IV]    )?     12'h200:
-                                    (exception_refill       && !cp0_status_i[`STATUS_EXL])?    12'h000:12'h180;
+    wire [31:0]exception_base   =   (cp0_status_i[`STATUS_BEV]                           )?     32'hBFC00200:{cp0_ebase_i[31:12],12'b0};
+    wire [11:0]exception_offset =   (exception_int          && cp0_cause_i[`CAUSE_IV]    )?     12'h200:
+                                    (exception_refill       && !cp0_status_i[`STATUS_EXL])?     12'h000:12'h180;
 
-    wire [31:0]exception_addr = (exception_code == `Er)?            cp0_epc_i:
-                                (exception_code == `Refetch)?       (exception_inst_addr + 32'd4):
-                                (exception_code != `NoException)?   (exception_base + exception_offset):`Zero32;
+    wire [31:0]exception_addr   =   (exception_eret)?          cp0_epc_i:
+                                    (exception_refetch)?       (exception_inst_addr + 32'd4):(exception_base + exception_offset);
     
     //--------------------------------------------------------------------
     //  exception state mashine to make branch signal exist just a cycle
@@ -507,10 +509,11 @@ module seg_mem1(
     //----- pipeline output -----
     assign mem1_allowin_o = mem1_allowin;
     assign mem1_mem2_valid_o = mem1_mem2_valid;
-    assign mem1_mem2_bus_primary_o      =   {146{mem1_valid}} & 
-                                            {   opdata2_primary,mem_addr_primary,
-                                                (exception_occur_primary)?`NOP_OP:aluop_primary,
-                                                (exception_occur_primary)?`NOP:alusel_primary,
+    assign mem1_mem2_bus_primary_o      =   {144{mem1_valid}} & 
+                                            {   aluop_primary,
+                                                inst_is_memory,
+                                                (alusel_primary == `LOAD),
+                                                opdata2_primary,mem_addr_primary,
                                                 reg_wdata_primary,reg_waddr_primary,reg_write_primary,inst_addr_primary};
     assign mem1_mem2_bus_secondary_o    =   {70{mem1_valid}} & 
                                             {   reg_wdata_secondary,reg_waddr_secondary,reg_write_secondary,inst_addr_secondary};

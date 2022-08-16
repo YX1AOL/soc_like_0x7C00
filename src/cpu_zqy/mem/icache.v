@@ -1,4 +1,4 @@
-// date:        2022/08/06
+// date:        2021/07/21
 // by:          kun
 // module:      icache
 // description: instruction cache, for dual-issue cpu
@@ -37,7 +37,7 @@ module icache (
     output [1 :0] arlock ,
     output [3 :0] arcache,
     output [2 :0] arprot ,
-    output [3 :0] arqos  ,
+    output [3 :0] arqos,
     output        arvalid,
 
     // axi read data
@@ -122,6 +122,7 @@ module icache (
             endcase
         end
     end
+
 
     // update lru
     // discard when hit buf
@@ -259,7 +260,7 @@ module icache (
     wire        tag_valid   = (state == FINISH);
 
     wire [3 :0] hit_array;
-    wire [1 :0] hit_way = `ENCODE4_2(hit_array);
+    wire [1 :0] hit_way = `encoder4_2(hit_array);
 
     // used in data
     wire [6  :0] data_index     = (state == FINISH) ? fill_index :

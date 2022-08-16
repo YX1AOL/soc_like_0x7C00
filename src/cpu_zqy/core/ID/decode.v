@@ -403,8 +403,9 @@ module decode(
     //-------------------------------------------------------------
     //                      output bus encode
     //-------------------------------------------------------------
-    assign decode_bus_o = { delay_exe,
-                            branch_addr,hilo_write,cp0_addr,cp0_write,mem_addr,exception_vector,link_addr,
+    assign decode_bus_o = { branch_addr,
+                            delay_exe,
+                            hilo_write,cp0_addr,cp0_write,mem_addr,exception_vector,link_addr,
                             imm,reg2_read_addr,reg2_read,reg1_read_addr,reg1_read,
                             aluop,alusel,
                             reg_addr,reg_write,

@@ -28,7 +28,6 @@ module seg_ex(
     output [64:0]   ex_hilo_bus_primary_o,
     output [64:0]   ex_hilo_bus_secondary_o,
     output [40:0]   ex_cp0_bus_primary_o,
-    output [40:0]   ex_cp0_bus_secondary_o,
 
     //cp0 needed by interrupt and cpU exception
     input [31:0]    cp0_cause_i,
@@ -129,8 +128,7 @@ module seg_ex(
     //-------------------------------------------------------------
     //                      idex FIFO       
     //-------------------------------------------------------------
-    assign ex_ready_go  =   (exception_flag_i                                  )? 1'b0:
-                            (stall_mul || stall_div || stall_cloz ||stall_delay)? 1'b0:1'b1;
+    assign ex_ready_go  =   !exception_flag_i && !stall_mul && !stall_div && !stall_cloz && !stall_delay;
     assign ex_allowin   =   !ex_valid || ex_ready_go && mem1_allowin_i;
     assign ex_mem1_valid = ex_valid && ex_ready_go;
 
@@ -655,12 +653,10 @@ module seg_ex(
     
     //----- cp0  write bus -----
     wire        cp0_write_primary    =   need_executed_primary   && cp0_write_primary_tmp;
-    wire        cp0_write_secondary  =   need_executed_secondary && cp0_write_secondary_tmp;
     wire [31:0] cp0_wdata_primary    =   opdata2_primary;
     wire [31:0] cp0_wdata_secondary  =   opdata2_secondary;
 
-    assign ex_cp0_bus_primary_o        = {41{ex_mem1_valid && mem1_allowin_i}} & {cp0_wdata_primary,cp0_addr_primary,cp0_write_primary};
-    assign ex_cp0_bus_secondary_o      = {41{ex_mem1_valid && mem1_allowin_i}} & {cp0_wdata_secondary,cp0_addr_secondary,cp0_write_secondary};
+    assign ex_cp0_bus_primary_o      = {41{ex_mem1_valid && mem1_allowin_i}} & {cp0_wdata_primary,cp0_addr_primary,cp0_write_primary};
     
     //----- hilo write bus -----
     wire        hilo_write_primary   =   need_executed_primary   && hilo_write_primary_tmp;

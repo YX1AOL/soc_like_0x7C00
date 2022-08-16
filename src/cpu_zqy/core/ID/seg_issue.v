@@ -108,7 +108,7 @@ module seg_issue(
     //-------------------------------------------------------------
     //----- pipeline output -----
     assign issue_mode_o              = (id_allowin_i)? issue_mode:`NoIssue;
-    assign issue_id_bus_primary_o    = {decode_bus_primary[232],   inst1_bus_i[130:96], decode_bus_primary[231:0]};
-    assign issue_id_bus_secondary_o  = {decode_bus_secondary[232], inst2_bus_i[130:96], decode_bus_secondary[199:190], decode_bus_secondary[157:126], decode_bus_secondary[93:0]};
+    assign issue_id_bus_primary_o    = {inst1_bus_i[130:96], decode_bus_primary[232:0]};
+    assign issue_id_bus_secondary_o  = {inst2_bus_i[130:96], decode_bus_secondary[200:190], decode_bus_secondary[157:126], decode_bus_secondary[93:0]};
 
 endmodule
